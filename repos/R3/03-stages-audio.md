@@ -576,7 +576,7 @@ Repo ID R3, /home/user/AudioRouter. Audited at commit 1bdb71dfb0e7319db0aa2f6cf4
 
 ### R3-S11-07  NOT FOUND
 - Question: S11.2
-- Searched: all eight `.md` files read in full for any make or model of phone, tablet, turntable, speaker or computer used as an audio source; `grep` for `iPhone`, `Android`, `Pixel`, `Samsung`, `Sony`, `Audio-Technica`, `turntable`, `tested`, `verified`, `works with` over all 13 tracked files; `strings` of ZIP!xcuserstate for device names.
+- Searched: all eight `.md` files read in full for any make or model of phone, tablet, turntable, speaker or computer used as an audio source; `grep` for `iPhone`, `Android`, `Pixel`, `Samsung`, `Sony`, `Audio-Technica`, `turntable`, `tested`, `verified`, `works with` over all 13 tracked files; `strings` of ZIP!xcuserstate for device names. The one `grep` hit is a Cast console form field, "Android Package Names" (CHROMECAST_SETUP.md:73).
 - Nearest related material: generic source types only: "record players and other Bluetooth audio devices" (README.md:11), "Bluetooth record player" (README.md:135; SETUP.md:65), "Record players, speakers, phones" (PROJECT_SUMMARY.md:162), "phones/tablets" (PROJECT_SUMMARY.md:207). The one result line, "[x] Bluetooth pairing works" (PROJECT_SUMMARY.md:347), names no device. The model code in ZIP!xcuserstate is the build machine, not an audio source.
 
 ### S11.3 Measurements recorded
@@ -662,7 +662,7 @@ Repo ID R3, /home/user/AudioRouter. Audited at commit 1bdb71dfb0e7319db0aa2f6cf4
 
 ### R3-S11-15  Known limitation note about macOS 26
 - Question: S11.4
-- What was attempted: "This app was developed for macOS 14+ and is compatible with future versions including macOS 26. Some features may require updates when macOS 26 is released." (README.md:272-274); "Future compatible with macOS 26" (CHANGELOG.md:108).
+- What was attempted: "This app was developed for macOS 14+ and is compatible with future versions including macOS 26." and "Some features may require updates when macOS 26 is released." (README.md:272-274); "Future compatible with macOS 26" (CHANGELOG.md:108).
 - Presence: CURRENT as documentation text.
 - Outcome: UNVERIFIED
 - Outcome evidence: NONE for run-time behaviour. The build destination string in ZIP!xcuserstate reads `macosx26.1` (see R3-S11-06), which shows a build on that OS line and nothing about features.
@@ -703,7 +703,7 @@ Repo ID R3, /home/user/AudioRouter. Audited at commit 1bdb71dfb0e7319db0aa2f6cf4
 
 ### R3-S12-03  Single user-level app, sandboxed with hardened runtime
 - Question: S12.2
-- What was attempted: One application process, started by the user from Xcode (ZIP!xcscheme:33-53; README.md:77-79). Stated security posture: "App Sandbox: Fully sandboxed application", "Hardened Runtime: Enabled for notarization", "No Private APIs", "Minimal Permissions" (PROJECT_SUMMARY.md:240-243); "App Sandbox enabled" (CHANGELOG.md:93). Project settings: `ENABLE_HARDENED_RUNTIME = YES` in Debug and Release, automatic code signing, an entitlements path (ZIP!pbxproj:250-251, 257, 335-336, 342). No helper tool, daemon, privileged install step or `sudo` use is described for the app (searched `sudo`, `root`, `privilege`, `admin`, `daemon`, `helper`; the single `sudo` is in a CI listing, BUILD_AND_DEPLOY.md:396).
+- What was attempted: One application process, started by the user from Xcode (ZIP!xcscheme:33-53; README.md:77-79). Stated security posture: "App Sandbox: Fully sandboxed application", "Hardened Runtime: Enabled for notarization", "No Private APIs", "Minimal Permissions" (PROJECT_SUMMARY.md:240-243); "App Sandbox enabled" (CHANGELOG.md:93). Project settings: `ENABLE_HARDENED_RUNTIME = YES` in Debug and Release, automatic code signing, an entitlements path (ZIP!pbxproj:250-251, 257, 335-336, 342). No helper tool, daemon, privileged install step or `sudo` use is described for the app (searched `sudo`, `root`, `privilege`, `admin`, `daemon`, `helper`: no hit describes a privileged component; the single `sudo` is in a CI listing, BUILD_AND_DEPLOY.md:396, and the `helper` hits are audio utility descriptions, PROJECT_SUMMARY.md:34-35).
 - Presence: CURRENT as documentation text and project settings. SOURCE ABSENT for `AudioRouter.entitlements`, the file that would show whether the sandbox is on (ZIP!pbxproj:44).
 - Outcome: UNVERIFIED
 - Outcome evidence: NONE. Hardened runtime is set in the project file; the sandbox state cannot be read without the entitlements file, and no signed build is in the repo.
