@@ -529,7 +529,7 @@ Role: Bluetooth stage auditor. 24 questions, S01.1 to S06.3.
 - Presence: DISABLED. Document only for selection, priority and switching.
 - Outcome: UNVERIFIED
 - Outcome evidence: NONE.
-- Why it turned out that way: UNKNOWN. Both open questions are marked for later decision (bluetooth-a2dp-sink-research.md:542; audio-framework-research-report.md:579) and no decision record was found.
+- Why it turned out that way: UNKNOWN. Both documents leave the matter as open questions (bluetooth-a2dp-sink-research.md:540-542; audio-framework-research-report.md:569-579) and no decision record was found.
 - Depends on: NONE recorded.
 - Open questions: Were the questions at audio-framework-research-report.md:574-577 answered anywhere?
 - Confidence: MEDIUM. STATED in documents.

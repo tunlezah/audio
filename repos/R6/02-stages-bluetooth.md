@@ -37,7 +37,7 @@ Conventions used in this file:
 
 ### R6-S01-03  Rust backend as a single binary (edition 2021, tokio, axum)
 - Question: S01.2
-- What was attempted: one binary crate `sonicflow` (Cargo.toml:1-10), edition 2021 (Cargo.toml:4), async runtime tokio 1 (Cargo.toml:38), HTTP/WebSocket server axum 0.7 (Cargo.toml:37), entry point `#[tokio::main]` at src/main.rs:24-25. Toolchain: Rust stable through rustup, no pinned version (install.sh:123-128; .github/workflows/build.yml:25-27); no `rust-toolchain` file (01-map.md section 5, checked with `ls`).
+- What was attempted: one binary crate `sonicflow` (Cargo.toml:1-10), edition 2021 (Cargo.toml:4), async runtime tokio 1 (Cargo.toml:38), HTTP/WebSocket server axum 0.7 (Cargo.toml:37), entry point `#[tokio::main]` at src/main.rs:24-25. Toolchain: Rust stable through rustup, no pinned version (install.sh:123-128; .github/workflows/build.yml:25-27); no `rust-toolchain` or `rust-toolchain.toml` file exists (`ls` reports both absent).
 - Presence: CURRENT (Cargo.toml:1-54)
 - Outcome: WORKED
 - Outcome evidence: STATED. Commit d8b17a3 subject "Phase 0: toolchain, scaffold, first green build" and body: "Pre-commit gate: version sync + fmt + clippy -D warnings + tests (63 passing)". README.md:208: "cargo test                   # 66 unit tests".
@@ -158,14 +158,14 @@ Conventions used in this file:
 
 ### R6-S01-14  npm dependencies with a lock file
 - Question: S01.5
-- What was attempted: ranges at webui/package.json:11-19; locked versions per 01-map.md section 5: preact 10.29.8 (webui/package-lock.json:1825-1826), @fontsource-variable/inter 5.3.0 (777-778), @preact/preset-vite 2.10.6 (853-854), typescript 5.6.3 (1956-1957), vite 6.4.3 (2001-2002). Installed with `npm ci` or `npm install` (install.sh:292).
+- What was attempted: ranges at webui/package.json:11-19; locked versions: preact 10.29.8 (webui/package-lock.json:1825-1826), @fontsource-variable/inter 5.3.0 (777-778), @preact/preset-vite 2.10.6 (853-854), typescript 5.6.3 (1956-1957), vite 6.4.3 (2001-2002). Installed with `npm ci` or `npm install` (install.sh:292).
 - Presence: CURRENT (webui/package.json; webui/package-lock.json)
 - Outcome: WORKED
 - Outcome evidence: STATED. Commit b19435c: "Verified live in headless Chromium" (the UI built and ran).
 - Why it turned out that way: UNKNOWN
 - Depends on: Node 22.x; lockfileVersion 3 (webui/package-lock.json:4).
 - Open questions: NONE.
-- Confidence: MEDIUM. STATED only. The package-lock line numbers are taken from 01-map.md and were not re-opened line by line.
+- Confidence: MEDIUM. STATED only.
 
 ---
 
@@ -239,7 +239,7 @@ Conventions used in this file:
 
 ### R6-S02-07  No adapter at start-up: error status and a 10-second retry loop
 - Question: S02.3
-- What was attempted: when no adapter name is returned, `initialize` returns "no Bluetooth adapters present" (src/bluetooth/manager.rs:147-149); `run` logs it, sets status `Error(message)` and retries after 10 s, while still accepting `SelectAdapter` (src/bluetooth/manager.rs:70-86). The status and message reach clients as `bluetooth_status_changed` (src/web/ws.rs:148-151) and in `/api/status` (src/web/routes.rs:22-30). A configured adapter that is absent is replaced by the first adapter with a warning (src/bluetooth/manager.rs:153-156). The unit declares `Requires=bluetooth.service` (deploy/sonicflow.service:8). forinstall.md:64-65 lists an installer adapter enumeration as [PENDING]; install.sh has no such step (`grep -n hci install.sh deploy/*.sh uninstall.sh` returned nothing).
+- What was attempted: when no adapter name is returned, `initialize` returns "no Bluetooth adapters present" (src/bluetooth/manager.rs:147-149); `run` logs it, sets status `Error(message)` and retries after 10 s, while still accepting `SelectAdapter` (src/bluetooth/manager.rs:70-86). The status and message reach clients as `bluetooth_status_changed` (src/web/ws.rs:148-151); the status string alone is also returned by `/api/status` (src/web/routes.rs:22-30). A configured adapter that is absent is replaced by the first adapter with a warning (src/bluetooth/manager.rs:153-156). The unit declares `Requires=bluetooth.service` (deploy/sonicflow.service:8). forinstall.md:64-65 lists an installer adapter enumeration as [PENDING]; install.sh has no such step (`grep -n hci install.sh deploy/*.sh uninstall.sh` returned nothing).
 - Presence: CURRENT (src/bluetooth/manager.rs:67-87, 147-149)
 - Outcome: UNVERIFIED
 - Outcome evidence: NONE
@@ -436,7 +436,7 @@ Conventions used in this file:
 - Question: S04.1
 - What was attempted: a drop-in `~/.config/systemd/user/wireplumber.service.d/override.conf` with `[Service] MemoryDenyWriteExecute=no`, with the stated reason that Bluetooth codec sub-plugins "need W|X mmap" (forinstall.md:89-91; install.sh:220-227). It existed on the reference box before the project (forinstall.md:42-43).
 - Presence: CURRENT. The installer ensures the drop-in (install.sh:220-227); the uninstaller leaves it (uninstall.sh:110-111).
-- Outcome: FAILED (as the only measure, for sink registration)
+- Outcome: FAILED. It did not bring about sink registration while it was the only measure in place.
 - Outcome evidence: STATED. forinstall.md:92-93: "exists on this box already but A2DP endpoints STILL not registering as of 2026-08-29".
 - Why it turned out that way: STATED. The endpoints were being unregistered by seat monitoring, a separate cause (forinstall.md:97-103); see R6-S04-01.
 - Depends on: the same headless-session condition as R6-S04-01.
@@ -447,8 +447,8 @@ Conventions used in this file:
 - Question: S04.1
 - What was attempted: `check_sink_uuid` greps `bluetoothctl show` for the Audio Sink UUID (install.sh:233); if absent the installer restarts WirePlumber once and checks again (install.sh:234-241); the last step repeats the check as an "acceptance gate" (install.sh:384-387; forinstall.md:127-128). The doctor script has the same check (deploy/doctor.sh:20-24) and a check that the SPA bluez5 plugin directory exists (deploy/doctor.sh:35-39).
 - Presence: CURRENT (install.sh:232-241, 384-387; deploy/doctor.sh:20-24)
-- Outcome: WORKED (doctor check); the installer's restart-once path has no recorded result
-- Outcome evidence: STATED. Commit 1e20b41: "deploy/doctor.sh diagnostics (all-green on this box)".
+- Outcome: WORKED
+- Outcome evidence: STATED, for the doctor script's check only. Commit 1e20b41: "deploy/doctor.sh diagnostics (all-green on this box)". The installer's restart-once path has no recorded result.
 - Why it turned out that way: UNKNOWN
 - Depends on: `bluetoothctl show` reporting the adapter in use (R6-S02-06); the fixed sleeps of 4 and 5 seconds after a WirePlumber restart (install.sh:230, 239).
 - Open questions: Did the installer's self-heal branch (install.sh:237-240) ever run, and with what result?
@@ -794,7 +794,7 @@ Conventions used in this file:
 
 ### R6-S06-11  Earlier cover-art attempt: reading a file named by an `Image` track property
 - Question: S06.3
-- What was attempted: until commit 738f12c the monitor looked for an `Image` entry in the track properties, read that file and served it at `/api/artwork` (src/bluetooth/avrcp.rs:278, 307-319 at commit 3624d19).
+- What was attempted: until commit 738f12c the monitor looked for an `Image` entry in the track properties, read that file and served it at `/api/artwork` (src/bluetooth/avrcp.rs:278, 307-320 at commit 3624d19).
 - Presence: REMOVED. Deleted in commit 738f12c (diff of src/bluetooth/avrcp.rs in that commit), replaced by R6-S06-09 and R6-S06-10.
 - Outcome: UNVERIFIED
 - Outcome evidence: NONE

@@ -29,10 +29,11 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 21 | 1 | R6 | Bluetooth stage auditor | repos/R6/02-stages-bluetooth.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 07:55 UTC | 0 |
 | 22 | 1 | R6 | Audio stage auditor | repos/R6/03-stages-audio.md | DONE. 94 finding records, 0 NOT FOUND records, tally 24 + 0 = 24, no BLOCKED lines | 0 |
 | 23 | 1 | R6 | History auditor | repos/R6/04-history.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 07:55 UTC | 0 |
-| 24 | 1 | R2 | Bluetooth stage auditor | repos/R2/02-stages-bluetooth.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 07:55 UTC | 0 |
+| 24 | 1 | R2 | Bluetooth stage auditor | repos/R2/02-stages-bluetooth.md | DONE. 56 finding records, 3 NOT FOUND records, tally present, no BLOCKED lines. Interrupted once by the account usage limit, same agent resumed and finished | 0 |
 | 25 | 1 | R2 | Audio stage auditor | repos/R2/03-stages-audio.md | DONE. 63 finding records, 3 NOT FOUND records, tally 21 + 3 = 24, no BLOCKED lines | 0 |
 | 26 | 1 | R2 | History auditor | repos/R2/04-history.md | DONE. 41 finding records in the finding template plus the H1 list, H6 table and H8 list (agent counts 44), 2 NOT FOUND records, tally 6 + 2 = 8, no BLOCKED lines. Interrupted once by the account usage limit, same agent resumed and finished | 0 |
 | 27 | 1 | R4 | Verifier | repos/R4/05-verification.md | RUNNING | 0 |
 | 28 | 1 | R1 | Verifier | repos/R1/05-verification.md | RUNNING | 0 |
 | 29 | 1 | R3 | Verifier | repos/R3/05-verification.md | RUNNING | 0 |
 | 30 | 1 | R5 | Verifier | repos/R5/05-verification.md | RUNNING | 0 |
+| 31 | 1 | R2 | Verifier | repos/R2/05-verification.md | RUNNING | 0 |
