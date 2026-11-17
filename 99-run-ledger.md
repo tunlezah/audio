@@ -20,7 +20,7 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 12 | 1 | R5 | Bluetooth stage auditor | repos/R5/02-stages-bluetooth.md | DONE. 18 finding records, 13 NOT FOUND records, tally 11 + 13 = 24, no BLOCKED lines | 0 |
 | 13 | 1 | R5 | Audio stage auditor | repos/R5/03-stages-audio.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 07:55 UTC | 0 |
 | 14 | 1 | R5 | History auditor | repos/R5/04-history.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 07:55 UTC | 0 |
-| 15 | 1 | R4 | Bluetooth stage auditor | repos/R4/02-stages-bluetooth.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 07:55 UTC | 0 |
+| 15 | 1 | R4 | Bluetooth stage auditor | repos/R4/02-stages-bluetooth.md | DONE. 43 finding records, 2 NOT FOUND records, tally present, no BLOCKED lines. Interrupted once by the account usage limit, same agent resumed and finished | 0 |
 | 16 | 1 | R4 | Audio stage auditor | repos/R4/03-stages-audio.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 07:55 UTC | 0 |
 | 17 | 1 | R4 | History auditor | repos/R4/04-history.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 07:55 UTC | 0 |
 | 18 | 1 | R3 | Bluetooth stage auditor | repos/R3/02-stages-bluetooth.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 07:55 UTC | 0 |

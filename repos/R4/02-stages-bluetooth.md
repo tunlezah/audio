@@ -344,7 +344,7 @@
 
 ### R4-S04-05  Transport lifecycle taken from BlueZ signals, with two readers on one event channel
 - Question: S04.3
-- What was attempted: `InterfacesAdded` with `MediaTransport1` emits `EventTransportAdded` (internal/bluetooth/bluez.go:250-254); a `PropertiesChanged` on a known transport updates `State` and emits `EventTransportChanged` (bluez.go:316-320, 649-653); `InterfacesRemoved` emits `EventTransportRemoved` (bluez.go:280-284). Two goroutines receive from the one channel returned by `Events()` (bluez.go:104, 110-112): the Bluetooth input monitor (internal/audio/bluetooth_input.go:112, 127) and the hub forwarder (internal/websocket/hub.go:248, 253). INFERRED: each event reaches one of the two and not both, because a Go channel hands each value to a single receiver. The channel holds 64 events; when it is full the event is dropped with a log line (bluez.go:324-330). No code looks at a reason for a disconnect or treats loss of range separately (search `range|timeout|reason` gave no Bluetooth-related hit; `Timeout` hits are listed in R4-S03-01).
+- What was attempted: `InterfacesAdded` with `MediaTransport1` emits `EventTransportAdded` (internal/bluetooth/bluez.go:250-254); a `PropertiesChanged` on a known transport updates `State` and emits `EventTransportChanged` (bluez.go:316-320, 649-653); `InterfacesRemoved` emits `EventTransportRemoved` (bluez.go:280-284). Two goroutines receive from the one channel returned by `Events()` (bluez.go:104, 110-112): the Bluetooth input monitor (internal/audio/bluetooth_input.go:112, 127) and the hub forwarder (internal/websocket/hub.go:248, 253). INFERRED: each event reaches one of the two and not both, because a Go channel hands each value to a single receiver. The channel holds 64 events; when it is full the event is dropped with a log line (bluez.go:324-330). No code looks at a reason for a disconnect or treats loss of range separately (search `reason`: no hits; search `out of range`: no hits; `range` occurs only as the Go loop keyword, for example bluez.go:160, 273; `Timeout` hits are listed in R4-S03-01).
 - Presence: CURRENT (citations above)
 - Outcome: UNVERIFIED
 - Outcome evidence: NONE
@@ -453,7 +453,7 @@
 - Outcome evidence: NONE
 - Why it turned out that way: UNKNOWN. No session is recorded.
 - Depends on: which goroutine receives the transport event (R4-S04-05).
-- Open questions: Does acquiring a transport in state `idle` succeed, or only the `TryAcquire` fallback path apply? Is the start of playback visible anywhere to a user besides the spectrum display?
+- Open questions: Does `Acquire` succeed on a transport whose state is `idle`, or does only the `TryAcquire` fallback (bluez.go:506) return a descriptor? Is the start of playback visible anywhere to a user besides the spectrum display?
 - Confidence: MEDIUM. INFERRED from clear code.
 
 ### R4-S05-06  Stream stop taken from transport removal or a read error
