@@ -12,7 +12,7 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 4 | 1 | R3 | Mapper | repos/R3/01-map.md | DONE. Seven sections present, no BLOCKED lines | 0 |
 | 5 | 1 | R4 | Mapper | repos/R4/01-map.md | DONE. Seven sections present, no BLOCKED lines | 0 |
 | 6 | 1 | R5 | Mapper | repos/R5/01-map.md | DONE. Seven sections present, no BLOCKED lines | 0 |
-| 7 | 1 | R6 | Mapper | repos/R6/01-map.md | RUNNING | 0 |
+| 7 | 1 | R6 | Mapper | repos/R6/01-map.md | DONE. Seven sections present, no BLOCKED lines | 0 |
 | 8 | 2 | n/a | Interface researcher | interfaces/01-products.md, interfaces/02-patterns.md | RUNNING | 0 |
 | 9 | 1 | R1 | Bluetooth stage auditor | repos/R1/02-stages-bluetooth.md | RUNNING | 0 |
 | 10 | 1 | R1 | Audio stage auditor | repos/R1/03-stages-audio.md | RUNNING | 0 |
@@ -26,3 +26,6 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 18 | 1 | R3 | Bluetooth stage auditor | repos/R3/02-stages-bluetooth.md | RUNNING | 0 |
 | 19 | 1 | R3 | Audio stage auditor | repos/R3/03-stages-audio.md | RUNNING | 0 |
 | 20 | 1 | R3 | History auditor | repos/R3/04-history.md | RUNNING | 0 |
+| 21 | 1 | R6 | Bluetooth stage auditor | repos/R6/02-stages-bluetooth.md | RUNNING | 0 |
+| 22 | 1 | R6 | Audio stage auditor | repos/R6/03-stages-audio.md | RUNNING | 0 |
+| 23 | 1 | R6 | History auditor | repos/R6/04-history.md | RUNNING | 0 |

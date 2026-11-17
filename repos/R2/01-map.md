@@ -15,7 +15,7 @@ This file is a map. It records where things are. It carries no outcome grades.
 | `audioburger/` | The Python package (application code), plus the Svelte web frontend source under `audioburger/web_ui/frontend/`. |
 | `.git/` | Git metadata. |
 
-There is one top-level directory besides `.git/`. Everything else at the top level is a file (22 files: 14 `.md`, `install.sh`, `audioburger.service`, `config.toml`, `requirements.txt`, `setup.py`, `.gitignore`; listing from `git ls-files`).
+There is one top-level directory besides `.git/`. Everything else at the top level is a file (20 files: 14 `.md`, `install.sh`, `audioburger.service`, `config.toml`, `requirements.txt`, `setup.py`, `.gitignore`; listing from `git ls-files`).
 
 ### Subdirectories of `audioburger/`
 
@@ -32,14 +32,14 @@ There is one top-level directory besides `.git/`. Everything else at the top lev
 | `audioburger/web_ui/` | `api_server.py` (aiohttp REST and WebSocket server; 642 lines) and an empty `__init__.py` | 2 |
 | `audioburger/web_ui/frontend/` | Svelte + Vite frontend source: `index.html`, `package.json`, `package-lock.json`, `vite.config.js`, `src/App.svelte`, `src/main.js` | 6 |
 
-No built frontend output is tracked. `.gitignore:41` ignores `audioburger/web_ui/static/`.
+No built frontend output is tracked. `.gitignore:43` ignores `audioburger/web_ui/static/`.
 
 ### File counts by type (tracked files, `git ls-files`, 42 total)
 
 | Type | Count | Notes |
 |---|---|---|
 | `.py` | 17 | 8 are zero-line `__init__.py` files; 1 is `setup.py`; 1 is `audioburger/__init__.py` (5 lines); 7 are modules with code |
-| `.md` | 14 | all at the top level; 18,879 lines across all tracked files, of which the 14 `.md` files hold 13,476 |
+| `.md` | 14 | all at the top level; 18,879 lines across all tracked files (`wc -l` over `git ls-files`), of which the 14 `.md` files hold 12,732 |
 | `.json` | 2 | `package.json`, `package-lock.json` |
 | `.js` | 2 | `vite.config.js`, `src/main.js` |
 | `.svelte` | 1 | `src/App.svelte` |
@@ -167,7 +167,7 @@ No `CHANGELOG`, `NOTES`, `TODO`, `ISSUES`, `docs/` directory or licence file is 
 
 A lowercase `readme.md` was added in 9f9cb0b (2026-01-20) and deleted in deb899b (2026-02-01) (`git log --diff-filter=D --name-only`). `README.md:255` still refers to it.
 
-Documents and code were written at different commits. The last two non-merge commits (eb02d59 and add5474, both 2026-02-02) changed code after every `.md` file except none: no `.md` file was touched by eb02d59 or add5474 per `git log --diff-filter=A` and the stat of add5474 (`audioburger.service`, `audioburger/main.py`, `audioburger/web_ui/api_server.py`). Auditors reading status statements in `README.md`, `PROJECT-COMPLETION-ROADMAP.md` or `fixes.md` will find line references in them that predate the current code (example: `README.md:220` cites `api_server.py:162-173`).
+Documents and code were written at different commits. The last two non-merge commits, eb02d59 and add5474 (both 2026-02-02), changed code and touched no `.md` file (`git show --stat eb02d59 add5474`: eb02d59 changed five files under `audioburger/`, `package-lock.json` and `requirements.txt`; add5474 changed `audioburger.service`, `audioburger/main.py` and `audioburger/web_ui/api_server.py`). Every `.md` file therefore predates the current state of those code files, and line references inside the documents point at earlier code (example: `README.md:220` cites `api_server.py:162-173`; `README.md:240` describes `requirements.txt` as it stood before eb02d59).
 
 ---
 
@@ -328,7 +328,7 @@ Paths most likely to hold the answers. Code paths first, then documents. A code 
 - `architecture-and-build-plan.md:1555-1761` (risks), `:2246-2401` (testing strategy)
 - `AI-AGENT-IMPLEMENTATION-GUIDE.md:1438-1588` (verification loop and checklist)
 - `bluetooth-a2dp-sink-research.md:272-343`; `research-chromecast-output.md:446-548`
-- No test output, log file, CI result or measurement file is tracked (`git ls-files`; `.gitignore:44` ignores `*.log`).
+- No test output, log file, CI result or measurement file is tracked (`git ls-files`; `.gitignore:46` ignores `*.log`).
 
 ### S12 Security and exposure
 - `audioburger/web_ui/api_server.py:32-36` (limits), `:92`, `:102-107` (bind), `:286-326` (input validation), `:360-400` (connection and rate limits)
@@ -360,6 +360,6 @@ Paths most likely to hold the answers. Code paths first, then documents. A code 
 | Remote | `origin` = the GitHub repository `tunlezah/AudioBurgerSonnet` | `git remote -v` |
 | Working tree | clean (`git status --porcelain` empty) | git |
 
-All four refs point at the same commit. Merge-commit subjects name fifteen pull-request source branches (for example `claude/implement-ai-agent-guide-9YcaS` in 1d878c2 and `claude/security-fixes-v2.0-zv5Li` in b1c1a12); none of those branches exists as a ref in this clone.
+All four refs point at the same commit. The fifteen merge commits (pull requests #1 to #15) name fourteen distinct source branches in their subjects, `claude/project-analysis-roadmap-9Ycyz` appearing twice (`git log --merges --format=%s`; for example `claude/implement-ai-agent-guide-9YcaS` in 1d878c2 and `claude/security-fixes-v2.0-zv5Li` in b1c1a12); none of those branches exists as a ref in this clone.
 
-Non-merge commits that changed code (as opposed to documents), for the History auditor: 70fc363 (2026-01-21, skeleton), b61e1ec (2026-01-26, "v2.0 security fixes and systemd watchdog integration"), 70b5a5a (2026-01-26, installer), eb02d59 (2026-02-02, "Implement Phases 1-4: Core audio routing functionality"), add5474 (2026-02-02, "Implement Phases 5, 7, and 9: Web Output, REST API, and systemd service").
+Non-merge commits that changed any non-`.md` file, for the History auditor (`git log --no-merges --name-only`): 70fc363 (2026-01-21, skeleton), b61e1ec (2026-01-26, "v2.0 security fixes and systemd watchdog integration"), 70b5a5a (2026-01-26, installer), eb02d59 (2026-02-02, "Implement Phases 1-4: Core audio routing functionality"), add5474 (2026-02-02, "Implement Phases 5, 7, and 9: Web Output, REST API, and systemd service").
