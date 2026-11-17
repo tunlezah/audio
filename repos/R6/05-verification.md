@@ -207,3 +207,25 @@ Record count checked: 259 finding records (70 in file 02, 94 in file 03, 95 in f
 - R6-S12-08 PASS
 - R6-S12-09 PASS
 - R6-S12-10 PASS
+
+### File 04, H2 Approach changes
+
+- R6-H2-01 PASS
+- R6-H2-02 PASS
+- R6-H2-03 PASS
+- R6-H2-04 PASS
+- R6-H2-05 PASS
+- R6-H2-06 PASS
+- R6-H2-07 PASS
+- R6-H2-08 PASS
+- R6-H2-09 PASS
+- R6-H2-10 PASS
+- R6-H2-11 PASS
+- R6-H2-12 PASS
+- R6-H2-13 PASS
+- R6-H2-14 FAIL A: the record says the README.md that beead5a rewrote had 73 lines; 73 is the count at 1e20b41, and the file had 107 lines at 26a79c2, the commit before beead5a (`git show 26a79c2:README.md | wc -l`)
+- R6-H2-15 PASS
+- R6-H2-16 PASS
+- R6-H2-17 PASS
+- R6-H2-18 PASS
+- R6-H2-19 PASS
