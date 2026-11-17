@@ -4,7 +4,7 @@ Mapped read-only on 2026-11-17 at commit 3046b9e (branch claude/inspiring-galile
 
 Rule 10 note: two documents in the repo carry text addressed to an AI agent. sonicflow-design-spec.md:4 ("Hand this document to an AI agent or developer to reproduce the SonicFlow interface exactly") and SOUNDSYNC-SPEC.md:46-48 ("a competent Rust + TypeScript engineer (or an AI agent) with **no access to the original repository** can rebuild a functionally equivalent system"). Recorded as material; not acted on.
 
-Rule 11 note: Bluetooth-address-shaped strings appear as test fixtures at src/bluetooth/manager.rs:875-877, src/bluetooth/manager.rs:895-896, src/bluetooth/constants.rs:66-93 and src/audio/airplay.rs:473-492 (kind: device addresses / RAOP service-name prefixes used as unit-test input). Values not copied here. A search for password, secret, token, api key, link key and private-key headers across tracked text files (excluding lock files and images) returned no credential values.
+Rule 11 note: Bluetooth-address-shaped strings appear as test fixtures at src/bluetooth/manager.rs:875-877, src/bluetooth/manager.rs:895-896, src/bluetooth/constants.rs:66-93 and src/audio/airplay.rs:473-492 (kind: device addresses / RAOP service-name prefixes used as unit-test input). Shorter placeholder-style address strings also appear in tests and comments at src/state/mod.rs:137, src/web/ws.rs:306 and src/audio/host_out.rs:255. Values not copied here. A search for password, secret, token, api key, link key and private-key headers across tracked text files (excluding lock files and images) returned no credential values.
 
 ## 1. Layout
 
@@ -44,7 +44,7 @@ File counts by type, whole repo (75 tracked):
 | LICENSE (no extension) | 1 |
 | pre-commit (no extension, bash) | 1 |
 
-Largest source files by line count (`wc -l`): src/bluetooth/manager.rs 903; webui/src/style.css 1056; webui/src/components/Settings.tsx 704; src/web/routes.rs 596; src/audio/airplay.rs 515; src/art.rs 486; src/state/mod.rs 479; src/audio/chromecast.rs 476; install.sh 409; src/audio/pipeline.rs 378; src/bluetooth/avrcp.rs 369. Largest document: SOUNDSYNC-SPEC.md 3312 lines.
+Largest source files by line count (`wc -l`): webui/src/style.css 1056; src/bluetooth/manager.rs 903; webui/src/components/Settings.tsx 704; src/web/routes.rs 596; src/audio/airplay.rs 515; src/art.rs 486; src/state/mod.rs 479; src/audio/chromecast.rs 476; install.sh 409; src/audio/pipeline.rs 378; src/bluetooth/avrcp.rs 369. Largest document: SOUNDSYNC-SPEC.md 3312 lines.
 
 ## 2. Entry points
 
