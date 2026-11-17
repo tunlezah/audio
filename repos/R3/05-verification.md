@@ -207,20 +207,20 @@ Record counts found: 02 holds 17 finding records and 10 NOT FOUND records; 03 ho
 These are differences between a record's wording and the repo that leave the record's claim standing.
 
 - SCOPE-A "zero hits" for `adapter|controller|chipset|dongle|firmware|hci|powered|rfkill` (R3-S02-01, R3-S02-02, R3-S02-03, R3-S02-04). The 12 text files, project.pbxproj and the scheme give zero hits. The `strings` output of the state file, which SCOPE-A includes, gives six hits on "Controller", all Xcode interface keys (`IDEWorkspaceTabController`, `IDEActiveWorkspaceTabController`, `playgroundToyDisplayController`). None concerns Bluetooth.
-- R3-S01-01, "zero hits" for a term list that includes `windows`. The `strings` output of the state file holds `DocumentWindows` and `SelectedWindows`, Xcode interface keys. None names an operating system.
-- R3-S06-02 states that every `volume|mute` hit is cited in the record or is CHROMECAST_SETUP_GUIDE.md:265. Uncited hits: README.md:30, 31, 266; SETUP.md:110; CHANGELOG.md:40. None links the slider to a Bluetooth source.
-- R3-S12-01 states the only hits for its port and listener terms are CHROMECAST_SETUP.md:162 and CHROMECAST_SETUP_GUIDE.md:187, 268. The term `listen` also hits CHROMECAST_SETUP.md:127 ("Listening..." status). The term `port\b` hits words ending in "port" (import, support, export, report). No hit is a port number or a listening service.
-- R3-S07-01 attaches the quotation "Audio processing helpers" to PROJECT_SUMMARY.md:35 and 135. Line 35 carries it; line 135 reads "Audio helpers".
-- R3-S03-02 attaches the quotation "Some Bluetooth devices may require additional pairing steps" to CHANGELOG.md:99-102 and README.md:291. CHANGELOG.md:102 carries it; README.md:291 reads "Some devices may require additional pairing steps".
-- R3-S08-02 and R3-H5-02 attach "Full implementation requires Google Cast SDK" / "Full Chromecast implementation requires Google Cast SDK" to README.md:285 and CHANGELOG.md:101. Each line carries one of the two wordings, not both.
-- R3-S09-12 attaches "Check Xcode console for error messages" to README.md:346 and CHROMECAST_SETUP.md:280. Line 280 reads "Check Xcode console for errors".
-- R3-S11-15 describes `macosx26.1` as showing "a build on that OS line". The key that holds the string is `targetSDK` (ZIP!xcuserstate obj 409, 416).
-- R3-H2-05 states that fix_project_quick.sh:21-28 and create_xcode_project.sh:56-72 print "the same steps in short form". Those lines print the project-creation step (Step 1 of the six); Steps 2 to 6 are not printed there.
+- Record R3-S01-01, "zero hits" for a term list that includes `windows`. The `strings` output of the state file holds `DocumentWindows` and `SelectedWindows`, Xcode interface keys. None names an operating system.
+- Record R3-S06-02 states that every `volume|mute` hit is cited in the record or is CHROMECAST_SETUP_GUIDE.md:265. Uncited hits: README.md:30, 31, 266; SETUP.md:110; CHANGELOG.md:40. None links the slider to a Bluetooth source.
+- Record R3-S12-01 states the only hits for its port and listener terms are CHROMECAST_SETUP.md:162 and CHROMECAST_SETUP_GUIDE.md:187, 268. The term `listen` also hits CHROMECAST_SETUP.md:127 ("Listening..." status). The term `port\b` hits words ending in "port" (import, support, export, report). No hit is a port number or a listening service.
+- Record R3-S07-01 attaches the quotation "Audio processing helpers" to PROJECT_SUMMARY.md:35 and 135. Line 35 carries it; line 135 reads "Audio helpers".
+- Record R3-S03-02 attaches the quotation "Some Bluetooth devices may require additional pairing steps" to CHANGELOG.md:99-102 and README.md:291. CHANGELOG.md:102 carries it; README.md:291 reads "Some devices may require additional pairing steps".
+- Record R3-S08-02 and R3-H5-02 attach "Full implementation requires Google Cast SDK" / "Full Chromecast implementation requires Google Cast SDK" to README.md:285 and CHANGELOG.md:101. Each line carries one of the two wordings, not both.
+- Record R3-S09-12 attaches "Check Xcode console for error messages" to README.md:346 and CHROMECAST_SETUP.md:280. Line 280 reads "Check Xcode console for errors".
+- Record R3-S11-15 describes `macosx26.1` as showing "a build on that OS line". The key that holds the string is `targetSDK` (ZIP!xcuserstate obj 409, 416).
+- Record R3-H2-05 states that fix_project_quick.sh:21-28 and create_xcode_project.sh:56-72 print "the same steps in short form". Those lines print the project-creation step (Step 1 of the six); Steps 2 to 6 are not printed there.
 - Same subject, different outcome in two records. Each record's outcome follows from the evidence that record cites; the records scope the attempt differently.
   - fix_project_quick.sh: R3-S10-02 FAILED (STATED, script text at :16, :19); R3-H2-02 UNVERIFIED (NONE).
   - create_xcode_project.sh: R3-S10-03 FAILED (STATED, :47, :53); R3-H2-03 UNVERIFIED (NONE).
   - Hand-written project file: R3-H2-01 FAILED (STATED, FIX_PROJECT.md:1, 3; fix_project_quick.sh:7); R3-S11-13 PARTIAL (STATED defect plus the OBSERVED build); R3-S10-01 PARTIAL on the build path as a whole.
-- Check D found no field that proposes, recommends or ranks, and no reference to a repo other than R3. Words on the Rule 6 list occur only inside quotations from the repo (for example "Recommended" at FIX_PROJECT.md:14 in R3-S10-05 and R3-H2-05; "Should" in guide test steps in R3-S08-05, R3-S09-11, R3-S11-05, R3-H2-05).
+- Check D found no field that makes a proposal or a ranking, and no reference to a repo other than R3. Words on the Rule 6 list occur only inside quotations from the repo (for example "Recommended" at FIX_PROJECT.md:14 in R3-S10-05 and R3-H2-05; "Should" in guide test steps in R3-S08-05, R3-S09-11, R3-S11-05, R3-H2-05).
 
 ## Totals
 
