@@ -39,6 +39,7 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 31 | 1 | R2 | Verifier | repos/R2/05-verification.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 18:27 UTC | 0 |
 | 32 | 1 | R6 | Verifier | repos/R6/05-verification.md | RUNNING | 0 |
 | 33 | 2 | n/a | Research verifier | interfaces/03-verification.md | RUNNING | 0 |
-| 34 | 1 | R4 | Repair round 1 | repos/R4/03-stages-audio.md | RUNNING | 1 |
+| 34 | 1 | R4 | Repair round 1 | repos/R4/03-stages-audio.md | DONE. R4-S07-03 corrected in place, ID and UNVERIFIED outcome kept; 58 finding records, 3 NOT FOUND records, tally unchanged. Orchestrator diff check: changes confined to the R4-S07-03 record. Repair agent noted, without changing it, that R4-S10-06 cites an EQ-gain clamp (internal/config/config.go:136-149) that has test callers only | 1 |
 | 35 | 1 | R1 | Repair round 1 | repos/R1/02-stages-bluetooth.md | RUNNING | 1 |
 | 36 | 1 | R1 | Repair round 1 | repos/R1/03-stages-audio.md | RUNNING | 1 |
+| 37 | 1 | R4 | Verifier re-run 1 | repos/R4/05-verification.md | RUNNING | 1 |
