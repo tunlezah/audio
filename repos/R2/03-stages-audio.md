@@ -535,7 +535,7 @@ Three facts that many records below rely on:
 
 ### R2-S10-10  Three settings stated by the author to be defined and unused
 - Question: S10.4
-- What was attempted: `web_ui.static_path`, `bluetooth.reconnect_attempts` and `bluetooth.reconnect_backoff_base` are defined, validated and present in config.toml (config.toml:8-9, :30; config_manager.py:29-30, :60) and no code reads them. Grep of `audioburger/` on the current tree finds no reader outside config_manager.py. The installer writes a value into `static_path` (install.sh:910).
+- What was attempted: `web_ui.static_path`, `bluetooth.reconnect_attempts` and `bluetooth.reconnect_backoff_base` are defined and present in config.toml (config.toml:8-9, :30; config_manager.py:29-30, :60) and no code reads them. The two Bluetooth settings each have a range check where the section is parsed (config_manager.py:296-301) and a line in `_validate_config` (config_manager.py:214-215, :220-221). `static_path` is assigned from the file with no check (config_manager.py:358) and `_validate_config` has no line for it (config_manager.py:202-262). Grep of `audioburger/` on the current tree finds no reader outside config_manager.py. The installer writes a value into `static_path` (install.sh:910).
 - Presence: CURRENT. Fields from 70fc363.
 - Outcome: FAILED
 - Outcome evidence: STATED. README.md:253: "The `static_path` field in `WebUIConfig` is defined but never read at runtime." README.md:273: "Use `reconnect_attempts` and `reconnect_backoff_base` from config (defined but unused)." Both lines predate eb02d59; the current code agrees with them.
@@ -546,7 +546,7 @@ Three facts that many records below rely on:
 
 ### R2-S10-11  Seven further settings with no reader found
 - Question: S10.4
-- What was attempted: by grep of `audioburger/`, these settings are parsed and validated and are not read by any other module: `bluetooth.discoverable_timeout` (the pairing handler calls `enable_discoverable()` with its default of 120, api_server.py:509; a2dp_sink.py:173); `audio.eq_update_rate`; `audio.eq_bands` (logged at audio_pipeline.py:92 and not otherwise used); `chromecast.discovery_timeout`; `chromecast.reconnect_attempts`; `logging.buffer_size` (the buffer length is the literal 1000 at logger.py:39); `logging.systemd_integration`.
+- What was attempted: by grep of `audioburger/`, these seven settings are parsed from the file and are not read by any other module. Six each have a range check where the section is parsed and a line in `_validate_config`: `bluetooth.discoverable_timeout` (config_manager.py:293-295, :217-218; the pairing handler calls `enable_discoverable()` with its default of 120, api_server.py:509; a2dp_sink.py:173); `audio.eq_update_rate` (config_manager.py:322-324, :236-237); `audio.eq_bands` (config_manager.py:319-321, :233-234; logged at audio_pipeline.py:92 and not otherwise used); `chromecast.discovery_timeout` (config_manager.py:336-338, :240-241); `chromecast.reconnect_attempts` (config_manager.py:343-345, :249-250); `logging.buffer_size` (config_manager.py:371-373, :261-262; the buffer length is the literal 1000 at logger.py:39). The seventh, `logging.systemd_integration`, is assigned from the file with no check (config_manager.py:374) and `_validate_config` has no line for it (config_manager.py:202-262).
 - Presence: CURRENT. Fields from 70fc363.
 - Outcome: UNVERIFIED
 - Outcome evidence: NONE. No document names these seven as unused.

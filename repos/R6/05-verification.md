@@ -174,3 +174,36 @@ Record count checked: 259 finding records (70 in file 02, 94 in file 03, 95 in f
 - R6-S10-16 PASS
 - R6-S10-17 PASS
 - R6-S10-18 PASS
+
+### File 03, S11 Testing and measured behaviour
+
+- R6-S11-01 PASS
+- R6-S11-02 PASS
+- R6-S11-03 PASS
+- R6-S11-04 PASS
+- R6-S11-05 PASS
+- R6-S11-06 PASS
+- R6-S11-07 PASS
+- R6-S11-08 PASS
+- R6-S11-09 PASS
+- R6-S11-10 PASS
+- R6-S11-11 PASS
+- R6-S11-12 PASS
+- R6-S11-13 PASS
+- R6-S11-14 PASS
+- R6-S11-15 PASS
+- R6-S11-16 PASS
+- R6-S11-17 PASS
+
+### File 03, S12 Security and exposure
+
+- R6-S12-01 PASS
+- R6-S12-02 PASS
+- R6-S12-03 PASS
+- R6-S12-04 PASS
+- R6-S12-05 PASS
+- R6-S12-06 PASS
+- R6-S12-07 PASS
+- R6-S12-08 PASS
+- R6-S12-09 PASS
+- R6-S12-10 PASS
