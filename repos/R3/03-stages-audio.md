@@ -645,8 +645,8 @@ Repo ID R3, /home/user/AudioRouter. Audited at commit 1bdb71dfb0e7319db0aa2f6cf4
 - Outcome: PARTIAL
 - Outcome evidence: STATED and OBSERVED. Defect STATED at FIX_PROJECT.md:3. A completed build is OBSERVED in ZIP!xcuserstate (`Build`, `Succeeded`; see R3-S11-06). The order of the two is not evidenced: FIX_PROJECT.md carries no date (searched the file for `20[0-9]{2}`, month names, `date`, `updated`: no hits), the one commit 1bdb71d holds both the document and the archive, and the only dates are those of the archive members (project file 2025-11-10 20:20, ZIP!xcuserstate 2025-11-11 07:46; `unzip -l`).
 - Why it turned out that way: STATED. The file "was hand-crafted" (FIX_PROJECT.md:3). The exact error is not recorded.
-- Depends on: Xcode 15+ project format `objectVersion = 56` (ZIP!pbxproj:6); the Xcode version in use, which is not stated beyond the build string in ZIP!xcuserstate.
-- Open questions: What error did Xcode report? Which repair route produced the archived project file?
+- Depends on: the project file's format fields `objectVersion = 56` (ZIP!pbxproj:6) and `compatibilityVersion = "Xcode 14.0"` (ZIP!pbxproj:162); the Xcode version in use, which is not stated beyond the build string in ZIP!xcuserstate.
+- Open questions: What error did Xcode report? Which repair route produced the archived project file? Did the build recorded in ZIP!xcuserstate take place before or after the problem stated at FIX_PROJECT.md:3?
 - Confidence: MEDIUM. STATED defect; OBSERVED build string read from a binary file.
 
 ### R3-S11-14  Known issue: "Cannot find 'AVAudioSession' in scope"
@@ -684,7 +684,7 @@ Repo ID R3, /home/user/AudioRouter. Audited at commit 1bdb71dfb0e7319db0aa2f6cf4
 - Outcome: UNVERIFIED
 - Outcome evidence: NONE
 - Why it turned out that way: UNKNOWN.
-- Depends on: the absent entitlements file; AirPlay and Cast traffic being outbound from the app (README.md:46).
+- Depends on: the absent entitlements file; local network access, listed as a requirement: "Local network access for AirPlay/Chromecast" (README.md:46). No direction of AirPlay or Cast traffic is stated (searched `outbound`, `inbound`, `incoming`, `outgoing`, `client`, `server`, `direction` over all 13 tracked files and ZIP!pbxproj: the only hits that name a direction are the capability lines at FIX_PROJECT.md:112-113, 118-119).
 - Open questions: Does the app open any listening socket? Why is the server capability enabled? Would the planned audio stream for Chromecast have been served from the Mac, and with what access control?
 - Confidence: MEDIUM. STATED capability list; absence of ports established by search.
 

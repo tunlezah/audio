@@ -118,13 +118,13 @@ Reverts: `git log --all -i --grep='revert'` prints nothing. No commit removes th
 
 ### R5-H3-01  src/bridge.ts modified by all three fix-type commits
 - Question: H3, relates to S10.2
-- What was attempted: commit a744781 (36 lines in `git show --stat`) added URL masking for a log line and wired in the broadcaster (src/bridge.ts:47-48, 129-144, 162-168, 190). Commit 2db4cb5 (87 lines) moved the seven event handlers into fields and added `cleanupEventHandlers()` (src/bridge.ts:18-25, 44-127, 232-233). Commit e556801 (100 lines) registered the health callback, changed the startup wait from 3000 ms to 2000 ms and added `getHealthStatus()` (src/bridge.ts:200-201, 209-219, 282-365). Each commit names a separate review as its source: "security and reliability vulnerabilities" (commit a744781 subject), "comprehensive analysis" (commit 2db4cb5), "comprehensive reliability engineering analysis" (commit e556801).
+- What was attempted: commit a744781 (36 lines in `git show --stat`) added URL masking for a log line and wired in the broadcaster (src/bridge.ts:47-48, 129-144, 162-168, 190). Commit 2db4cb5 (87 lines) moved the seven event handlers into fields and added `cleanupEventHandlers()` (src/bridge.ts:18-25, 44-127, 232-233). Commit e556801 (100 lines) registered the health callback, changed the startup wait from 3000 ms to 2000 ms and added `getHealthStatus()` (src/bridge.ts:200-201, 209-219, 282-365). Two of the three commit messages name an analysis as their source: "identified in comprehensive analysis" (commit 2db4cb5) and "identified in comprehensive reliability engineering analysis" (commit e556801). The subject and body of commit a744781 name no review or analysis; its subject reads "Fix all 16 security and reliability vulnerabilities (ARM version)" and its body is a list of FIX #1 to FIX #15, a dependencies list and one line about compilation (`git log --all --pretty=%B | grep -n -i -E 'analysis|review|audit|identified|assess|report'` matches lines of commits 2db4cb5 and e556801 only).
 - Presence: CURRENT (src/bridge.ts, 366 lines at HEAD).
 - Outcome: UNVERIFIED
 - Outcome evidence: NONE. Checks stated are compilation (commit a744781) and build (commit e556801); commit 2db4cb5 states no check.
 - Why it turned out that way: UNKNOWN.
-- Depends on: the three reviews named in the messages; no review document is tracked (git ls-files shows no notes, report or docs file).
-- Open questions: Where are the three analyses the commit messages refer to? Was the file exercised at runtime between the commits?
+- Depends on: the two analyses named in the messages of commits 2db4cb5 and e556801; no analysis or review document is tracked (git ls-files lists 20 paths, none a notes, report or docs file).
+- Open questions: Where are the two analyses that the messages of commits 2db4cb5 and e556801 refer to, and are they one analysis or two? What was the source of the items listed in commit a744781, whose message names none? Was the file exercised at runtime between the commits?
 - Confidence: HIGH. The three modifications are read directly from `git show --stat` and the diffs.
 
 ### R5-H3-02  src/chromecast/receiver.ts modified by all three fix-type commits
