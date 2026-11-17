@@ -161,7 +161,7 @@ How the questions are answered in this file:
 
 ### R5-S03-05  NOT FOUND
 - Question: S03.5
-- Searched: search set B (B1 to B5); also read src/chromecast/receiver.ts:51-64, 244-292 for any allow-list, token or address check (none seen). `git grep -n -i -E 'password|secret|token|auth'` over `src/`: hits are the log-sanitising code at src/bridge.ts:129-138 and the log line at src/chromecast/receiver.ts:291.
+- Searched: search set B (B1 to B5); also read src/chromecast/receiver.ts:51-64, 244-292 for any allow-list, token or address check (none seen). `git grep -n -i -E 'password|secret|token|auth'` over `src/`: hits are the log-sanitising code at src/bridge.ts:129-138 and the comment and log line at src/chromecast/receiver.ts:288, 291.
 - Nearest related material: Non-Bluetooth only. A rate limit of 100 requests per minute per IP (src/chromecast/receiver.ts:56-64), a limit of 100 connections (src/chromecast/receiver.ts:265), and the statement "No authentication required - designed for local network use only" (src/chromecast/receiver.ts:291).
 
 ---
@@ -180,7 +180,7 @@ How the questions are answered in this file:
 
 ### R5-S04-03  NOT FOUND
 - Question: S04.3
-- Searched: search set B (B1 to B5). `git grep -n -i -E 'reconnect|out of range|reboot'` by reading every source file in full: reconnect code exists in src/airplay/discovery.ts only. Read src/chromecast/receiver.ts:146-189, 258-278.
+- Searched: search set B (B1 to B5). `git grep -n -i -E 'reconnect|out of range|reboot'` over tracked files except package-lock.json: every hit is in src/airplay/discovery.ts (lines 17-184). Read src/chromecast/receiver.ts:146-189, 258-278.
 - Nearest related material: Non-Bluetooth only. On the input side, the HTTP request events `end`, `error` and `close` (src/chromecast/receiver.ts:170-186) and server timeouts (src/chromecast/receiver.ts:258-265); these are recorded in R5-S05-05. No code re-establishes an input connection. On the output side, the mDNS browser has reconnect logic (src/airplay/discovery.ts:101-144). After a restart nothing is restored from disk except `config.json` values (src/config.ts:84-108); the compose restart policy is `unless-stopped` (docker-compose.yml:8).
 
 ### R5-S04-04  NOT FOUND
