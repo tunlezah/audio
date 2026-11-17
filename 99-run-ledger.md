@@ -44,5 +44,5 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 36 | 1 | R1 | Repair round 1 | repos/R1/03-stages-audio.md | RUNNING | 1 |
 | 37 | 1 | R4 | Verifier re-run 1 | repos/R4/05-verification.md | RUNNING | 1 |
 | 38 | 1 | R3 | Repair round 1 | repos/R3/03-stages-audio.md | RUNNING | 1 |
-| 39 | 1 | R3 | Repair round 1 | repos/R3/04-history.md | RUNNING | 1 |
+| 39 | 1 | R3 | Repair round 1 | repos/R3/04-history.md | DONE. H6 table row for ZIP!pbxproj corrected; 18 finding records, 2 NOT FOUND records, tally unchanged. Orchestrator diff check: change confined to that row | 1 |
 | 40 | 1 | R5 | Repair round 1 | repos/R5/04-history.md | RUNNING | 1 |

@@ -208,7 +208,7 @@ Files treated as notes, changelog or known-issues files: CHANGELOG.md (changelog
 | BUILD_AND_DEPLOY.md:365 | Bug (prose) | "PATCH: Bug fixes" | S10.6 |
 | CHANGELOG.md:155 | Bug (prose) | "**Patch releases** (1.0.x): Bug fixes, minor improvements (as needed)" | S10.6 |
 | auto_create_project.sh:342, 352, 374, 380, 426, 452, 497, 505, 515, 519, 557, 569 | BUG (substring of DEBUG) | Xcode build settings such as "DEBUG_INFORMATION_FORMAT = dwarf;" and "\"DEBUG=1\"," | NONE |
-| ZIP!pbxproj:205, 244, 255, 277, 283, 288, 329, 356, 368, 401, 409, 419, 423, 426, 461, 473, 486, 495 | BUG (substring of Debug or DEBUG) | Xcode build settings and configuration names, same kind as the row above | NONE |
+| ZIP!pbxproj:216, 255, 266, 288, 294, 299, 340, 367, 379, 412, 420, 430, 434, 437, 472, 484, 498, 507 | BUG (substring of Debug or DEBUG) | Xcode build settings and configuration names, same kind as the row above | NONE |
 | ZIP!xcscheme:26-28, 34-36, 40-41, 44, 59, 61, 72 | bug (substring of Debug) | Scheme attributes such as `buildConfiguration = "Debug"` | NONE |
 
 ### CHANGELOG.md, every entry
