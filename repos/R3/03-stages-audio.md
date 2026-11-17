@@ -356,7 +356,7 @@ Repo ID R3, /home/user/AudioRouter. Audited at commit 1bdb71dfb0e7319db0aa2f6cf4
 ### R3-S10-03  create_xcode_project.sh, a project-creation script that ends in manual steps
 - Question: S10.1
 - What was attempted: Header comment: "This script will create a new Xcode project and add all our files" (create_xcode_project.sh:3-4). It renames an existing project directory to `.backup` (:12-15), writes a temporary `TempMain.swift` (:21-32), runs `swift package init --type executable --name AudioRouter 2>/dev/null || true` (:35), runs `rm -f Package.swift` (:38), writes a temporary `create_project.swift` whose only action is a print (:41-49), prints eight manual Xcode steps (:53-72), prints "Then run: ./add_files_to_project.sh" (:74) and deletes the two temporary files (:79). `add_files_to_project.sh` is not in the repo. No tracked file names a caller for this script (searched `create_xcode_project`).
-- Presence: CURRENT (create_xcode_project.sh:1-80). Mode 100644.
+- Presence: CURRENT (create_xcode_project.sh:1-79). Mode 100644.
 - Outcome: FAILED (as automated project creation)
 - Outcome evidence: STATED. Script output heading "Manual Project Creation Required" (create_xcode_project.sh:53); embedded comment "This will be done manually" (:47).
 - Why it turned out that way: UNKNOWN.
@@ -643,7 +643,7 @@ Repo ID R3, /home/user/AudioRouter. Audited at commit 1bdb71dfb0e7319db0aa2f6cf4
 - What was attempted: A project file written by hand. "The project.pbxproj file was hand-crafted and Xcode is being strict about it. Let's create a proper project!" (FIX_PROJECT.md:3). Three repair routes follow (R3-S10-02, R3-S10-04, R3-S10-05). The archived project file keeps hand-numbered identifiers (ZIP!pbxproj:10-25).
 - Presence: CURRENT (FIX_PROJECT.md; the archived project file).
 - Outcome: PARTIAL
-- Outcome evidence: STATED and OBSERVED. Defect STATED at FIX_PROJECT.md:3. A later completed build is OBSERVED in ZIP!xcuserstate (`Build`, `Succeeded`; see R3-S11-06).
+- Outcome evidence: STATED and OBSERVED. Defect STATED at FIX_PROJECT.md:3. A completed build is OBSERVED in ZIP!xcuserstate (`Build`, `Succeeded`; see R3-S11-06). The order of the two is not evidenced: FIX_PROJECT.md carries no date (searched the file for `20[0-9]{2}`, month names, `date`, `updated`: no hits), the one commit 1bdb71d holds both the document and the archive, and the only dates are those of the archive members (project file 2025-11-10 20:20, ZIP!xcuserstate 2025-11-11 07:46; `unzip -l`).
 - Why it turned out that way: STATED. The file "was hand-crafted" (FIX_PROJECT.md:3). The exact error is not recorded.
 - Depends on: Xcode 15+ project format `objectVersion = 56` (ZIP!pbxproj:6); the Xcode version in use, which is not stated beyond the build string in ZIP!xcuserstate.
 - Open questions: What error did Xcode report? Which repair route produced the archived project file?
