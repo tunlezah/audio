@@ -169,7 +169,7 @@ Areas changed by two fix-type commits, below the threshold in H3:
 
 ## H5 Dead and disabled code
 
-Commented-out code: none found. `git grep -n -E '^\s*//\s*(const|let|var|if|for|while|return|await|this\.|import|export|function|[a-zA-Z_.]+\(.*\);?\s*$)' -- src` gives zero hits; the only block comment in src is the JSDoc at src/audio/pipeline.ts:11-14; every `#` line in Dockerfile is a section label (Dockerfile:3, 12, 15, 19, 22, 25, 28, 31, 34, 38, 42); docker-compose.yml and .github/workflows/ci.yml have no comment lines. The same search of e8801c3, a744781 and 2db4cb5 by reading their diffs shows no commented-out block added or removed.
+Commented-out code: none found. `git grep -n -E '^\s*//\s*(const|let|var|if|for|while|return|await|this\.|import|export|function|[a-zA-Z_.]+\(.*\);?\s*$)' -- src` gives zero hits; the only block comment in src is the JSDoc at src/audio/pipeline.ts:11-14; every `#` line in Dockerfile is a section label (Dockerfile:3, 12, 15, 19, 22, 25, 28, 31, 34, 38, 42); docker-compose.yml and .github/workflows/ci.yml have no comment lines. The diffs of a744781, 2db4cb5 and e556801, read in full with `git show`, add or remove no commented-out block.
 
 ### R5-H5-01  Unreferenced `AudioBuffer` class
 - Question: H5, relates to S05.4
