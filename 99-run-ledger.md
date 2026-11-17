@@ -8,7 +8,7 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 |---|-------|------|------|------|--------|-------------|
 | 1 | 0 | all | Orchestrator preflight | 00-manifest.md, _harness/rules.md, _harness/stages.md, _harness/templates.md | DONE. Configuration complete, OUT empty before run, six repos snapshotted, harness read back (12 rules; 12 stages, 48 stage questions, 8 history questions; 2 templates, 1 illustration), web search and fetch tools available | 0 |
 | 2 | 1 | R1 | Mapper | repos/R1/01-map.md | DONE. Seven sections present, no BLOCKED lines | 0 |
-| 3 | 1 | R2 | Mapper | repos/R2/01-map.md | RUNNING | 0 |
+| 3 | 1 | R2 | Mapper | repos/R2/01-map.md | DONE. Seven sections present, no BLOCKED lines | 0 |
 | 4 | 1 | R3 | Mapper | repos/R3/01-map.md | DONE. Seven sections present, no BLOCKED lines | 0 |
 | 5 | 1 | R4 | Mapper | repos/R4/01-map.md | DONE. Seven sections present, no BLOCKED lines | 0 |
 | 6 | 1 | R5 | Mapper | repos/R5/01-map.md | DONE. Seven sections present, no BLOCKED lines | 0 |
@@ -29,3 +29,6 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 21 | 1 | R6 | Bluetooth stage auditor | repos/R6/02-stages-bluetooth.md | RUNNING | 0 |
 | 22 | 1 | R6 | Audio stage auditor | repos/R6/03-stages-audio.md | RUNNING | 0 |
 | 23 | 1 | R6 | History auditor | repos/R6/04-history.md | RUNNING | 0 |
+| 24 | 1 | R2 | Bluetooth stage auditor | repos/R2/02-stages-bluetooth.md | RUNNING | 0 |
+| 25 | 1 | R2 | Audio stage auditor | repos/R2/03-stages-audio.md | RUNNING | 0 |
+| 26 | 1 | R2 | History auditor | repos/R2/04-history.md | RUNNING | 0 |
