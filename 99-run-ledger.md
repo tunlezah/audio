@@ -17,7 +17,7 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 9 | 1 | R1 | Bluetooth stage auditor | repos/R1/02-stages-bluetooth.md | RUNNING | 0 |
 | 10 | 1 | R1 | Audio stage auditor | repos/R1/03-stages-audio.md | RUNNING | 0 |
 | 11 | 1 | R1 | History auditor | repos/R1/04-history.md | DONE. 23 finding records, 3 NOT FOUND records, tally 5 + 3 = 8, no BLOCKED lines. Agent disclosed running git fsck --lost-found --no-reflogs in the repo, a command outside the Rule 1 list; orchestrator check afterwards: HEAD 70ad071 unchanged, git status --porcelain empty, no .git/lost-found directory | 0 |
-| 12 | 1 | R5 | Bluetooth stage auditor | repos/R5/02-stages-bluetooth.md | RUNNING | 0 |
+| 12 | 1 | R5 | Bluetooth stage auditor | repos/R5/02-stages-bluetooth.md | DONE. 18 finding records, 13 NOT FOUND records, tally 11 + 13 = 24, no BLOCKED lines | 0 |
 | 13 | 1 | R5 | Audio stage auditor | repos/R5/03-stages-audio.md | RUNNING | 0 |
 | 14 | 1 | R5 | History auditor | repos/R5/04-history.md | RUNNING | 0 |
 | 15 | 1 | R4 | Bluetooth stage auditor | repos/R4/02-stages-bluetooth.md | RUNNING | 0 |
