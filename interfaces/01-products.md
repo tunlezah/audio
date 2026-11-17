@@ -156,3 +156,85 @@ Categories: A = open-source receiver or streamer software; B = commercial Blueto
   - #428 "Speaker gives noise when playing simultaneously from Bluetooth and other source" (open, June 2024) (S2). [STATED]
 - Not determined: pairing procedure; Bluetooth setting names and defaults; LED state meanings; HTTP API.
 
+---
+
+## Category B: commercial Bluetooth audio receivers
+
+### P07  Audioengine B1 Bluetooth Music Receiver, Audioengine
+- Category: B
+- Version or model examined: "B1 Next Gen" as listed on the maker's shop page at $189.00 and "In Stock" (S1); quickstart guide PDF `B1_Manual_44-6.pdf` (S2).
+- Sources:
+  - S1 https://audioengine.com/shop/wirelessaudio/b1-bluetooth-music-receiver/ (official page, 2026-11-17)
+  - S2 https://audioengine.com/wp-content/uploads/2026/06/B1_Manual_44-6.pdf (official manual, 2026-11-17)
+  - S3 https://the-gadgeteer.com/2015/01/12/audioengine-b1-bluetooth-music-receiver-review/ (review, 2026-11-17)
+- Setup and onboarding: Three steps in the quickstart guide: connect power, at which point the B1 "will automatically go into pair mode" and the front button starts flashing; connect the RCA cable (or an optical cable) to the music system; select the device on the phone (S2). The shop page states no software, drivers, apps, network setup or passwords are needed (S1). [STATED]
+- Pairing and connection: On the phone, select "Audioengine B1"; the indicator turns solid (S2). To add another device the same steps are repeated; the guide states the B1 connects to one device at a time and remembers up to six (S2). To drop the current device and return to pair mode, press and hold the pair button until the indicator flashes (S2). [STATED]
+- Controls: One combined power/pair button on the front panel (S1, S2). Volume and transport are on the sending device ("Play your music and adjust volume levels as desired") (S2). No app (S1). [STATED]
+- Status feedback: One front indicator: flashing white = pair mode; solid white = device paired; solid orange = aptX HD (S2). [STATED] No sounds or display are described.
+- Settings exposed: None described in S1 or S2. [INFERRED: both documents were read in full and name no setting other than the pair button.]
+- Output selection: Analog RCA output and Toslink optical output on the rear panel (S2). A selector between them is not described; whether both are live at once: NOT DETERMINED. [STATED for the connectors]
+- Error communication: No error indication on the unit beyond the indicator states. The guide carries a troubleshooting list keyed by symptom, for example pair light solid but device cannot connect (remedy listed: disconnect other devices or hold the pair button until it flashes), connected but no audio, low volume, audio cutting out (remedies listed include moving the units, turning off the phone's Wi-Fi, re-pairing, power cycling) (S2). [STATED]
+- Programmatic surfaces: None described (S1, S2). [INFERRED: neither document mentions an app, API or configuration file, and S1 states no software is needed.]
+- Reported friction:
+  - Reviewer Bill Henderson (The Gadgeteer, 12 Jan 2015, original B1 model) wrote that the B1 "has to be unpaired before another Bluetooth device" can connect and found the disconnect/reconnect tedious; the maker's appended reply said holding the Pair button 3 seconds releases the current connection (S3). [STATED] This review predates the "Next Gen" model examined.
+- Not determined: whether RCA and optical outputs are active together; standby or auto-off behaviour; reconnection behaviour at power-on.
+
+### P08  iFi ZEN Blue 3, iFi audio
+- Category: B
+- Version or model examined: ZEN Blue 3, User Manual Ver1.0 (S2); listed "In stock" at £299 on the maker's product page (S1). The unit also has transmit (TX) and DAC modes; this record covers receive (RX) mode.
+- Sources:
+  - S1 https://ifi-audio.com/products/zen-blue-3/ (official page, 2026-11-17)
+  - S2 https://cdn.shopify.com/s/files/1/0879/9741/5761/files/ZEN-Blue-3-User-Manual_Ver1.0.pdf?v=1732613351 (official manual, 2026-11-17)
+  - S3 https://primeaudio.org/ifi-zen-blue-3-a-smarter-way-to-add-bluetooth-to-your-setup/ (review, 2026-11-17)
+- Setup and onboarding: Attach the antenna, power by USB-C or 5 V DC, long-press the power switch (2 s or more), choose RX mode with the operating mode selector (cycles RX > TX > DAC), connect an output (S2). [STATED] A numbered first-use sequence is not given in the manual; the order above follows the manual's item list [INFERRED: assembled from items 1, 2, 8-15 of S2].
+- Pairing and connection: At switch-on the unit blinks blue while it searches for a previously paired device; if none is found it enters pairing mode on its own and blinks blue/red (S2). Pairing mode can be forced with a long press (3 s or more) of the rightmost front button (S2). The name shown on the phone is "iFi Lossless Audio" (S2). Up to 8 paired devices are stored; pairing a 9th removes the first from the list (S2). [STATED] Simultaneous connections: NOT DETERMINED.
+- Controls: Front buttons: power (long press), mode selector, input selection / volume (volume applies to TX mode only), TX codec / low latency (not adjustable in RX mode), and a pairing button that also toggles the LED display (single tap) and the Bluetooth voice prompt (double tap) (S2). The manual refers to a "GAIA APP" for a reset setting (S2). Music is controlled from the sending device's app (S2). [STATED]
+- Status feedback: The colour of the centre "iFi" logo shows the codec received: off = SBC, yellow = AAC, blue = aptX, magenta = aptX HD, green = aptX Adaptive, white = aptX Lossless, cyan = LDAC, red = LHDC/HWA (S2). A second LED shows sample rate: yellow = 44.1/48 kHz, white = 88.2 kHz and above (S2). A Bluetooth-mode LED blinks blue (searching) or blue/red (pairing) (S2). Voice prompts announce Bluetooth events (S2). A DC power LED lights when powered from a 5 V supply (S2). [STATED]
+- Settings exposed: LED display on/off, "on by default"; Bluetooth voice prompt on/off, "on by default"; operating mode (S2). [STATED]
+- Output selection: In RX mode the balanced 4.4 mm, RCA and S/PDIF (optical/coaxial) outputs are all listed as outputs; no selector is described (S2). [STATED]
+- Error communication: No error indicator is described. For repeated connection failure in TX mode the manual directs the user to check for other paired devices or use the reset setting in the GAIA app (S2). [STATED]
+- Programmatic surfaces: A "GAIA APP" is named for reset (S2). Further app functions: NOT DETERMINED. No API or configuration file is described. [STATED]
+- Reported friction:
+  - Reviewer David Becker (Prime Audio, 11 July 2025) listed as a drawback: "LED indicator system is hard to decipher without the manual" (S3). [STATED]
+- Not determined: simultaneous connections; content of voice prompts; app functions beyond reset.
+
+### P09  FiiO BR13, FiiO
+- Category: B
+- Version or model examined: BR13 as described on the maker's product page and FAQ pages opened 2026-11-17 (S1-S6). The unit also has USB DAC and S/PDIF input modes; this record covers Bluetooth input.
+- Sources:
+  - S1 https://fiio.com/br13 (official page, 2026-11-17)
+  - S2 https://www.fiio.com/newsinfo/876062.html (official documentation, FAQ "Button operation instruction", 2026-11-17)
+  - S3 https://fiio.com/newsinfo/876065.html (official documentation, FAQ "How to use the BR13 as a Bluetooth receiver?", 2026-11-17)
+  - S4 https://www.fiio.com/newsinfo/876063.html (official documentation, FAQ on the FiiO Control app, 2026-11-17)
+  - S5 https://www.fiio.com/newsinfo/876074.html (official documentation, FAQ on two devices, 2026-11-17)
+  - S6 https://www.fiio.com/newsinfo/876061.html (official documentation, FAQ "does not work normally", 2026-11-17)
+  - S7 https://www.fiio.com/br13_faq (official page, FAQ index, 2026-11-17)
+- Setup and onboarding: Power by USB; hold the play/pause button about 3 s to power on; short-press IN to reach Bluetooth input; the screen shows a pairing prompt; select the BR13 on the phone (S2, S3). [STATED]
+- Pairing and connection: With no stored device the unit enters pairing on its own; with a stored device it tries to reconnect first and enters pairing only if that fails; holding IN about 3 s forces pairing while a device is connected (S3). Two source devices can be connected at once: pair the first, hold IN about 3 s again, pair the second (S5, S1). Holding EQ about 3 s clears all pairing records (S2, S3). [STATED] Which of two connected devices plays, and how the unit switches: NOT DETERMINED.
+- Controls: Five buttons: play/pause (also power and, held 10 s while off, factory reset), volume +, volume −, IN (cycles Bluetooth, USB, Optical, Coaxial), EQ (cycles JAZZ, POP, ROCK, CLAS, MEM1, MEM2, OFF) (S2). The FiiO Control app connects after normal Bluetooth pairing via "My devices" (S4). 60 volume steps on the unit (S1). [STATED]
+- Status feedback: An always-on LCD shows the active codec, EQ and other information; the screen shows a pairing prompt in pairing state (S1, S3). [STATED] Sounds: NOT DETERMINED.
+- Settings exposed: On the unit: input, EQ preset, volume (S2). In the app: 7 EQ presets and 2 ten-band parametric EQs, digital up-sampling / 48 kHz compatibility mode, aptX LL priority switch, codec on/off toggles (S1, S3, S4). EQ applies only in Bluetooth and USB input modes (S4). Defaults: NOT DETERMINED. [STATED]
+- Output selection: Optical, coaxial and RCA outputs; S/PDIF input can be passed through by a bypass function (S1). A selector among outputs for Bluetooth input is not described: NOT DETERMINED. [STATED for the connectors]
+- Error communication: No error display is described. The FAQ gives two remedies for "does not work normally": re-plug USB power; hold EQ about 3 s to clear pairings and reconnect (S6). [STATED]
+- Programmatic surfaces: FiiO Control app; over-the-air firmware updates (S1, S4). No API or configuration file is described. [STATED]
+- Reported friction: NONE FOUND in a page opened in this run. A review at https://headfonics.com/fiio-br13-review/ returned HTTP 403 on 2026-11-17 and is not used.
+- Not determined: active-device arbitration with two phones; setting defaults; output arbitration.
+
+### P10  Pro-Ject BT Box S2 HD, Pro-Ject Audio Systems
+- Category: B
+- Version or model examined: BT Box S2 HD, user guide Revision 2021.3.4 (S2); shown on the maker's site with colour options and a 2026 review link (S1).
+- Sources:
+  - S1 https://www.project-audio.com/en/product/bt-box-s2-hd/ (official page, 2026-11-17)
+  - S2 https://www.project-audio.com/wp-content/uploads/2021/08/BTBoxS2HD-Userguide.pdf (official manual, 2026-11-17)
+  - S3 https://www.henleyaudio.co.uk/Media/downloads/products/PJAABTBOXS2HD/PJAABTBOXS2HD_User%20Guide.pdf (official manual hosted by a distributor; its text is the non-HD "BT Box S2" guide, Revision 2021.04.22, 2026-11-17)
+- Setup and onboarding: Connect RCA outputs to a line input on the amplifier or the optical output to a DAC/AVR, attach the supplied antenna, connect the 5 V supply, press the power button; the blue LED blinks fast for about 2 seconds at start-up (S2). [STATED]
+- Pairing and connection: Pressing the Pair button makes the unit visible and connectable; pairing mode ends on success or after 60 seconds (S2). The phone shows "BT_Box_S2 HD" and presents a pairing code to confirm on the phone (S2). The product page states up to 8 sources are memorised and pairing takes 3 to 5 seconds (S1). [STATED] In the non-HD guide the user confirms pairing by pressing the power button on the unit while the LED blinks fast, older phones use code "0000", and a new connection is possible only while the LED blinks slowly (S3). [STATED, for the non-HD model]
+- Controls: Two front buttons: power/standby and Pair (S2). The non-HD model has an output selector button in place of Pair (S3). No app is mentioned. [STATED]
+- Status feedback: Blue LED above the Pair button: slow blinking = waiting, no device connected; fast blinking = pairing mode; steady = device connected (S2). Non-HD model: the output LED blinks three times when aptX becomes active (S3). [STATED]
+- Settings exposed: None beyond pairing mode (S2). [INFERRED: the five-page guide names no other adjustable item.]
+- Output selection: RCA analogue and optical outputs (S1, S2); the HD guide describes no selector. On the non-HD model a front button switches between analogue and digital output with an LED for digital (S3). [STATED]
+- Error communication: No error indicator. The guide gives one remedy for connection problems: a memory reset by holding the power button while reconnecting power, for 5 more seconds, after which the LED blinks and stops (S2). [STATED]
+- Programmatic surfaces: None described (S1, S2). [INFERRED: no app, API or file is mentioned in either document.]
+- Reported friction: NONE FOUND (no review or forum page for this model was opened in this run).
+- Not determined: whether both outputs are live together on the HD model; simultaneous connections; reconnection behaviour.
+
