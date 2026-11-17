@@ -38,7 +38,10 @@ Categories: A = open-source receiver or streamer software; B = commercial Blueto
 - Output selection: `Output device` under Menu > Configure > Audio selects the USB or I2S device (S1). Bluetooth Control "Audio routing" switches between "Local audio" and "Bluetooth speaker" (moOde can also act as a Bluetooth source) (S4, S5). The same switch is scriptable with `set-btaudio.php` (S1). Release notes record Bluetooth support for the built-in multiroom sender (S2). [STATED]
 - Error communication: WebUI alert "Pair or connect a device first." when Bluetooth speaker routing is chosen with no device (S5) [INFERRED: read from the notify message in the PHP source]. A message under the Controller switch when Bluetooth is turned off in System Config (S2) [STATED]. REST API returns JSON `alert` objects (S6) [STATED]. Logs are printed with `moodeutl` (S1) [STATED].
 - Programmatic surfaces: REST API at `http://moode/command/?cmd=COMMAND`: `get_volume` reports `source` as one of `mpd`, `input`, `bluetooth`, and others; `restart_renderer --bluetooth`; `renderer_onoff`; WebUI controller endpoints `get_btmeta` and `bt_pair_response` (answers a pairing request with id, accepted, code) (S6). CLI utilities listed under Controls (S1). Preferences are stored on the local boot media (S7). [STATED]
-- Reported friction: NONE FOUND in a page opened in this run. A forum thread on the 6-digit pairing code (https://moodeaudio.org/forum/showthread.php?pid=56378) appeared in search results but returned HTTP 503 when opened on 2026-11-17, so it is not used.
+- Reported friction (forum thread "Bluetooth never pairs", https://moodeaudio.org/forum/showthread.php?pid=56378, forum, 2026-11-17; a first attempt returned HTTP 503, a later attempt on the same day succeeded; the thread concerns moOde 9.0.0 to 9.1.5, which predate the series examined):
+  - A user (July 2024) reported that PIN pairing never succeeded and the phone kept asking for the PIN again. [STATED]
+  - The project founder replied in the same thread that PIN pairing also failed with his iPhone while some Android users had reported it working. [STATED]
+  - A user (Dec 2024, moOde 9.1.5) reported the pairing agent could not be switched on or off in the UI; the founder replied that with the agent stopped a client may connect but the "Bluetooth Active" screen does not appear and no audio plays. [STATED]
 - Not determined: defaults of on/off settings and device name; LED or audible feedback (none is described in the pages opened); stated limit on simultaneous clients.
 
 ### P02  IoTSound (formerly balenaSound), balena / community
@@ -156,11 +159,28 @@ Categories: A = open-source receiver or streamer software; B = commercial Blueto
   - #428 "Speaker gives noise when playing simultaneously from Bluetooth and other source" (open, June 2024) (S2). [STATED]
 - Not determined: pairing procedure; Bluetooth setting names and defaults; LED state meanings; HTTP API.
 
+### P07  ESP32-A2DP (Arduino library, `BluetoothA2DPSink`), Phil Schatzmann
+- Category: A
+- Version or model examined: `main` branch README and the project wiki page "A2DP Sink" as of 2026-11-17 (S1, S2). This is a library that a developer builds into ESP32 firmware; it has no end-user interface of its own.
+- Sources:
+  - S1 https://raw.githubusercontent.com/pschatzmann/ESP32-A2DP/main/README.md (source repository, 2026-11-17)
+  - S2 https://github.com/pschatzmann/ESP32-A2DP/wiki/A2DP-Sink (official documentation, project wiki, 2026-11-17)
+- Setup and onboarding: The developer writes a sketch that constructs `BluetoothA2DPSink` with an output object and calls `start("MyMusic")`; the README states this creates a Bluetooth device with that name and sends output to default I2S pins (BCK 14, WS 15, DATA 22) for an external DAC (S1). [STATED]
+- Pairing and connection: The name given to `start()` is what the phone sees (S1). [STATED] PIN or confirmation handling, discoverability control, reconnection and behaviour with a second device: NOT DETERMINED; the wiki page links to separate pages for auto-reconnect and other topics that were not opened (S2).
+- Controls: From firmware code: AVRCP commands `play()`, `pause()`, `stop()`, `next()`, `previous()`, `fast_forward()`, `rewind()` sent to the phone (S2). The README states A2DP and AVRCP are supported and that HFP, HSP and stand-alone AVRCP are not (S1). [STATED]
+- Status feedback: None built in; the wiki names metadata/notification callbacks and volume synchronisation through AVRC on separate pages (S2). [STATED] Connection-state callbacks: NOT DETERMINED.
+- Settings exposed: In code: device name, I2S pin configuration (`pin_bck`, `pin_ws`, `pin_data`), choice of output class, data callbacks (S2). [STATED] Defaults stated: pins 14/15/22 (S1, S2).
+- Output selection: In code: I2S stream to an external DAC, the ESP32 internal DAC (stated as GPIO25 and GPIO26), any class derived from Arduino `Print`, or a raw-data callback (`set_stream_reader`) with I2S output switched off (S1, S2). Stated PCM format: 44.1 kHz, two channels, 16-bit (S2). [STATED]
+- Error communication: NOT DETERMINED. The examples use the serial port (`Serial.begin(115200)`) and one example prints "Failed to initialize I2S!" (S2). [STATED]
+- Programmatic surfaces: C++ class API as listed under Controls, Settings and Output selection (S1, S2). [STATED]
+- Reported friction: NONE FOUND (no issue-tracker, forum or review page for this project was opened in this run).
+- Not determined: pairing security options; reconnection; second-device behaviour; connection-state callbacks; error surface.
+
 ---
 
 ## Category B: commercial Bluetooth audio receivers
 
-### P07  Audioengine B1 Bluetooth Music Receiver, Audioengine
+### P08  Audioengine B1 Bluetooth Music Receiver, Audioengine
 - Category: B
 - Version or model examined: "B1 Next Gen" as listed on the maker's shop page at $189.00 and "In Stock" (S1); quickstart guide PDF `B1_Manual_44-6.pdf` (S2).
 - Sources:
@@ -179,7 +199,7 @@ Categories: A = open-source receiver or streamer software; B = commercial Blueto
   - Reviewer Bill Henderson (The Gadgeteer, 12 Jan 2015, original B1 model) wrote that the B1 "has to be unpaired before another Bluetooth device" can connect and found the disconnect/reconnect tedious; the maker's appended reply said holding the Pair button 3 seconds releases the current connection (S3). [STATED] This review predates the "Next Gen" model examined.
 - Not determined: whether RCA and optical outputs are active together; standby or auto-off behaviour; reconnection behaviour at power-on.
 
-### P08  iFi ZEN Blue 3, iFi audio
+### P09  iFi ZEN Blue 3, iFi audio
 - Category: B
 - Version or model examined: ZEN Blue 3, User Manual Ver1.0 (S2); listed "In stock" at £299 on the maker's product page (S1). The unit also has transmit (TX) and DAC modes; this record covers receive (RX) mode.
 - Sources:
@@ -198,7 +218,7 @@ Categories: A = open-source receiver or streamer software; B = commercial Blueto
   - Reviewer David Becker (Prime Audio, 11 July 2025) listed as a drawback: "LED indicator system is hard to decipher without the manual" (S3). [STATED]
 - Not determined: simultaneous connections; content of voice prompts; app functions beyond reset.
 
-### P09  FiiO BR13, FiiO
+### P10  FiiO BR13, FiiO
 - Category: B
 - Version or model examined: BR13 as described on the maker's product page and FAQ pages opened 2026-11-17 (S1-S6). The unit also has USB DAC and S/PDIF input modes; this record covers Bluetooth input.
 - Sources:
@@ -220,7 +240,7 @@ Categories: A = open-source receiver or streamer software; B = commercial Blueto
 - Reported friction: NONE FOUND in a page opened in this run. A review at https://headfonics.com/fiio-br13-review/ returned HTTP 403 on 2026-11-17 and is not used.
 - Not determined: active-device arbitration with two phones; setting defaults; output arbitration.
 
-### P10  Pro-Ject BT Box S2 HD, Pro-Ject Audio Systems
+### P11  Pro-Ject BT Box S2 HD, Pro-Ject Audio Systems
 - Category: B
 - Version or model examined: BT Box S2 HD, user guide Revision 2021.3.4 (S2); shown on the maker's site with colour options and a 2026 review link (S1).
 - Sources:
