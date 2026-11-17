@@ -30,5 +30,5 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 22 | 1 | R6 | Audio stage auditor | repos/R6/03-stages-audio.md | DONE. 94 finding records, 0 NOT FOUND records, tally 24 + 0 = 24, no BLOCKED lines | 0 |
 | 23 | 1 | R6 | History auditor | repos/R6/04-history.md | INTERRUPTED. Agent stopped by the account usage limit (HTTP 429, resets 12:20 UTC) before reporting. No file on disk. Same agent to be resumed after the reset | 0 |
 | 24 | 1 | R2 | Bluetooth stage auditor | repos/R2/02-stages-bluetooth.md | INTERRUPTED. Agent stopped by the account usage limit (HTTP 429, resets 12:20 UTC) before reporting. No file on disk. Same agent to be resumed after the reset | 0 |
-| 25 | 1 | R2 | Audio stage auditor | repos/R2/03-stages-audio.md | RUNNING | 0 |
+| 25 | 1 | R2 | Audio stage auditor | repos/R2/03-stages-audio.md | DONE. 63 finding records, 3 NOT FOUND records, tally 21 + 3 = 24, no BLOCKED lines | 0 |
 | 26 | 1 | R2 | History auditor | repos/R2/04-history.md | INTERRUPTED. Agent stopped by the account usage limit (HTTP 429, resets 12:20 UTC) before reporting. No file on disk. Same agent to be resumed after the reset | 0 |
