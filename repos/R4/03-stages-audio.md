@@ -580,7 +580,7 @@ Stage note: no physical control or indicator code was found. `git grep -n -i -E 
 
 ### R4-S11-04  NOT FOUND
 - Question: S11.3
-- Searched: `git grep -n -i` over the tree for `latency`, `dropout`, `measure`, `cpu`, `memory`, `uptime`, `metric`, `func Benchmark`, `jitter`; `git ls-files` filtered for `log|result|report|bench`. Hits: `latency` and `dropout` once each, in the heading at README.md:297, with no figure.
+- Searched: `git grep -n -i` over the tree for `latency`, `dropout`, `measure`, `cpu`, `memory`, `uptime`, `metrics`, `benchmark`, `jitter`; `git ls-files` filtered for `log|result|report|bench`. Hits: `latency` and `dropout` once each, in the heading at README.md:297, with no figure. `metric` without the final s matches only the word "Parametric" (README.md:12, 239; internal/dsp/equalizer.go:9, 20, 67).
 - Nearest related material: README.md:297-301 (troubleshooting heading "Audio latency/dropouts", no numbers); commit c98d8d3 message ("43 passing tests (unit + integration)"), a count and not a measurement.
 
 ### R4-S11-05  README troubleshooting section; no list labelled known issues
