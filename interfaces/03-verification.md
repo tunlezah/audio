@@ -12,7 +12,7 @@ How the checks were run:
 ## Product records (checks A, B, C)
 
 - P01 moOde audio player: PASS. A: opened S3, S6 (also S1, S2). B: S6 lists `bluetooth` as a `source` value; S3 has the Bluetooth renderer section. C: none found.
-- P02 IoTSound: PASS. A: opened S3, S6 (also S4). B: S3: "If using Bluetooth: search for your device on your phone or laptop and pair.". C: none found.
+- P02 IoTSound: PASS. A: opened S3, S6 (also S4). B: S3: "If using Bluetooth: search for your device on your phone or laptop and pair". C: none found.
 - P03 HiFiBerryOS (legacy): PASS. A: opened S4, S6 (also S1, S5). B: S1: "Bluetooth A2DP sink"; S4: "act as a Bluetooth speaker". C: none found.
 - P04 rpi-audio-receiver: PASS. A: opened S1, S2. B: S1: "audio receiver with Bluetooth (A2DP)". C: none found.
 - P05 BlueALSA bluealsa-aplay: PASS. A: opened S1, S2. B: S2: "Capture audio streams from Bluetooth devices" and play them to an ALSA device. C: none found.
@@ -24,7 +24,7 @@ How the checks were run:
 - P11 Pro-Ject BT Box S2 HD: PASS. A: opened S1, S2. B: S2: "play music from your Android device over Bluetooth to BT_Box_S2 HD". C: none found.
 - P12 WiiM Pro: PASS. A: opened S1, S2 (also S3). B: S1 section 7.1 "Audio Input via Bluetooth". C: none found.
 - P13 Bluesound NODE: PASS. A: opened S1, S3 (also S5). B: S1: Bluetooth connectivity "Two-Way (transmit & receive)"; S3 input item `inputType="bluetooth"`. C: none found.
-- P14 Denon Home 150: PASS. A: opened S1, S2. B: S1: after pairing, "The sound will now play from the speaker.". C: none found.
+- P14 Denon Home 150: PASS. A: opened S1, S2. B: S1: after pairing, "The sound will now play from the speaker". C: none found.
 - P15 Arylic S10: PASS. A: opened S1, S2. B: S1 section 8.3.5 "To Play Bluetooth Mode". C: none found.
 - P16 Sonos Era 100: PASS. A: opened S1, S2. B: S1: pair a device with Era 100 via Bluetooth; S2 lists Era 100 as sharing Bluetooth audio. C: none found.
 - P17 Amazon Echo: PASS. A: opened S1, S4 (also S3). B: S4: stream audio from the phone to the Echo "as if it were a standard portable Bluetooth speaker". C: none found.
@@ -212,7 +212,7 @@ Row labels are the surface number and the row's position in that surface's table
 - Row 8.11, P02: S3 has a "Plugin system" section; the page has the point, the record does not.
 - Rows passed on a loose match: 2.1 (P02: the record gives a phone-only procedure and no PIN; "discoverable" and "no action on the receiver" are not worded there), 3.6 and 8.13 (P09: the record names a "GAIA APP" for a reset setting and does not say whose app it is), 3.14 (P07: the record says volume synchronisation is named on a wiki page that was not opened), 5.15 (P02: the record names `SOUND_VOLUME` without the words start-up), 5.23 (P07: the stated defaults are I2S pin numbers), 6.7 (P02: the record's statement covers any received stream and does not single out Bluetooth).
 - The Count column equals the number of P numbers listed in all 138 pattern rows.
-- Check C and check E: the words barred by rules.md Rule 6 occur in the two files only inside quotations or attributed reviewer and maker statements (for example P08 S3, P09 S3, P17 S4).
+- Check C and check E: of the words barred by rules.md Rule 6, one occurs in the two files, inside a quotation (P17, Output selection, "should"). Evaluative wording elsewhere is attributed to a named reviewer (P08 S3, P09 S3).
 
 ## Totals
 
