@@ -33,10 +33,12 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 25 | 1 | R2 | Audio stage auditor | repos/R2/03-stages-audio.md | DONE. 63 finding records, 3 NOT FOUND records, tally 21 + 3 = 24, no BLOCKED lines | 0 |
 | 26 | 1 | R2 | History auditor | repos/R2/04-history.md | DONE. 41 finding records in the finding template plus the H1 list, H6 table and H8 list (agent counts 44), 2 NOT FOUND records, tally 6 + 2 = 8, no BLOCKED lines. Interrupted once by the account usage limit, same agent resumed and finished | 0 |
 | 27 | 1 | R4 | Verifier | repos/R4/05-verification.md | PASS 138 / FAIL 1 / MISSING 0. FAIL: R4-S07-03 (check A). BLOCKED: check A not completed for R4-H4-01, whose evidence is a remote ref list for a branch absent from the clone; the record is in neither total. Interrupted once by the account usage limit, same agent resumed and finished | 0 |
-| 28 | 1 | R1 | Verifier | repos/R1/05-verification.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 18:27 UTC | 0 |
+| 28 | 1 | R1 | Verifier | repos/R1/05-verification.md | PASS 110 / FAIL 6 / MISSING 0. FAIL, all check A: R1-S05-04 (file 02); R1-S07-05, R1-S08-03, R1-S11-01, R1-S12-01, R1-S12-04 (file 03). Interrupted once by the account usage limit, same agent resumed and finished | 0 |
 | 29 | 1 | R3 | Verifier | repos/R3/05-verification.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 18:27 UTC | 0 |
 | 30 | 1 | R5 | Verifier | repos/R5/05-verification.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 18:27 UTC | 0 |
 | 31 | 1 | R2 | Verifier | repos/R2/05-verification.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 18:27 UTC | 0 |
 | 32 | 1 | R6 | Verifier | repos/R6/05-verification.md | RUNNING | 0 |
 | 33 | 2 | n/a | Research verifier | interfaces/03-verification.md | RUNNING | 0 |
 | 34 | 1 | R4 | Repair round 1 | repos/R4/03-stages-audio.md | RUNNING | 1 |
+| 35 | 1 | R1 | Repair round 1 | repos/R1/02-stages-bluetooth.md | RUNNING | 1 |
+| 36 | 1 | R1 | Repair round 1 | repos/R1/03-stages-audio.md | RUNNING | 1 |
