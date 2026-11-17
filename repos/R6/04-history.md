@@ -586,3 +586,712 @@ Marker search: `git grep -n -I -E '\b(TODO|FIXME|HACK|XXX|BUG|WORKAROUND)\b'` ov
 | CHECKLIST.md:9-13 | Always items | Version bumped in four synced files in the same commit; fmt, clippy and tests green; web UI builds. | S10.6 |
 | CHECKLIST.md:17-37 | Judgement items | Nine checks: install.sh, uninstall.sh, doctor.sh, the unit, forinstall.md, API.md, README.md, the workflow, release tag. | S10.6 |
 
+---
+
+## H7 Workarounds
+
+Scope: sleeps, retries, delays, version conditions with comments, tolerated error strings and special cases for a named device, browser, library or service. Each record gives the stated problem where one is written down. Two workarounds are recorded under H2 and not repeated here: the seat-monitoring profile feature (R6-H2-01) and the explicit rustls provider (R6-H2-11). Timing values that carry no stated problem are listed after the records.
+
+### R6-H7-01  Hard 5 s timeout around the btmgmt Class of Device call
+- Question: H7, relates to S02.1
+- What was attempted: `btmgmt --index N class 4 5` is run under a 5 s timeout with kill-on-drop (src/bluetooth/manager.rs:218-246). Problem stated, src/bluetooth/manager.rs:220: "btmgmt HANGS (not errors) without CAP_NET_ADMIN — hard timeout." Commit 4505247 gives the same reason.
+- Presence: CURRENT. src/bluetooth/manager.rs:221-234.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. The log text at src/bluetooth/manager.rs:242-244 calls a timeout "expected without CAP_NET_ADMIN".
+- Why it turned out that way: UNKNOWN.
+- Depends on: the service running without CAP_NET_ADMIN (deploy/sonicflow.service:12-14 sets a non-root user); main.conf Class being set by the installer (install.sh:170).
+- Open questions: Did the btmgmt call ever succeed on the development machine?
+- Confidence: MEDIUM. STATED problem; no result evidence.
+
+### R6-H7-02  New bluer session for every scan, with a wait for BlueZ to report discovery off
+- Question: H7, relates to S03.1
+- What was attempted: each scan creates a fresh `bluer::Session`, waits up to 20 x 100 ms for `is_discovering` to turn false, and hands session and adapter to a forwarder task (src/bluetooth/manager.rs:298-333). Problem stated, src/bluetooth/manager.rs:288-289: "bluer's internal discovery token may not have async-dropped yet, so never reuse the old session."
+- Presence: CURRENT. src/bluetooth/manager.rs:288-344.
+- Outcome: PARTIAL
+- Outcome evidence: STATED. Commit 4505247: "scan start/stop clean". Known defect, src/bluetooth/manager.rs:293: "observed live: 5 rapid clicks → status "scanning", BlueZ idle"; addressed by R6-H7-03.
+- Why it turned out that way: STATED. src/bluetooth/manager.rs:291-293: "the dropped session's async teardown sends a StopDiscovery that kills the new one".
+- Depends on: `bluer` 0.17 (Cargo.toml:14).
+- Open questions: NONE beyond R6-H7-03.
+- Confidence: MEDIUM. STATED evidence alone.
+
+### R6-H7-03  StartScan ignored while a scan is running; status reset when the discovery stream ends
+- Question: H7, relates to S03.1
+- What was attempted: commit 0ad9f4e made `start_discovery` return early when a scan is active (src/bluetooth/manager.rs:294-297) and set status to Ready when the discovery stream ends (src/bluetooth/manager.rs:98-104). Stated reason, commit 0ad9f4e: "rapid clicks let bluer's async session teardown kill the new discovery".
+- Presence: CURRENT. src/bluetooth/manager.rs:294-297, 98-104.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. The commit states the defect and the change, not a re-test.
+- Why it turned out that way: UNKNOWN.
+- Depends on: the UI spinner following the Bluetooth status (src/bluetooth/manager.rs:101-102).
+- Open questions: Was the five-click case repeated after the change?
+- Confidence: MEDIUM. STATED problem; no result evidence.
+
+### R6-H7-04  StopDiscovery sent as a raw D-Bus call, bypassing bluer
+- Question: H7, relates to S03.1
+- What was attempted: `stop_discovery` drops the discovery handle and calls `org.bluez.Adapter1.StopDiscovery` directly over zbus (src/bluetooth/manager.rs:346-360). Comment, src/bluetooth/manager.rs:346: "Stop via raw D-Bus, bypassing bluer's client-side tracking entirely."
+- Presence: CURRENT. src/bluetooth/manager.rs:346-360.
+- Outcome: WORKED
+- Outcome evidence: STATED. Commit 4505247: "raw D-Bus StopDiscovery, auto-stop on AudioActive" and "scan start/stop clean".
+- Why it turned out that way: UNKNOWN. The problem with bluer's own stop is not described.
+- Depends on: a system D-Bus connection being held (src/bluetooth/manager.rs:349).
+- Open questions: What did bluer's own stop do that led to the bypass?
+- Confidence: MEDIUM. STATED evidence alone.
+
+### R6-H7-05  Active name requests through hcitool, three at a time, 7 s timeout each
+- Question: H7, relates to S03.3
+- What was attempted: for devices whose name is empty or address-shaped, `hcitool -i <adapter> name <address>` is run under a 3-permit semaphore and a 7 s timeout (src/bluetooth/manager.rs:544-584; src/bluetooth/constants.rs:10-11). Problem stated, src/bluetooth/manager.rs:545: "D-Bus offers no "fetch now" call."
+- Presence: CURRENT. src/bluetooth/manager.rs:544-609.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE for this mechanism alone. Commit 4505247 says "names resolved" without saying which mechanism resolved them.
+- Why it turned out that way: UNKNOWN.
+- Depends on: `hcitool` being installed; DECISIONS.md:73 says "only as a fallback while Ubuntu ships it".
+- Open questions: Does `hcitool name` work for the service user without extra capabilities?
+- Confidence: MEDIUM. STATED problem; no result evidence for this path.
+
+### R6-H7-06  Alias failure logged at error level because of a turntable incident
+- Question: H7, relates to S03.1
+- What was attempted: a failed `set_alias` is logged with `error!` (src/bluetooth/manager.rs:185-189). Comment, src/bluetooth/manager.rs:186-187: "a silent alias failure once had a turntable rejecting the adapter because it advertised the hostname."
+- Presence: CURRENT. src/bluetooth/manager.rs:185-189.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE.
+- Why it turned out that way: UNKNOWN. The comment does not say whether the incident occurred with this repo's code or with the predecessor.
+- Depends on: NONE found.
+- Open questions: Which turntable, and in which project did the incident occur?
+- Confidence: LOW. One comment, no other material.
+
+### R6-H7-07  Default sink set again each time a Bluetooth stream starts
+- Question: H7, relates to S05.1
+- What was attempted: on stream start the manager sets the default sink to the EQ sink or the null sink again (src/bluetooth/manager.rs:763-771). Comment, src/bluetooth/manager.rs:763-764: "Insurance: something may have stolen the default sink since startup; audio must land in the EQ/capture chain."
+- Presence: CURRENT. src/bluetooth/manager.rs:763-771.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE.
+- Why it turned out that way: UNKNOWN.
+- Depends on: the Bluetooth node following the default sink; no code in the repo links the two (01-map.md:108).
+- Open questions: Was the default sink ever observed to move during a run? Does a node that is already playing follow a default-sink change made after it started?
+- Confidence: MEDIUM. INFERRED from clear code. No result evidence.
+
+### R6-H7-08  Device state transitions outside the table are applied, not rejected
+- Question: H7, relates to S04.3
+- What was attempted: `force_device_state` applies any requested state (src/bluetooth/manager.rs:412-420). Comment, src/bluetooth/device.rs:33-35: "BlueZ skips states in practice, so callers force invalid transitions with a loud log rather than rejecting them".
+- Presence: CURRENT. src/bluetooth/device.rs:33-56; src/bluetooth/manager.rs:412-429.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE.
+- Why it turned out that way: UNKNOWN.
+- Depends on: NONE found.
+- Open questions: NONE.
+- Confidence: MEDIUM. INFERRED from clear code.
+
+### R6-H7-09  Name updates reject empty and address-shaped values
+- Question: H7, relates to S03.3
+- What was attempted: `update_name` ignores a candidate that is empty or shaped like an address (src/bluetooth/device.rs:126-136). Comment, src/bluetooth/device.rs:127-128: "so a transient bad read never regresses a resolved name back to a MAC."
+- Presence: CURRENT. src/bluetooth/device.rs:126-136; called at src/bluetooth/manager.rs:655.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. Commit 4505247 lists "name resolution guard-railed" as built.
+- Why it turned out that way: UNKNOWN.
+- Depends on: NONE found.
+- Open questions: NONE.
+- Confidence: MEDIUM. INFERRED from clear code.
+
+### R6-H7-10  Missing-player errors do not count toward the AVRCP stale-connection threshold
+- Question: H7, relates to S06.3
+- What was attempted: commit 8d2e000 resets the failure counter when the error text contains "UnknownObject", "Unknown object" or "UnknownInterface" (src/bluetooth/avrcp.rs:194-203). Stated reason, commit 8d2e000: "A missing MediaPlayer1 (idle phone, turntable) was counted as D-Bus staleness and forced a reconnect every ~1.25s."
+- Presence: CURRENT. src/bluetooth/avrcp.rs:194-203.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. No re-test is stated.
+- Why it turned out that way: UNKNOWN.
+- Depends on: the exact error strings returned by zbus and BlueZ 5.85 (src/bluetooth/avrcp.rs:197-199).
+- Open questions: Do the three strings cover the error returned when `find_player_path` yields no path (src/bluetooth/avrcp.rs:136-139 returns None before any call)?
+- Confidence: MEDIUM. STATED problem; no result evidence.
+
+### R6-H7-11  AVRCP D-Bus connection rebuilt after five consecutive failures
+- Question: H7, relates to S02.3
+- What was attempted: after `DBUS_RECONNECT_THRESHOLD` (5) consecutive poll failures the cached connection is dropped (src/bluetooth/avrcp.rs:211-220; src/bluetooth/constants.rs:22). Problem stated, src/bluetooth/avrcp.rs:211-212: "Long-lived D-Bus connections go stale after adapter resets / suspend; reconnect past the threshold."
+- Presence: CURRENT. src/bluetooth/avrcp.rs:204-220.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. BUILD-PLAN.md:79 lists "survives adapter reset" as a Phase 8 check; no file reports it.
+- Why it turned out that way: UNKNOWN.
+- Depends on: poll intervals of 250 ms and 2000 ms (src/bluetooth/constants.rs:4-5).
+- Open questions: Was an adapter reset or suspend tried with this repo's code?
+- Confidence: MEDIUM. STATED problem; no result evidence.
+
+### R6-H7-12  AVRCP position read as milliseconds and clamped to the track duration
+- Question: H7, relates to S06.3
+- What was attempted: `Position` is treated as milliseconds and limited to `Duration` when the duration is known (src/bluetooth/avrcp.rs:268-272). Comment, src/bluetooth/avrcp.rs:28-29: "BlueZ documents MediaPlayer1.Position in MILLISECONDS (spec defect D7: the original code commented "microseconds" — the comment was wrong)."
+- Presence: CURRENT. src/bluetooth/avrcp.rs:28-31, 266-272.
+- Outcome: WORKED
+- Outcome evidence: STATED. Commit 0ad9f4e: "Live-verified: track title/artist/album/position from a playing iPhone."
+- Why it turned out that way: UNKNOWN.
+- Depends on: one iPhone; BlueZ 5.85 (forinstall.md:147).
+- Open questions: BUILD-PLAN.md:78 asks to "validate the Position ms/µs defect (SS D7) against a real phone"; does the 0ad9f4e statement include a check of the unit?
+- Confidence: MEDIUM. STATED evidence alone.
+
+### R6-H7-13  500 ms wait between starting the filter-chain and switching the default sink
+- Question: H7, relates to S07.1
+- What was attempted: after the EQ process is spawned the code sleeps 500 ms and then sets the default sink (src/audio/pipeline.rs:67-71, 112-115). Comment, src/audio/pipeline.rs:69: "Let the filter-chain register its nodes before routing."
+- Presence: CURRENT. src/audio/pipeline.rs:67-71, 112-115.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE for the wait itself. Commit 174ec2f states EQ changes were "verified live".
+- Why it turned out that way: UNKNOWN.
+- Depends on: the EQ process registering its sink within 500 ms; the process is killed and respawned on every EQ change (README.md:84-86).
+- Open questions: Where does audio go during the respawn window on each EQ change?
+- Confidence: MEDIUM. INFERRED from clear code.
+
+### R6-H7-14  Null-sink creation retried up to ten times with backoff, and checked by listing
+- Question: H7, relates to S05.1
+- What was attempted: `pactl load-module module-null-sink` is tried up to 10 times with waits of 1 to 5 s, and counts only if the sink then appears in a listing (src/audio/pipeline.rs:140-169). Comments, src/audio/pipeline.rs:140 and 156: "pipewire-pulse may not be ready right after boot: retry w/ backoff." and "a successful exit code is not sufficient evidence."
+- Presence: CURRENT. src/audio/pipeline.rs:140-169.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. BUILD-PLAN.md:25 lists "survives reboot" as a check; no file reports a reboot test.
+- Why it turned out that way: UNKNOWN.
+- Depends on: `pactl` being present (src/audio/pipeline.rs:133).
+- Open questions: Was the service started at boot on the development machine?
+- Confidence: MEDIUM. INFERRED from clear code.
+
+### R6-H7-15  Audio-service readiness probe with a 30 s deadline
+- Question: H7, relates to S10.2
+- What was attempted: startup polls `pactl info` (or `pw-cli info 0`) once a second for up to 30 s (src/audio/pipeline.rs:212-241). Comment, src/audio/pipeline.rs:212: "systemd After= guarantees start ordering, not readiness. Probe explicitly."
+- Presence: CURRENT. src/audio/pipeline.rs:212-241; on failure the code proceeds (src/audio/pipeline.rs:54-56).
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE.
+- Why it turned out that way: UNKNOWN.
+- Depends on: the user-session PipeWire being reachable through the environment at deploy/sonicflow.service:16-18; the unit orders after bluetooth and avahi only (deploy/sonicflow.service:6).
+- Open questions: The unit has no ordering against the user's PipeWire service; how long did readiness take at boot?
+- Confidence: MEDIUM. INFERRED from clear code.
+
+### R6-H7-16  Existing null sink from a previous run is adopted, not duplicated
+- Question: H7, relates to S10.2
+- What was attempted: if a `sonicflow-capture` null-sink module already exists it is reused (src/audio/pipeline.rs:134-139). Comment, src/audio/pipeline.rs:134: "Adopt an existing sink from a previous run instead of duplicating."
+- Presence: CURRENT. src/audio/pipeline.rs:134-139.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE.
+- Why it turned out that way: UNKNOWN.
+- Depends on: a leftover module being present at start.
+- Open questions: Under the system unit the sweep at deploy/sonicflow.service:24 unloads such modules before start; when does the adoption branch run?
+- Confidence: MEDIUM. INFERRED from clear code.
+
+### R6-H7-17  Module sweep before every service start
+- Question: H7, relates to S10.2
+- What was attempted: `ExecStartPre` runs a script that unloads null-sink and loopback modules whose arguments mention "sonicflow" (deploy/sonicflow.service:23-24; deploy/sweep-modules.sh:5-14). Problem stated, deploy/sweep-modules.sh:2-3: "they accumulate across crashes".
+- Presence: CURRENT. deploy/sonicflow.service:24; installed by install.sh:303.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE.
+- Why it turned out that way: UNKNOWN.
+- Depends on: `pactl` reaching the user session from the unit's environment (deploy/sonicflow.service:16-18).
+- Open questions: NONE.
+- Confidence: MEDIUM. INFERRED from clear script text.
+
+### R6-H7-18  Orphaned line-in loopback modules unloaded at startup
+- Question: H7, relates to S10.2
+- What was attempted: `cleanup_orphaned_loopbacks` unloads leftover loopback modules when the line-in manager initialises (src/audio/line_in.rs:24-25, 92-108). Comment, src/audio/line_in.rs:92: "Loopbacks accumulate across crashes/restarts; sweep ours at startup."
+- Presence: CURRENT. src/audio/line_in.rs:92-108.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE for the sweep. Commit 9d619ed states "line-in loopback load/unload verified against iec958 source", which covers the normal path.
+- Why it turned out that way: UNKNOWN.
+- Depends on: NONE found.
+- Open questions: NONE.
+- Confidence: MEDIUM. INFERRED from clear code.
+
+### R6-H7-19  3 s wait before startup outputs are activated
+- Question: H7, relates to S08.1
+- What was attempted: `activate_startup_outputs` sleeps 3 s before discovery and host activation (src/main.rs:174-175). Comment: "Let the pipeline and managers settle first."
+- Presence: CURRENT. src/main.rs:174-175.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. Commit 1e20b41 lists the startup-output feature as built and gives no result.
+- Why it turned out that way: UNKNOWN.
+- Depends on: pipeline start finishing inside 3 s; the null-sink retry alone can take longer (src/audio/pipeline.rs:141-167).
+- Open questions: What happens to host activation when the pipeline is not ready after 3 s?
+- Confidence: MEDIUM. INFERRED from clear code.
+
+### R6-H7-20  parec capture buffer fixed at 50 ms
+- Question: H7, relates to S05.4
+- What was attempted: both capture paths pass `--latency-msec=50` (src/audio/capture.rs:13-15, 79; src/audio/cast_stream.rs:17-19, 59). Problem stated, src/audio/cast_stream.rs:17-18: "PipeWire's default quantum (1024 ≈ 21.3 ms @ 48 kHz) must fit inside the buffer or it underruns silently." src/audio/capture.rs:14 adds "(Fixes SoundSync D2.)".
+- Presence: CURRENT. src/audio/capture.rs:15; src/audio/cast_stream.rs:19.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. No underrun count or measurement is recorded.
+- Why it turned out that way: UNKNOWN.
+- Depends on: PipeWire quantum of 2048 frames or fewer (src/audio/capture.rs:14).
+- Open questions: What quantum was in use on the development machine?
+- Confidence: MEDIUM. STATED problem; no result evidence.
+
+### R6-H7-21  No pacing clock in the WebRTC path; the blocking read of capture frames sets the timing
+- Question: H7, relates to S07.3
+- What was attempted: frames are sent as soon as they are encoded (src/audio/webrtc_audio.rs:251-263). Problem stated, src/audio/webrtc_audio.rs:205-206: "NO pacer — parec's blocking read IS the clock; a second clock drifts and the browser hears the beat pattern as stuttering." The same rule is at src/audio/capture.rs:126-127.
+- Presence: CURRENT. src/audio/capture.rs:125-128; src/audio/webrtc_audio.rs:202-206, 251.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE for stutter. Commit 9d619ed states "audio element readyState 4, playing" in headless Chromium; BUILD-PLAN.md:68 sets a 10-minute no-stutter check that no file reports.
+- Why it turned out that way: UNKNOWN.
+- Depends on: `parec` delivering frames at the capture clock's rate.
+- Open questions: Was a long listening test run in any browser?
+- Confidence: MEDIUM. STATED problem; no result evidence.
+
+### R6-H7-22  RTP sequence and timestamp advanced across frames the receiver lagged past
+- Question: H7, relates to S05.4
+- What was attempted: when the broadcast receiver reports `Lagged(n)`, the pump adds n to the sequence number and n x 960 to the timestamp (src/audio/webrtc_audio.rs:227-232). Problem stated, src/audio/webrtc_audio.rs:203: "advance RTP counters across dropped frames (or the browser plays fast)".
+- Presence: CURRENT. src/audio/webrtc_audio.rs:227-233.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. A per-minute counter of sent and dropped frames is logged (src/audio/webrtc_audio.rs:270-276); no log is stored (01-map.md:301).
+- Why it turned out that way: UNKNOWN.
+- Depends on: broadcast capacity of 256 frames (src/audio/capture.rs:12).
+- Open questions: Were any dropped frames logged during the stated live checks?
+- Confidence: MEDIUM. STATED problem; no result evidence.
+
+### R6-H7-23  Each HTTP stream client gets its own parec-to-ffmpeg process pair
+- Question: H7, relates to S08.2
+- What was attempted: every HTTP stream request spawns a dedicated `parec` and `ffmpeg` joined by a file descriptor (src/audio/cast_stream.rs:49-98). Problem stated, src/audio/cast_stream.rs:13-14: "Deliberately NOT the broadcast channel — the channel adds timing jitter that manifests as audible stuttering."
+- Presence: CURRENT. src/audio/cast_stream.rs:12-19, 49-98.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE for audio quality. Commit 3d4afd4 states "AAC stream headers + icy-name verified".
+- Why it turned out that way: UNKNOWN.
+- Depends on: `parec` and `ffmpeg` being installed (install.sh:99-100).
+- Open questions: Was the stuttering observed in this repo or in the predecessor?
+- Confidence: MEDIUM. STATED problem; no result evidence.
+
+### R6-H7-24  Two spawn strategies for the EQ process, with `pipewire -c` as the one used on Ubuntu
+- Question: H7, relates to S07.1
+- What was attempted: the code tries `pipewire-filter-chain --config` and then `pipewire -c` (src/audio/filter_chain.rs:46-66). Comment, src/audio/filter_chain.rs:47-48: "`pipewire -c` (Debian/Ubuntu — the path on this machine; Ubuntu ships no pipewire-filter-chain binary, only the module)."
+- Presence: CURRENT. src/audio/filter_chain.rs:46-66.
+- Outcome: WORKED
+- Outcome evidence: STATED. Commit 174ec2f subject: "Phase 3: EQ verified live". Commit b19435c: "440Hz tone through the EQ sink lights the correct bars end-to-end".
+- Why it turned out that way: UNKNOWN.
+- Depends on: Ubuntu 26.04 packaging (forinstall.md:20); PipeWire 1.6.2 (forinstall.md:61).
+- Open questions: Was the first strategy ever exercised?
+- Confidence: MEDIUM. STATED evidence alone.
+
+### R6-H7-25  Client modules added to the generated filter-chain configuration
+- Question: H7, relates to S07.1
+- What was attempted: the generated config loads protocol-native, client-node, adapter and metadata modules before the filter-chain module (src/dsp/equalizer.rs:113-122). Problem stated, src/dsp/equalizer.rs:109-111: "a standalone client instance needs the client modules below or module-filter-chain fails with "can't find protocol 'PipeWire:Protocol:Native'"". Commit d8b17a3 lists it as a fix: "standalone pipewire -c needs client modules (protocol-native etc.) or the EQ never registers".
+- Presence: CURRENT. src/dsp/equalizer.rs:108-122.
+- Outcome: WORKED
+- Outcome evidence: STATED. Commit 174ec2f: "Preset apply, positional band gains, preamp gain stage (Mult math correct), kill-and-respawn filter-chain per change" under the subject "EQ verified live"; the same message adds "Audible check pending a Bluetooth source."
+- Why it turned out that way: STATED. src/dsp/equalizer.rs:109-111, quoted above.
+- Depends on: PipeWire 1.6.2 (forinstall.md:61).
+- Open questions: Was the audible check with a Bluetooth source carried out later? No commit says so in those words.
+- Confidence: HIGH. STATED in two commits; the config generator agrees.
+
+### R6-H7-26  "already loaded" and "Entity exists" treated as success when loading the RAOP discovery module
+- Question: H7, relates to S08.1
+- What was attempted: a failed `pactl load-module module-raop-discover` is accepted when stderr contains either string (src/audio/airplay.rs:138-150). Comment, src/audio/airplay.rs:138-139: "Both "already loaded" (PulseAudio) and "Entity exists" (pipewire-pulse) mean success."
+- Presence: CURRENT. src/audio/airplay.rs:138-150.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. Commit 9d619ed: Cast and AirPlay "live sessions left for a supervised test".
+- Why it turned out that way: UNKNOWN.
+- Depends on: the exact error text of pipewire-pulse.
+- Open questions: Was an AirPlay session ever started with this repo's code?
+- Confidence: MEDIUM. INFERRED from clear code.
+
+### R6-H7-27  RAOP sink polled for up to 5 s after the module loads
+- Question: H7, relates to S08.3
+- What was attempted: the code looks for the device's RAOP sink up to 10 times, 500 ms apart (src/audio/airplay.rs:152-160). Comment, src/audio/airplay.rs:152: "poll — sinks appear async".
+- Presence: CURRENT. src/audio/airplay.rs:152-160.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE.
+- Why it turned out that way: UNKNOWN.
+- Depends on: PipeWire's RAOP module creating a sink within 5 s.
+- Open questions: Same as R6-H7-26.
+- Confidence: MEDIUM. INFERRED from clear code.
+
+### R6-H7-28  Unmatched AirPlay device falls back to the only RAOP sink, and only when exactly one exists
+- Question: H7, relates to S08.1
+- What was attempted: when no sink matches the device, the single existing RAOP sink is used; with none or several, the connect fails with a message (src/audio/airplay.rs:161-177). Comment, src/audio/airplay.rs:161: "D3 fix: last-resort "any raop sink" only when exactly one exists."
+- Presence: CURRENT. src/audio/airplay.rs:161-177.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE.
+- Why it turned out that way: UNKNOWN. BUILD-PLAN.md:85 names the predecessor defect as "no wrong-device fallback".
+- Depends on: the sink-name matching in `find_raop_sink` (src/audio/airplay.rs:405-417, per 01-map.md:140).
+- Open questions: Same as R6-H7-26.
+- Confidence: MEDIUM. INFERRED from clear code.
+
+### R6-H7-29  AirPlay sink un-suspended and polled for ports before linking
+- Question: H7, relates to S08.3
+- What was attempted: `pactl suspend-sink <sink> 0`, then up to 10 checks 200 ms apart for playback ports (src/audio/airplay.rs:180-195). Problem stated, src/audio/airplay.rs:180: "SUSPENDED sinks expose no ports to pw-link."
+- Presence: CURRENT. src/audio/airplay.rs:180-195.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE.
+- Why it turned out that way: UNKNOWN.
+- Depends on: PipeWire RAOP sink behaviour.
+- Open questions: Same as R6-H7-26.
+- Confidence: MEDIUM. STATED problem; no result evidence.
+
+### R6-H7-30  Host hardware sink un-suspended before linking
+- Question: H7, relates to S08.3
+- What was attempted: `pactl suspend-sink <sink> 0` is run before ports are listed and linked (src/audio/host_out.rs:87-93). No comment in this file gives the reason; the AirPlay path states it (src/audio/airplay.rs:180).
+- Presence: CURRENT. src/audio/host_out.rs:87-90.
+- Outcome: WORKED
+- Outcome evidence: STATED. Commit 9d619ed: "Host PC Audio verified — pw-link FL/FR graph links, sink RUNNING, volume 40% via API, deactivate removes all links".
+- Why it turned out that way: UNKNOWN.
+- Depends on: the Intel HDA sink on the development machine (forinstall.md:133).
+- Open questions: Was sound heard from the speaker? BUILD-PLAN.md:74 sets that check; the commit reports graph state.
+- Confidence: MEDIUM. STATED evidence alone.
+
+### R6-H7-31  pw-link errors "already linked" and "File exists" treated as success
+- Question: H7, relates to S08.3
+- What was attempted: a failed `pw-link` is accepted when stderr contains either string, in the AirPlay path (src/audio/airplay.rs:214-218) and the host path (src/audio/host_out.rs:107-111). No comment gives a reason.
+- Presence: CURRENT. Both locations above.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE.
+- Why it turned out that way: UNKNOWN.
+- Depends on: the exact error text of `pw-link`.
+- Open questions: NONE.
+- Confidence: MEDIUM. INFERRED from clear code.
+
+### R6-H7-32  IPv6 rows dropped from avahi discovery output before de-duplication
+- Question: H7, relates to S08.1
+- What was attempted: both discovery parsers skip rows whose address contains a colon (src/audio/airplay.rs:323-328; src/audio/chromecast.rs:329-332). Problem stated, src/audio/airplay.rs:323-324: "otherwise an IPv6 row claims the name and the IPv4 row is discarded, losing the device entirely."
+- Presence: CURRENT. Both locations above.
+- Outcome: WORKED
+- Outcome evidence: STATED. Commit 9d619ed: "Cast/AirPlay discovery verified on the real LAN (22 + 19 devices, avahi escape decoding + IPv6 skip + dedup all correct".
+- Why it turned out that way: STATED. src/audio/airplay.rs:323-324, quoted above.
+- Depends on: every target having an IPv4 address; the LAN of the development site.
+- Open questions: NONE.
+- Confidence: HIGH. STATED in the commit; both parsers and their tests agree (src/audio/airplay.rs:466; src/audio/chromecast.rs:443).
+
+### R6-H7-33  Cast discovery asks avahi first and uses the in-process mDNS library only if avahi returns nothing
+- Question: H7, relates to S08.1
+- What was attempted: `discover_devices` runs `avahi-browse` and falls back to the `mdns-sd` crate (src/audio/chromecast.rs:295-305). Problem stated, src/audio/chromecast.rs:295-296: "avahi owns UDP 5353 on Linux; a second responder in this process is unreliable".
+- Presence: CURRENT. src/audio/chromecast.rs:295-317, 395-441.
+- Outcome: WORKED
+- Outcome evidence: STATED. Commit 9d619ed: "Cast/AirPlay discovery verified on the real LAN (22 + 19 devices".
+- Why it turned out that way: UNKNOWN. The message does not say which of the two paths found the devices.
+- Depends on: avahi-daemon running (install.sh:284); `avahi-browse` installed (install.sh:100).
+- Open questions: Was the mdns-sd path ever exercised?
+- Confidence: MEDIUM. STATED evidence alone.
+
+### R6-H7-34  Cast session thread wrapped against panics; disconnect always clears the active state
+- Question: H7, relates to S08.3
+- What was attempted: commit 2641e55 wrapped the session thread in `catch_unwind`, sending a session-ended event on a panic (src/audio/chromecast.rs:145-162), and made `disconnect` clear and announce even with no live session (src/audio/chromecast.rs:176-190). Stated reason, commit 2641e55: "Cast disconnect now always clears + publishes stopped, even with a dead session — fixes the chip you could never toggle off".
+- Presence: CURRENT. src/audio/chromecast.rs:145-162, 176-190.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. No re-test of a Cast session is stated in 2641e55.
+- Why it turned out that way: UNKNOWN. The earlier failure is STATED at src/main.rs:35-36 (see R6-H2-11).
+- Depends on: the panic being catchable (unwinding enabled); no `panic` setting appears in Cargo.toml:1-54.
+- Open questions: Did a Cast session start and stop cleanly after 2641e55?
+- Confidence: MEDIUM. STATED problem; no result evidence.
+
+### R6-H7-35  Bluetooth cover-art fetch polls for the image handle and for transfer completion
+- Question: H7, relates to S06.3
+- What was attempted: after the OBEX session opens, the code reads `ImgHandle` up to 10 times 300 ms apart, then polls the transfer status up to 40 times 200 ms apart, all inside a 10 s timeout (src/art.rs:23, 77, 161-176, 198-205). Problem stated, src/art.rs:161-162: "ImgHandle is only valid during the lifetime of the OBEX connection — read it AFTER the session is up (BlueZ media-api)."
+- Presence: CURRENT. src/art.rs:161-205.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. Commit 738f12c reports a live test of the online tier only.
+- Why it turned out that way: UNKNOWN.
+- Depends on: `Experimental = true`, BlueZ >= 5.79 and `bluez-obexd` (forinstall.md:144-150); a source that offers AVRCP 1.6 cover art.
+- Open questions: The polls can total 11 s (3 s plus 8 s) inside a 10 s timeout; was the timeout ever reached? Did any phone return an image?
+- Confidence: MEDIUM. STATED problem; no result evidence.
+
+### R6-H7-36  BlueZ experimental interface switched on for cover art
+- Question: H7, relates to S06.3
+- What was attempted: the installer sets `Experimental = true` in main.conf (install.sh:173-175). forinstall.md:144-147: it "exposes the experimental D-Bus properties `ObexPort` and `ImgHandle` that native AVRCP 1.6 cover art depends on (BlueZ >= 5.79; this box: 5.85)".
+- Presence: CURRENT. install.sh:175; reverted by uninstall.sh:131; checked at deploy/doctor.sh:29-33.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. The forinstall.md entry is marked "[PENDING → install.sh]" (forinstall.md:144).
+- Why it turned out that way: UNKNOWN.
+- Depends on: BlueZ >= 5.79 (forinstall.md:146).
+- Open questions: Was the key set on the development machine? Does it change any other BlueZ behaviour there?
+- Confidence: MEDIUM. STATED requirement; no result evidence.
+
+### R6-H7-37  Deezer queried with a plain string, not its fielded syntax
+- Question: H7, relates to S06.3
+- What was attempted: the Deezer lookup sends "artist title" as one plain query (src/art.rs:300-306). Problem stated, src/art.rs:298-299: "Deezer's fielded `artist:"x" track:"y"` syntax returns nothing through URL encoding."
+- Presence: CURRENT. src/art.rs:298-313.
+- Outcome: WORKED
+- Outcome evidence: STATED. Commit 738f12c: "Deezer fielded-query quirk fixed".
+- Why it turned out that way: STATED. src/art.rs:298-299, quoted above.
+- Depends on: Deezer's public search endpoint (src/art.rs:303); `curl --data-urlencode` (src/art.rs:266).
+- Open questions: The ignored test prints the Deezer result without asserting it (src/art.rs:474-475); what did it return?
+- Confidence: MEDIUM. STATED evidence alone.
+
+### R6-H7-38  Descriptive User-Agent sent to MusicBrainz
+- Question: H7, relates to S06.3
+- What was attempted: the MusicBrainz request carries a project User-Agent header (src/art.rs:26, 329). Comment, src/art.rs:25: "MusicBrainz requires a descriptive User-Agent and ≤ 1 req/s."
+- Presence: CURRENT. src/art.rs:25-26, 316-337.
+- Outcome: WORKED
+- Outcome evidence: STATED. Commit 738f12c: "MB release found".
+- Why it turned out that way: UNKNOWN.
+- Depends on: MusicBrainz and Cover Art Archive endpoints (src/art.rs:323, 335).
+- Open questions: Which code keeps requests at or under one per second? None was found; lookups run once per track change with a per-album disk cache (src/art.rs:14-15).
+- Confidence: MEDIUM. STATED evidence alone.
+
+### R6-H7-39  iTunes artwork URL rewritten from 100 px to 600 px
+- Question: H7, relates to S06.3
+- What was attempted: the returned `artworkUrl100` has "100x100" replaced by "600x600" (src/art.rs:293-295). Comment, src/art.rs:294: "The CDN serves arbitrary sizes by path substitution."
+- Presence: CURRENT. src/art.rs:293-295; unit test at src/art.rs:460-463.
+- Outcome: WORKED
+- Outcome evidence: STATED. Commit 738f12c: "iTunes 600px art downloaded".
+- Why it turned out that way: UNKNOWN.
+- Depends on: the image host's URL scheme.
+- Open questions: NONE.
+- Confidence: MEDIUM. STATED evidence alone.
+
+### R6-H7-40  Stream-start message keeps the predecessor's empty-name form; the client keeps the old name
+- Question: H7, relates to S09.4
+- What was attempted: a stream start is sent as `device_state_changed` with an empty name (src/web/ws.rs:174-179) and the client keeps the name it already has (webui/src/state.tsx:122-123). API.md:134 labels it "Quirks preserved from SoundSync (§17.2), deliberately".
+- Presence: CURRENT. src/web/ws.rs:174-179; test at src/web/ws.rs:304.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE.
+- Why it turned out that way: UNKNOWN. No reason for keeping the quirk is given beyond "deliberately".
+- Depends on: every client applying the keep-old-name rule.
+- Open questions: Why was the quirk kept when other parts of the predecessor's contract were changed (API.md:6-8)?
+- Confidence: MEDIUM. STATED as deliberate; no result evidence.
+
+### R6-H7-41  ICE candidate field name fixed as sdpMLineIndex; the client accepts two spellings
+- Question: H7, relates to S08.2
+- What was attempted: the server renames the field explicitly (src/web/ws.rs:87-95) and the client reads either `sdpMLineIndex` or `sdp_mline_index` and drops candidates where both identifiers are null (webui/src/webrtc.ts:177-181). Problem stated, src/web/ws.rs:87-88: "serde's camelCase would produce `sdpMlineIndex` and Safari drops those."
+- Presence: CURRENT. Both locations above; API.md:138-140.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE for Safari. Commits name headless Chromium and Firefox 154 only (9d619ed, 2641e55).
+- Why it turned out that way: UNKNOWN.
+- Depends on: Safari's handling of ICE candidates.
+- Open questions: Was Safari or iOS used against this repo's code?
+- Confidence: MEDIUM. STATED problem; no result evidence.
+
+### R6-H7-42  Audio element created and played inside the click handler (Safari rule a)
+- Question: H7, relates to S08.3
+- What was attempted: `start` creates the audio element, sets `playsinline`, and calls `play()` before any await (webui/src/webrtc.ts:64-72). Comment, webui/src/webrtc.ts:67: "Rule (a): prime the element before ANY await."
+- Presence: CURRENT. webui/src/webrtc.ts:64-72.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE for Safari. Commit 9d619ed reports playback in headless Chromium.
+- Why it turned out that way: UNKNOWN.
+- Depends on: browser autoplay policy.
+- Open questions: Same as R6-H7-41.
+- Confidence: MEDIUM. INFERRED from clear code.
+
+### R6-H7-43  AudioContext created, resumed and closed after priming (Safari rule b)
+- Question: H7, relates to S08.3
+- What was attempted: `negotiate` opens an `AudioContext` (or `webkitAudioContext`), resumes it and closes it, ignoring errors (webui/src/webrtc.ts:103-114). Comment, webui/src/webrtc.ts:103: "Rule (b): unlock an AudioContext after priming."
+- Presence: CURRENT. webui/src/webrtc.ts:103-114.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE.
+- Why it turned out that way: UNKNOWN.
+- Depends on: browser autoplay policy.
+- Open questions: Same as R6-H7-41.
+- Confidence: MEDIUM. INFERRED from clear code.
+
+### R6-H7-44  Remote ICE candidates buffered until the remote description is set (Safari rule c)
+- Question: H7, relates to S08.2
+- What was attempted: candidates that arrive before the answer are queued and added afterwards (webui/src/webrtc.ts:165-169, 184-187). Comment, webui/src/webrtc.ts:165: "Rule (c): flush candidates buffered before the remote description."
+- Presence: CURRENT. webui/src/webrtc.ts:161-189.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE specific to the buffering. Commit 2641e55 states "WebRTC connected" in two browsers.
+- Why it turned out that way: UNKNOWN.
+- Depends on: message order on the WebSocket.
+- Open questions: Same as R6-H7-41.
+- Confidence: MEDIUM. INFERRED from clear code.
+
+### R6-H7-45  HTTP fallback after 5 s reuses the audio element primed in the click
+- Question: H7, relates to S08.3
+- What was attempted: a 5 s timer switches the same element to the HTTP stream when WebRTC has not produced playback (webui/src/webrtc.ts:77-89). Problem stated, webui/src/webrtc.ts:77-78: "the fallback swaps src on the ALREADY-PLAYING element, so no new play() happens outside the gesture chain." Labelled "D11 fix", a predecessor defect (webui/src/webrtc.ts:2-4).
+- Presence: CURRENT. webui/src/webrtc.ts:77-89.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. The stated browser checks report WebRTC connecting, not the fallback.
+- Why it turned out that way: UNKNOWN.
+- Depends on: browser autoplay policy; the HTTP stream routes (src/web/mod.rs:105-106).
+- Open questions: Was the HTTP fallback exercised in any browser?
+- Confidence: MEDIUM. STATED problem; no result evidence.
+
+### R6-H7-46  Fallback to the HTTP stream when the peer connection fails or disconnects
+- Question: H7, relates to S08.3
+- What was attempted: commit 2641e55 added a connection-state handler that tears down the peer and starts the HTTP stream on "failed" or "disconnected" (webui/src/webrtc.ts:130-138). Stated reason, commit 2641e55: "fall back to HTTP stream on ICE failure/disconnect (was: silent dead session)".
+- Presence: CURRENT. webui/src/webrtc.ts:130-138.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. The 2641e55 check reports a successful connection.
+- Why it turned out that way: UNKNOWN.
+- Depends on: a public STUN server named at webui/src/webrtc.ts:118 and src/audio/webrtc_audio.rs:130.
+- Open questions: Was an ICE failure provoked to test the handler?
+- Confidence: MEDIUM. STATED problem; no result evidence.
+
+### R6-H7-47  MP3 stream used when the browser cannot play the AAC stream (Firefox)
+- Question: H7, relates to S08.2
+- What was attempted: on an audio error in HTTP mode the source is switched from `.aac` to `.mp3` and play is retried (webui/src/webrtc.ts:196-202). Comment, webui/src/webrtc.ts:197: "Firefox cannot decode raw ADTS AAC — swap to the MP3 stream." Commit 2641e55: "fix the Firefox ADTS-AAC fallback to actually replay after swapping to MP3".
+- Presence: CURRENT. webui/src/webrtc.ts:191-205.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. The Firefox 154 check in 2641e55 reports WebRTC, not the HTTP path.
+- Why it turned out that way: UNKNOWN.
+- Depends on: Firefox 154; ffmpeg with libmp3lame (src/audio/cast_stream.rs:32).
+- Open questions: Was the MP3 path played in Firefox after the change?
+- Confidence: MEDIUM. STATED problem; no result evidence.
+
+### R6-H7-48  MediaStream built from the track because the server library attaches none
+- Question: H7, relates to S08.2
+- What was attempted: `ontrack` uses `ev.streams[0]` if present, otherwise `new MediaStream([ev.track])` (webui/src/webrtc.ts:122-128). Comment, webui/src/webrtc.ts:123: "webrtc-rs add_track() associates no stream: streams[0] is undefined."
+- Presence: CURRENT. webui/src/webrtc.ts:122-128.
+- Outcome: WORKED
+- Outcome evidence: STATED. Commit 2641e55: "WebRTC connected, unmuted, signal present in the received track" in headless Chromium and Firefox 154.
+- Why it turned out that way: STATED. webui/src/webrtc.ts:123, quoted above.
+- Depends on: `webrtc` crate 0.12 (Cargo.toml:31).
+- Open questions: NONE.
+- Confidence: HIGH. STATED in the commit; code agrees.
+
+### R6-H7-49  Linger enabled so the user audio stack outlives SSH sessions
+- Question: H7, relates to S10.2
+- What was attempted: `loginctl enable-linger` for the service user (install.sh:136-141; done by hand on 2026-08-29, forinstall.md:81-83, 165). Problem stated, forinstall.md:82-83: "Was Linger=no; the whole PipeWire user stack died when the last SSH session ended."
+- Presence: CURRENT. install.sh:136-141; check at deploy/doctor.sh:15-16; optional revert at uninstall.sh (flag `--disable-linger`, uninstall.sh:38-57).
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE for survival after logout or reboot. The notes record the action as done.
+- Why it turned out that way: UNKNOWN.
+- Depends on: systemd-logind; a system unit that reaches the user's session directory (deploy/sonicflow.service:16-18).
+- Open questions: Was a logout or reboot test made after linger was enabled?
+- Confidence: MEDIUM. STATED problem and action; no result evidence.
+
+### R6-H7-50  WirePlumber override allowing writable-executable memory
+- Question: H7, relates to S04.2
+- What was attempted: a user-unit drop-in sets `MemoryDenyWriteExecute=no` for WirePlumber (install.sh:220-227). Reason stated, forinstall.md:91: "BT codec sub-plugins need W|X mmap". The drop-in existed on the machine before the project (forinstall.md:42-43).
+- Presence: CURRENT. install.sh:220-227; left in place by the uninstaller (commit 26a79c2: "never touches ... the pre-existing MDWE override").
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE for its effect on codecs. forinstall.md:92-93 records that with the override present the endpoints were "STILL not registering", so it was not what restored sink registration.
+- Why it turned out that way: UNKNOWN.
+- Depends on: the LDAC and aptX plugins (forinstall.md:167).
+- Open questions: Was WirePlumber run without the override to see which codecs load?
+- Confidence: MEDIUM. STATED reason; no result evidence.
+
+### R6-H7-51  Installer restarts WirePlumber once more when the sink UUID is missing
+- Question: H7, relates to S04.1
+- What was attempted: after writing the fragment the installer checks `bluetoothctl show` for the Audio Sink UUID; if absent it restarts WirePlumber, waits 5 s and checks again (install.sh:232-241). Commit 26a79c2 names it the "self-healing sink-UUID gate".
+- Presence: CURRENT. install.sh:232-241.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE.
+- Why it turned out that way: UNKNOWN. No file says a second restart was ever needed.
+- Depends on: `bluetoothctl` output format; a running user session for `systemctl --user` (install.sh:58-64).
+- Open questions: Was the UUID ever missing after the first restart?
+- Confidence: MEDIUM. INFERRED from clear script text.
+
+### R6-H7-52  Fixed sleeps after service restarts in the installer
+- Question: H7, relates to S10.1
+- What was attempted: `sleep 2` after restarting bluetooth (install.sh:178-179), `sleep 4` after restarting WirePlumber (install.sh:229-230), `sleep 3` before the acceptance gate (install.sh:386). No comment gives a reason for the durations.
+- Presence: CURRENT. Lines above.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE.
+- Why it turned out that way: UNKNOWN.
+- Depends on: the services becoming ready inside those times on the target machine.
+- Open questions: NONE.
+- Confidence: MEDIUM. INFERRED from clear script text.
+
+### R6-H7-53  Installer stops a development instance before starting the unit
+- Question: H7, relates to S10.1
+- What was attempted: commit 8d2e000 added stopping the transient unit `sonicflow-dev` and killing any `sonicflow` process of the user, then `sleep 1` (now install.sh:348-351). Stated reason, commit 8d2e000: "install.sh stops a running sonicflow-dev/dev binary before claiming the port."
+- Presence: CURRENT. install.sh:348-351; the same stop in uninstall.sh (01-map.md:59).
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE.
+- Why it turned out that way: UNKNOWN.
+- Depends on: the development unit name; it has no definition in the repo (01-map.md:59).
+- Open questions: How was the development instance started? No command for it is recorded.
+- Confidence: MEDIUM. STATED reason; no result evidence.
+
+### R6-H7-54  Service start retried up to five times with a new port on a bind failure
+- Question: H7, relates to S12.1
+- What was attempted: the installer restarts the service, waits 4 s and requests `/api/status`; when the journal shows "address in use" or "HTTP server exited" it picks the following free port, rewrites the config and tries again, up to 5 times (install.sh:358-374). Comment, install.sh:358-359: "on a bind race, pick the next port and retry".
+- Presence: CURRENT. install.sh:318-327, 358-382.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. Commit 26a79c2 describes the mechanism ("port negotiation VERIFIED against the live app (/api/status) with bind-race renegotiation") and gives no run result.
+- Why it turned out that way: UNKNOWN.
+- Depends on: ports 80, 443 and 53 being taken by other software on the development machine (forinstall.md:57-58); `ss`, `curl` and `journalctl`.
+- Open questions: Does the capitalised word in the 26a79c2 message describe a test that was run or the behaviour of the script?
+- Confidence: MEDIUM. Script text is clear; the commit wording is ambiguous.
+
+### R6-H7-55  Installer accepts WirePlumber 0.5, 0.6 and 1.x only
+- Question: H7, relates to S01.4
+- What was attempted: a version check passes `0.5*|0.6*|1.*` and reports anything else as too old (install.sh:86-91). Message text, install.sh:90: "0.5+ required for the conf-format fragments". forinstall.md:62 adds "0.5 SPA-JSON `.conf` config format, NOT 0.4 Lua".
+- Presence: CURRENT. install.sh:86-91.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE beyond the development machine's version, 0.5.13 (forinstall.md:62).
+- Why it turned out that way: UNKNOWN.
+- Depends on: the fragment format of WirePlumber 0.5 (install.sh:187-205).
+- Open questions: forinstall.md:62-63 mentions keeping "dual-format logic only if older targets matter"; no 0.4 path exists in install.sh. Was one written at any point? No commit contains one.
+- Confidence: MEDIUM. INFERRED from clear script text.
+
+### R6-H7-56  Reboot advised when the Class of Device has not taken effect
+- Question: H7, relates to S03.1
+- What was attempted: the acceptance step reads the adapter Class; when it is not Audio/Video the installer prints "reboot once (controller re-reads main.conf)" (install.sh:388-392). README.md:250-252 repeats "may need one reboot". The step header names a device family: "Class of Device is what makes iPhones list us as a speaker" (install.sh:152).
+- Presence: CURRENT. install.sh:152, 388-392.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE.
+- Why it turned out that way: UNKNOWN.
+- Depends on: BlueZ >= 5.66 honouring the main.conf Class (src/bluetooth/constants.rs:16).
+- Open questions: Was a reboot needed on the development machine? Was an iPhone seen to omit the device before the Class was set?
+- Confidence: MEDIUM. STATED advice; no result evidence.
+
+Timing values and version ranges with no stated problem (listed for completeness; no record):
+
+- Bluetooth init retried every 10 s after a failure (src/bluetooth/manager.rs:70-83).
+- 5 s wait after a failed AVRCP D-Bus connect (src/bluetooth/avrcp.rs:92-95).
+- Poll intervals: device properties 500 ms, AVRCP 250 ms active and 2000 ms idle (src/bluetooth/constants.rs:3-5).
+- AirPlay sink presence checked every 5 s (src/audio/airplay.rs:227-240).
+- Cast heartbeat every 5 s, session ended after three failures (src/audio/chromecast.rs:10, 242-268).
+- Discovery timeouts: `avahi-browse` 12 s for Cast (src/audio/chromecast.rs:307-314) and 10 s for AirPlay (src/audio/airplay.rs:303-310); mdns-sd browse 10 s (src/audio/chromecast.rs:9, 400-403).
+- 14 s wait between Cast discovery and rejoining the last Cast device at startup (src/main.rs:201-219).
+- 300 ms wait at shutdown (src/main.rs:138-139).
+- 500 ms wait after spawning `pw-loopback` in the path used when `pactl` is absent (src/audio/pipeline.rs:172-188).
+- Line-in loopback `latency_msec=50` (src/audio/line_in.rs:51).
+- `curl` timeout 10 s for art lookups (src/art.rs:24, 264).
+- WebSocket reconnect backoff doubling to a 15 s cap (webui/src/state.tsx:286-293).
+- Rescan indicator cleared after 12 s (webui/src/components/Settings.tsx:429-433).
+- Unit restart policy `Restart=on-failure`, `RestartSec=5` (deploy/sonicflow.service:26-27).
+- AAC pipeline spawn failure falls through to MP3 on the server (src/audio/cast_stream.rs:21-28).
+- Dependency ranges without comments: Cargo.toml:14-54; `typescript ~5.6.0` at webui/package.json:17; "rust_cast 0.21.x" at DECISIONS.md:105.
+
+---
+
+## H8 Final state
+
+Subjects of the last ten commits, newest first (`git log --all -10 --date=short --pretty='%h %ad %s'`):
+
+1. 3046b9e 2026-08-30 "v0.2.1: art_online config knob; installer template + README document it"
+2. 738f12c 2026-08-30 "v0.2.0: album art — BIP native + online cascade + idle image (D-ART-1c/2/3b)"
+3. 3624d19 2026-08-30 "v0.1.1: NoAlbumArt.png fallback replaces the gradient placeholder"
+4. 07b63e5 2026-08-30 "Add MIT LICENSE + GitHub Actions build/release workflow"
+5. 7448b91 2026-08-30 "forinstall: log gh CLI install (dev tooling, not an app dependency)"
+6. 5eaf177 2026-08-30 "Remove placeholder readme.md (superseded by README.md)"
+7. 128e29f 2026-08-30 "Merge GitHub placeholder repo history"
+8. beead5a 2026-08-30 "Comprehensive README: what it is, architecture, install, API, troubleshooting"
+9. b306b25 2026-08-30 "Create readme.md"
+10. 26a79c2 2026-08-30 "Installer v2 + uninstaller: audited, self-healing, privilege-split, recorded reverts"
+
+Uncommitted changes:
+
+- None. The manifest records an empty `git status --porcelain` for R6 (00-manifest.md:27); `git status --short` printed nothing during this audit; 01-map.md:3 records the same.
+
+Unmerged or parked work:
+
+- None. No unmerged branch, stash or tag (R6-H4-01).
+
+State of the last commit:
+
+- 3046b9e changes 8 files (`git show --stat 3046b9e`): the version in four places, the `art_online` setting in src/state/config.rs and src/art.rs, the installer template and README.md.
+- The four version locations agree at 0.2.1: Cargo.toml:3, webui/package.json:4, webui/src/version.ts:3, install.sh:20.
+
+Items that the repo's own documents leave open at the last commit (facts with citations, no judgement):
+
+- No `v*` tag exists (`git tag`), while CHECKLIST.md:36-37 and .github/workflows/build.yml:88-90 describe releases published from tags.
+- API.md:1 is titled "v0.1.0 — FROZEN"; the package version is 0.2.1 (Cargo.toml:3). API.md was changed twice after the freeze commit 3d4afd4: by 9d619ed and 738f12c (`git log --all --oneline -- API.md`).
+- Test counts differ between sources: commit d8b17a3 says "63 passing"; README.md:208 says "66 unit tests"; the map counts 70 test attributes (01-map.md:299). No test output is stored (01-map.md:301).
+- The pre-commit hook compares three version files (.githooks/pre-commit:8-11); the CI workflow compares four, adding install.sh (.github/workflows/build.yml:40-45); CHECKLIST.md:9-10 names four; README.md:212-215 names three.
+- forinstall.md carries 17 entries marked pending (forinstall.md:55, 59, 61, 64, 72, 74, 77, 84, 109, 112, 115, 117, 120, 125, 127, 144, 148). forinstall.md:9-10 says these "are performed by install.sh at install time". No file reports a run of install.sh v2 (R6-H2-13).
+- Build-plan phases and commit subjects: subjects name Phases 0, 1, 2, 3, 4, 5, 6/7/10 and 10/11 (d8b17a3 to 1e20b41). No subject names Phase 8 (AVRCP) or Phase 9 (Cast and AirPlay) (BUILD-PLAN.md:76-87). Commit 9d619ed says of Cast and AirPlay: "live sessions left for a supervised test". Commit 174ec2f says: "Audible check pending a Bluetooth source." Later statements: commit 0ad9f4e names a playing iPhone; README.md:283-285 says "verified end-to-end on real hardware: real phones, a house full of real Chromecasts".
+- DECISIONS.md:77 and BUILD-PLAN.md:86 call for a Cast-plus-AirPlay concurrency spike. No result was found (`git grep -n -i 'spike'` matches those two lines only; all commit messages read).
+- BUILD-PLAN.md:100 sets the Phase 11 check "clean install path replayed on the box; reboot → everything works untouched". No commit message, notes entry or README passage reports a reboot test.
+- webui/src/components/NowPlaying.tsx:3 still describes a gradient placeholder that commit 3624d19 removed (R6-H2-15).
+- deploy/doctor.sh:49 counts Bluetooth sources with `pactl list short sources`; src/bluetooth/manager.rs:821-824 says stream-role nodes do not appear in that listing (R6-H2-08).
+
+Whether the repo was left mid-change:
+
+- At the version-control level, no: the working tree is clean, nothing is stashed, no branch holds unmerged work, and the last commit is a complete version step with all four version locations in agreement (citations above). INFERRED from those facts; reasoning: a change in progress leaves uncommitted files, a stash, a diverged branch or mismatched version files, and none of these is present.
+- At the document level, the open items listed above remain. Each is a statement by the author or an absence found by search; none is graded here.
+
+---
+
+## Tally
+
+| Question | Answered with | Records |
+|---|---|---|
+| H1 Timeline | findings (list) | list with citations |
+| H2 Approach changes | findings | R6-H2-01 to R6-H2-19 (19 finding records) |
+| H3 Reverts and repeated fixes | findings | R6-H3-02 to R6-H3-07 (6 finding records); R6-H3-01 is a NOT FOUND record for the reverted-commits part |
+| H4 Unmerged work | NOT FOUND | R6-H4-01 (1 NOT FOUND record) |
+| H5 Dead and disabled code | findings | R6-H5-01 to R6-H5-14 (14 finding records) |
+| H6 Author's markers | findings (table) | 79 table rows; none of the six named marker words occurs |
+| H7 Workarounds | findings | R6-H7-01 to R6-H7-56 (56 finding records) |
+| H8 Final state | findings (list) | list with citations |
+
+- Questions answered with findings: 7 (H1, H2, H3, H5, H6, H7, H8)
+- Questions answered NOT FOUND: 1 (H4)
+- Total: 8
+
+Record counts: 95 finding records (H2 19, H3 6, H5 14, H7 56); 2 NOT FOUND records (R6-H3-01, R6-H4-01). H3 is counted once, under findings; its NOT FOUND record covers the reverted-commits half of the question only.

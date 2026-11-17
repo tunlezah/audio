@@ -258,3 +258,249 @@ Categories: A = open-source receiver or streamer software; B = commercial Blueto
 - Reported friction: NONE FOUND (no review or forum page for this model was opened in this run).
 - Not determined: whether both outputs are live together on the HD model; simultaneous connections; reconnection behaviour.
 
+---
+
+## Category C: network streamers and multi-room systems
+
+### P12  WiiM Pro, WiiM (Linkplay)
+- Category: C
+- Version or model examined: WiiM Pro, User Manual Version 1.10 dated 08/07/2026 (S1). FAQ articles cover WiiM Pro and Pro Plus (S2) and WiiM devices generally (S3).
+- Sources:
+  - S1 https://www.wiimhome.com/pdf/WiiM%20Pro%20User%20Manual.pdf (official manual, 2026-11-17)
+  - S2 https://faq.wiimhome.com/en/support/solutions/articles/72000645816-how-to-pair-mobile-device-with-wiim-pro-wiim-pro-plus-for-music-streaming (official documentation, 2026-11-17)
+  - S3 https://faq.wiimhome.com/en/support/solutions/articles/72000649963-use-the-enter-pairing-mode-option-in-the-wiim-home-app-for-bluetooth-pairing (official documentation, 2026-11-17)
+  - S4 https://www.wiimhome.com/pdf/HTTP%20API%20for%20WiiM%20Products.pdf (official documentation, Version 1.2, 2026-11-17)
+  - S5 https://forum.wiimhome.com/threads/how-to-put-wiim-amp-into-bt-pairing-mode.3654 (forum, 2026-11-17)
+- Setup and onboarding: Five steps in the manual: connect the unit to the audio system, power on, install the WiiM Home app, use the app to join the unit to the network, configure in the app (S1). Bluetooth LE broadcasting is switched on automatically during Wi-Fi setup so the app can find the unit (S1). The LED flashes white slowly when the unit is ready for setup (S1). [STATED]
+- Pairing and connection: Three ways into pairing mode: switch the input to Bluetooth in the app or with the remote (the unit enters pairing mode by itself if no device is connected); hold Play on the separately sold remote for 3 seconds; hold Volume + and Volume − on the unit together for 2 seconds (S1, S2). The phone then selects the WiiM in its Bluetooth list (S1). For a second phone: the same methods, or "Enter Pairing Mode" in the app, which disconnects the current phone first (S2, S3). Selecting an input other than Bluetooth or Wi-Fi disconnects Bluetooth; selecting Bluetooth again tries to reconnect the paired phone (S2). The app's "Bluetooth Connections" screen lets the user disconnect, connect or forget each phone (S3). Bluetooth input supports A2DP and AVRCP with SBC and AAC (S1). [STATED] Number of stored devices: NOT DETERMINED.
+- Controls: Capacitive touch buttons on the unit (play/pause with hold functions for setup mode and factory restore, preset, volume +/−), the WiiM Home app, an optional remote, and voice assistants through other devices (S1). Models with a built-in screen have an Input menu with the same pairing option (S3). [STATED]
+- Status feedback: One three-colour LED (S1). Stated table: fast flashing white = boot; slow flashing white = ready to set up; slow flashing green = Bluetooth ready to pair; solid green = Bluetooth mode, paired; solid white = connected to Wi-Fi; solid light green = line-in; solid orange = S/PDIF in; solid yellow = no network; slow flashing red = hardware error; white-and-green and white-and-red patterns for connecting, update and factory restore (S1). The app shows the current input and connections (S3). [STATED]
+- Settings exposed: Input selection, audio output selection, Bluetooth Connections list (S1, S3). Bluetooth-specific settings beyond these and their defaults: NOT DETERMINED. [STATED]
+- Output selection: "Select an Audio Output" in the app chooses among the unit's outputs, including Bluetooth out to headphones or speakers (S1). The manual states all inputs, Bluetooth included, can be the source for a WiiM multi-room group: the user selects the source, then taps the Group icon on the device and picks other WiiM devices (S1). [STATED]
+- Error communication: LED: solid yellow for no network, slow flashing red for hardware error (S1). [STATED] Messages in the app for a failed Bluetooth pairing: NOT DETERMINED.
+- Programmatic surfaces: HTTPS GET API `https://<ip>/httpapi.asp?command=...`, mostly JSON responses: `getStatusEx`, `getPlayerStatus` (the `mode` field value 41 means BT), `setPlayerCmd:switchmode:bluetooth`, volume, mute, presets, reboot, shutdown timer (S4). [STATED] Bluetooth pairing commands in the API: none appear in S4 [INFERRED: a search of the document text for "bluetooth" found only the mode value and the switchmode value].
+- Reported friction:
+  - Forum user (June 2024, WiiM Amp) could not find how to enter pairing mode for an additional device and reported that holding the volume button appeared to factory-reset the unit; a community curator replied with a sequence (turn off Bluetooth on the paired phone, switch input away and back); the user reported that it worked (S5). [STATED] This thread concerns the WiiM Amp, not the Pro.
+- Not determined: number of stored devices; Bluetooth setting defaults; in-app error messages.
+
+### P13  Bluesound NODE, Bluesound (Lenbrook)
+- Category: C
+- Version or model examined: NODE as listed for sale on the maker's page on 2026-11-17 (S1); the N130 (2021) page is marked "THIS PRODUCT IS NO LONGER FOR SALE" (S2). BluOS Custom Integration API Version 1.7 (S3).
+- Sources:
+  - S1 https://www.bluesound.com/products/node (official page, 2026-11-17)
+  - S2 https://www.bluesound.com/zz/amfile/file/download/file/3478/product/796 (official page, archived N130 listing, 2026-11-17)
+  - S3 https://content-bluesound-com.s3.amazonaws.com/uploads/BluOS-Custom-Integration-API_v1.7.pdf (official documentation, 2026-11-17)
+  - S4 https://www.bluesound.com/pages/downloads (official page, 2026-11-17)
+  - S5 https://support1.bluesound.com/hc/de/community/posts/1500001220861-Bluetooth-pairing-pin?page=2 (forum, maker's support community, 2026-11-17)
+- Setup and onboarding: NOT DETERMINED. The product page names the BluOS Controller app (iOS, Android, Windows, macOS) as the control point and lists a printed Quick Setup Guide in the box (S1). The maker's help-centre articles returned HTTP 403 (see BLOCKED lines in the tally).
+- Pairing and connection: Bluetooth is two-way (receive and transmit), version 5.2 on the current model (S1). Four Bluetooth modes exist: Manual, Automatic, Guest, Disabled (S3). [STATED] A product support manager wrote in the community thread that players pair with one device at a time, that Automatic is the default, and directed users to Manual or Disabled (S5). [STATED by maker staff in a forum] Pairing procedure and PIN/confirmation behaviour in official documentation: NOT DETERMINED.
+- Controls: Front panel with five touch preset buttons, touch volume slider, touch play/pause and a proximity sensor; BluOS Controller app; IR sensor with remote learning and an optional RC1 remote; Alexa skill for voice (S1, S2). [STATED]
+- Status feedback: "Status Indicator: LED x 2" on the current model (S1). [STATED] Meaning of LED colours: NOT DETERMINED.
+- Settings exposed: Bluetooth mode (four values) (S3). Analog output fixed or variable level (S1, S2). [STATED] Other settings and defaults in official documentation: NOT DETERMINED.
+- Output selection: Analog RCA, coaxial, optical, USB audio, headphone, subwoofer and Bluetooth out are listed (S1). Players can be grouped for multi-room playback (S1); the API has `/AddSlave` to add a secondary player to a group (S3). [STATED] Whether the Bluetooth input can be the source for a group: NOT DETERMINED.
+- Error communication: NOT DETERMINED.
+- Programmatic surfaces: HTTP GET requests to `http://<player_ip>:11000/<request>` with UTF-8 XML responses; `/Status` and `/SyncStatus` with optional long polling (timeout and etag parameters); `/Volume`, `/Play` and other transport requests; `/RadioBrowse?service=Capture` lists inputs, where the example response includes a Bluetooth item with `inputType="bluetooth"`; `/audiomodes?bluetoothAutoplay=value` sets the Bluetooth mode (0 Manual, 1 Automatic, 2 Guest, 3 Disabled); discovery by mDNS and the Lenbrook Service Discovery Protocol (S3). Driver packages for Crestron, Control4, RTI, URC, Lutron and others are offered for download (S4). [STATED]
+- Reported friction:
+  - Community user (June 2021) asked for a pairing PIN, writing that anyone, neighbours included, could connect to the NODE over Bluetooth (S5). [STATED]
+  - Community user (Jan 2025) reported an unexpected stream playing at full volume in the living room and compared this with a car stereo that asks for confirmation before pairing (S5). [STATED]
+  - Community user (Nov 2024) replied to staff that the mode setting addresses input switching and not the request to accept only known devices (S5). [STATED]
+- Not determined: setup steps; official pairing procedure; LED meanings; error communication; Bluetooth as a group source.
+
+### P14  Denon Home 150 (HEOS Built-in), Denon
+- Category: C
+- Version or model examined: Denon Home 150, EU web manual (footer copyright 2019) as opened on 2026-11-17 (S1-S8). Current sale status: NOT DETERMINED (no product page was opened).
+- Sources (all official manual pages under https://manuals.denon.com/denonhome150/EU/en/, 2026-11-17):
+  - S1 https://manuals.denon.com/denonhome150/EU/en/DRDZSYujadfood.php (Pairing the speaker with your Bluetooth devices)
+  - S2 https://manuals.denon.com/denonhome150/EU/en/OKNRSYcpepgmip.php (Status LED table)
+  - S3 https://manuals.denon.com/denonhome150/EU/en/OKNRSYdlldopvo.php (Basic troubleshooting index)
+  - S4 https://manuals.denon.com/denonhome150/EU/en/DRDZSYnxtudihl.php (Cannot pair a Bluetooth mobile device)
+  - S5 https://manuals.denon.com/denonhome150/EU/en/FIQOSYpbsvbvqv.php (Cannot hear Bluetooth music)
+  - S6 https://manuals.denon.com/denonhome150/EU/en/DRDZSYsockmvew.php (Managing inputs)
+  - S7 https://manuals.denon.com/denonhome150/EU/en/DRDZSYjysxebjh.php (Listening to the same music in multiple rooms)
+  - S8 https://manuals.denon.com/denonhome150/EU/en/DRDZSYulwcygef.php (Using your speaker)
+- Setup and onboarding: The speaker is connected to the network and the HEOS app installed on a mobile device before use (S8). [STATED] Step detail of first setup: NOT DETERMINED (setup pages not opened).
+- Pairing and connection: Turn on Bluetooth on the phone; press and hold the Bluetooth button on the rear panel for 3 seconds and release when the status LED shows the pairing pattern; choose "Denon Home 150" on the phone (S1). Note in the manual: "Disconnect and reconnect Bluetooth connections from your Bluetooth device." (S1). [STATED] Number of stored devices and second-device behaviour: NOT DETERMINED.
+- Controls: Rear Bluetooth button (S1); HEOS app for rooms, inputs and grouping (S6, S7, S8); the manual index lists Alexa voice operation and a Quick Select function (S3). [STATED]
+- Status feedback: One status LED. Stated patterns: Bluetooth pairing = two blinks; Bluetooth paired = one blink; Bluetooth pairing failed = steady for 3 seconds; further patterns for network connecting/connected/failed, WPS, volume change, mute, firmware update, firmware error, setup error and hardware error (S2). [STATED] LED colours were not captured from the page: NOT DETERMINED.
+- Settings exposed: In the HEOS app under Settings > Music Sources > Inputs the user picks the speaker and can rename or hide inputs (S6). [STATED] Bluetooth-specific settings: NOT DETERMINED.
+- Output selection: Grouping in the HEOS app: up to 32 speakers in a system and up to 16 in one group, played in sync (S7). [STATED] Whether Bluetooth audio can be the source for a group: NOT DETERMINED (the page on playing from Bluetooth rendered without body text).
+- Error communication: LED pattern "Bluetooth pairing failed" (steady for 3 seconds) and patterns for firmware, setup and hardware errors (S2). The manual's troubleshooting pages are keyed by symptom: for "Cannot pair" the stated cause is a malfunctioning connection on the phone side and the remedy is to power-cycle the phone, remove the pairing and pair again (S4); for "Cannot hear Bluetooth music" four causes are listed, including the speaker being in Wi-Fi or Aux mode and the phone being connected to another audio device (S5). [STATED]
+- Programmatic surfaces: NOT DETERMINED.
+- Reported friction: NONE FOUND (no review, forum or issue page for this product was opened in this run).
+- Not determined: first-setup steps; stored-device count; LED colours; Bluetooth as a group source; programmatic surfaces.
+
+### P15  Arylic S10 wireless streaming preamplifier, Arylic (Linkplay-based)
+- Category: C
+- Version or model examined: S10 User's Manual, file dated 2022-03-09 in its name (S1); HTTP API documentation for Arylic/Linkplay-based boards, examples with firmware 4.6.x (S2). Current sale status: NOT DETERMINED.
+- Sources:
+  - S1 https://cdn.shopify.com/s/files/1/0072/6899/1049/files/S10__20220309_00fd71a8-a714-4aa8-af61-d9cd8cbdccaa.pdf (official manual, 2026-11-17)
+  - S2 https://developer.arylic.com/httpapi/ (official documentation, 2026-11-17)
+- Setup and onboarding: Install the 4STREAM app; hold the POWER button while plugging in power until the LED flashes, release and wait for a slow flash; with the phone on 2.4 GHz Wi-Fi and with location and Bluetooth on, the app lists the device, asks for the network and password, then offers a preset or custom device name (S1). A fallback path: join the device's own `SoundSystem_xxxx` Wi-Fi from the phone and continue in the app (S1). With Ethernet the device appears in the app in about 10 seconds (S1). [STATED]
+- Pairing and connection: Switch to Bluetooth in the app or with the remote, then find `SoundSystem_XXXX` in the phone's Bluetooth settings and pair (S1). [STATED] PIN/confirmation, stored-device count and second-device behaviour: NOT DETERMINED.
+- Controls: 4STREAM app; infrared remote with source and six preset buttons; one button on the unit that changes source with a single press (Wi-Fi, Bluetooth, Line input, USB) (S1). [STATED]
+- Status feedback: One LED: flashing during Wi-Fi setup; changes to blue in Bluetooth mode (S1). In the app's multiroom list a grey tick marks the master device and a green tick a slave (S1). The app's "Speaker info" shows IP address, MAC address, SSID and firmware version (S1). [STATED]
+- Settings exposed: Device name, source mode, left/right/stereo channel per device, presets, factory restore, firmware update prompt in the app (S1). [STATED] Bluetooth-specific settings: NOT DETERMINED.
+- Output selection: Multiroom grouping in the app: tap "+" on the device that is to be master and tick other devices (S1). The manual's FAQ states that online streaming, line input and Bluetooth "all can play multiroom mode" (S1). [STATED]
+- Error communication: NOT DETERMINED. The manual gives a Wi-Fi reset (long-press POWER 5 seconds) for a changed router and a factory restore by three quick presses or through the app (S1). [STATED]
+- Programmatic surfaces: HTTP GET `http://<device-ip>/httpapi.asp?command=<command>` with JSON or plain-text replies and no authentication described: `getStatusEx`, `getPlayerStatus` (mode 41 = Bluetooth input), `setPlayerCmd:switchmode:<source>`, `setPlayerCmd:vol:<0-100>`, `setPlayerCmd:mute:<n>`, `multiroom:getSlaveList`, `multiroom:SlaveKickout:<ip>`, `multiroom:Ungroup`, `ConnectMasterAp:JoinGroupMaster:...` (S2). [STATED] No Bluetooth pairing, disconnect or device-list command appears in S2 [INFERRED: the page was read for Bluetooth commands and only the source value and mode value were found].
+- Reported friction: NONE FOUND (no review, forum or issue page for this product was opened in this run).
+- Not determined: pairing security and limits; Bluetooth settings; error communication.
+
+### P16  Sonos Era 100, Sonos
+- Category: C
+- Version or model examined: Era 100, Era 100 SL and Era 100 Pro as covered by the maker's support article opened 2026-11-17 (S1).
+- Sources:
+  - S1 https://support.sonos.com/en-ie/article/pair-sonos-era-100-with-bluetooth (official documentation, 2026-11-17)
+  - S2 https://support.sonos.com/en-us/article/share-bluetooth-audio-with-your-sonos-system (official documentation, 2026-11-17)
+  - S3 https://en.community.sonos.com/portable-speakers-229130/bluetooth-pairing-but-no-sound-6885924 (forum, 2026-11-17)
+- Setup and onboarding: The speaker "needs to be set up with the Sonos app on WiFi" before Bluetooth can be used (S1). [STATED] Steps of that setup: NOT DETERMINED.
+- Pairing and connection: Press and hold the Bluetooth button on the back until a chime sounds; the front status LED flashes blue; select Era 100 on the phone; a second chime and a solid blue LED for a few seconds confirm (S1). Further devices are paired by repeating the steps (S1). Reconnect from the phone's device list, or press the Bluetooth button and the speaker searches for its most recent connection (S1). Disconnect from the phone, or press the Bluetooth button to leave Bluetooth mode (S1). [STATED] Maximum number of paired devices: NOT DETERMINED.
+- Controls: Bluetooth button on the back; Sonos app for settings and grouping (S1, S2). [STATED] Other controls on the unit: NOT DETERMINED (not covered by the pages opened).
+- Status feedback: Chimes at pairing start, pairing success and reconnection; status LED flashing blue in pairing mode and solid blue briefly on connection (S1). The article states the status LED is disabled by default and can be switched on in the app so that a blue light stays on while a Bluetooth device is connected (S1). [STATED]
+- Settings exposed: In the Sonos app: Bluetooth > Idle Auto-Disconnect (disconnects after 30 minutes of inactivity; off by default); Hardware > Status Light (S1). [STATED]
+- Output selection: Bluetooth audio can be shared with the rest of the Sonos system: in the app's System tab tap the Grouping icon beside the product playing Bluetooth audio, select rooms, tap Apply; the product has to stay grouped to keep sharing (S2). The same is offered in the Sonos web app (S2). [STATED]
+- Error communication: NOT DETERMINED. The article notes Bluetooth is disabled when the Era 100 is used as a surround speaker (S1). [STATED]
+- Programmatic surfaces: NOT DETERMINED.
+- Reported friction:
+  - Community user (Oct 2023) reported that Bluetooth pairing succeeded and the LED was blue but no sound played from an iPhone or a Mac; re-pairing did not help; no fix is recorded in the thread (S3). [STATED]
+  - A second user (Dec 2023) reported the same with a Bluetooth turntable after it had worked earlier; unpairing, re-pairing and factory resets did not help (S3). [STATED]
+- Not determined: first-setup steps; paired-device limit; other on-unit controls; error communication; programmatic surfaces.
+
+---
+
+## Category D: smart speakers and other devices with Bluetooth-speaker as a secondary function
+
+### P17  Amazon Echo speakers, Amazon
+- Category: D
+- Version or model examined: "Echo Device" generically, as covered by the maker's help articles opened 2026-11-17 (S1-S3); maker's news article published 17 March 2023, updated 28 December 2023 (S4). No single model was isolated.
+- Sources:
+  - S1 https://digprjsurvey.amazon.com/csad/help/node/GG8S76D3BYTGC424 (official documentation, "Pair Your Phone or Bluetooth Speaker to Your Echo Device", 2026-11-17; the same node on www.amazon.com returned HTTP 503)
+  - S2 https://digprjsurvey.amazon.com/csad/help/node/G5TUMJ2NPD6F44UW (official documentation, "Echo Device Is Having Bluetooth Issues", 2026-11-17)
+  - S3 https://digprjsurvey.amazon.com/csad/help/node/GKLDRFT7FP4FZE56 (official documentation, "What Do the Lights on Your Echo Speaker Mean?", 2026-11-17)
+  - S4 https://www.aboutamazon.com/news/devices/connect-alexa-bluetooth (official page, 2026-11-17)
+  - S5 https://discussions.apple.com/thread/256117866 (forum, 2026-11-17)
+- Setup and onboarding: The Echo is first set up in the Alexa app (Wi-Fi and Amazon account) (S4). [STATED]
+- Pairing and connection: By voice: say "Alexa, pair", which puts the Echo in pairing mode; choose the Echo in the phone's Bluetooth settings; Alexa announces the connection (S4). By app: put the phone in pairing mode, then Alexa app > Devices > the Echo > device settings > Bluetooth > add a new device (S1). Later: "Pair Bluetooth" or "Alexa, connect to my phone" reconnects; some devices reconnect on their own when in range; "Alexa, disconnect from Bluetooth" ends the connection (S1, S4). [STATED] Number of stored or simultaneous devices: NOT DETERMINED.
+- Controls: Voice commands and the Alexa app (S1, S4). Playback is started on the phone (S4). [STATED]
+- Status feedback: A spoken announcement when the phone connects (S4). The light-ring article lists meanings for yellow, cyan on blue, red, spinning teal and blue, orange, green, purple and white, and none of them relates to Bluetooth (S3). [STATED]
+- Settings exposed: A Bluetooth section in the device's settings in the Alexa app, where devices are added and removed (S1, S2). [STATED] Defaults: NOT DETERMINED.
+- Output selection: NOT DETERMINED. The news article says phone audio "should" come out of the Echo (S4).
+- Error communication: NOT DETERMINED for on-device messages. The help article lists five remedies: update software, confirm the other device supports A2DP or AVRCP, move away from interference sources, charge the device and keep it near, remove the pairing and pair again (S2). [STATED]
+- Programmatic surfaces: NOT DETERMINED.
+- Reported friction:
+  - Apple Support Community thread (started Aug 2025): the poster reported an iPhone connecting on its own to nearby Echo Dot devices not owned by the poster, with AirPods audio interrupted; later posters attributed the behaviour variously to the Alexa app's Bluetooth permission, Amazon Sidewalk, or an unrelated scale app (S5). [STATED; user-reported and unresolved as to cause]
+- Not determined: stored/simultaneous device limits; output selection; on-device error messages; programmatic surfaces.
+
+### P18  Google Nest and Home speakers and displays, Google
+- Category: D
+- Version or model examined: "Google Nest speaker or display" generically, as covered by the maker's help article opened 2026-11-17 (S1). No single model was isolated.
+- Sources:
+  - S1 https://support.google.com/googlenest/answer/7381505?hl=en (official documentation, "Play media on your Google Nest speaker or display using Bluetooth", 2026-11-17)
+- Setup and onboarding: The article states the phone or computer has to be on the same Wi-Fi network as the speaker or display (S1). First use: in the Google Home app, touch and hold the device tile > Settings > Audio > Paired Bluetooth devices > Enable Pairing Mode (S1). [STATED] Initial device setup: NOT DETERMINED.
+- Pairing and connection: After pairing mode is enabled, the user taps the speaker's name in the phone's (or Windows/Mac computer's) Bluetooth settings (S1). By voice: "Connect to Bluetooth" and "Disconnect Bluetooth" (S1). If several phones are paired, the speaker connects to the most recently paired one (S1). [STATED]
+- Controls: Google Home app; voice commands preceded by "Ok Google" or "Hey Google": turn on Bluetooth, connect, disconnect, cancel pairing, clear all paired devices (S1). Playback is started on the phone (S1). [STATED]
+- Status feedback: Voice queries "Is Bluetooth active?", "Is Bluetooth paired?", "Is Bluetooth connected?" are listed (S1). The app's Paired Bluetooth devices screen shows the paired device and its pairing date (S1). [STATED] What the speaker says or shows during pairing: NOT DETERMINED.
+- Settings exposed: Enable Pairing Mode; Paired Bluetooth devices list with per-device Unpair; "Clear all paired Bluetooth devices" by voice (S1). [STATED] Defaults: NOT DETERMINED.
+- Output selection: NOT DETERMINED.
+- Error communication: NOT DETERMINED. The article's only note is that range varies and the phone is to be kept close (S1). [STATED]
+- Programmatic surfaces: NOT DETERMINED.
+- Reported friction: NONE FOUND in a page opened in this run. A Nest Community thread found by search redirected to the community front page, one press article returned HTTP 410 and another rendered with headline only (2026-11-17); none is used.
+- Not determined: initial setup; device feedback during pairing; output selection; error communication; programmatic surfaces.
+
+### P19  Sonos Roam and Move 2 (portable speakers), Sonos
+- Category: D
+- Version or model examined: "Roam" as covered by the maker's Roam article and "Move 2" as covered by the maker's Move 2 article, both opened 2026-11-17 (S1, S2). The sharing article lists Roam, Roam 2, Roam SL and Move 2 (S3).
+- Sources:
+  - S1 https://support.sonos.com/en-us/article/pair-sonos-roam-with-bluetooth (official documentation, 2026-11-17)
+  - S2 https://support.sonos.com/en-us/article/pair-sonos-move-2-with-bluetooth (official documentation, 2026-11-17)
+  - S3 https://support.sonos.com/en-us/article/share-bluetooth-audio-with-your-sonos-system (official documentation, 2026-11-17)
+- Setup and onboarding: Both speakers are first set up on Wi-Fi with the Sonos app before Bluetooth can be used (S1, S2). [STATED]
+- Pairing and connection: Roam: press and hold the power button on the back for two seconds and release; a tone sounds and the LED flashes blue; select Roam on the phone; a tone and solid blue LED confirm (S1). For a different phone, the same press first tries the last paired device; if that connects, a second two-second press enters pairing mode; if no known device is near, pairing mode starts by itself (S1). Move 2: press and hold the dedicated Bluetooth button until a chime; LED flashes blue; select the speaker on the phone; chime and solid blue for a few seconds (S2). Roam leaves Bluetooth when it sleeps or powers off and returns in Wi-Fi mode (S1). On Move 2 a press of the Bluetooth button leaves or enters Bluetooth mode (S2). [STATED] Maximum paired devices: NOT DETERMINED.
+- Controls: One multi-purpose power button (Roam) or a dedicated Bluetooth button (Move 2); the Sonos app for Bluetooth settings and grouping (S1, S2, S3). [STATED]
+- Status feedback: Tones or chimes at pairing start and at connection; LED blinking blue in pairing mode and solid blue when connected (S1, S2). [STATED]
+- Settings exposed: In the Sonos app under the speaker's Bluetooth settings: Idle Auto-Disconnect (30 minutes; off by default) and Always Auto-Connect to the most recent device (off by default) (S1, S2). [STATED]
+- Output selection: Roam, Roam 2, Roam SL and Move 2 are on the list of products that can share Bluetooth audio with other Sonos products by grouping in the app (S3). Two Roams or two Move 2s in a stereo pair play Bluetooth audio while on Wi-Fi; stereo pairing is not available away from Wi-Fi (S1, S2). Bluetooth is disabled while two Move 2s serve as surrounds (S2). [STATED]
+- Error communication: NOT DETERMINED.
+- Programmatic surfaces: NOT DETERMINED.
+- Reported friction: NONE FOUND (no review or forum page specific to these two models was opened in this run).
+- Not determined: paired-device limit; error communication; programmatic surfaces.
+
+### P20  Windows `AudioPlaybackConnection` (PC as Bluetooth audio sink), Microsoft
+- Category: D
+- Version or model examined: API introduced in Windows 10 version 2004 (10.0.19041.0) (S1); how-to article dated 2026-08-23 (S2).
+- Sources:
+  - S1 https://learn.microsoft.com/en-us/uwp/api/windows.media.audio.audioplaybackconnection (official documentation, 2026-11-17)
+  - S2 https://learn.microsoft.com/en-us/windows/uwp/audio-video-camera/enable-remote-audio-playback (official documentation, 2026-11-17)
+  - S3 https://learn.microsoft.com/en-us/answers/questions/4123061/bluetooth-a2dp-snk-device-not-showing-up-in-sound (forum, Microsoft Q&A, 2026-11-17)
+- Setup and onboarding: The article states that enabling the A2DP sink "is managed by apps ... rather than by the system" (S2). An app therefore has to be present that uses the API. [STATED] A built-in Windows settings screen for this function: NOT DETERMINED.
+- Pairing and connection: The sample app watches for devices with `DeviceWatcher` and the selector string from the API; the code comment reads "Start watching for paired Bluetooth devices" (S2). The app then enables a connection for a chosen device (`TryCreateFromId`, `StartAsync`), which allows incoming connections from that device, and opens it (`Open`/`OpenAsync`), after which audio playing on the remote device is heard on the PC (S1, S2). [STATED] Pairing itself happens outside the API [INFERRED: the watcher enumerates already-paired devices according to the code comment in S2, and no pairing call appears in S1].
+- Controls: Defined by the app. The sample UI has a device list, a status text and three buttons: Enable Audio Playback Connection, Release Audio Playback Connection, Open Connection (S2). [STATED]
+- Status feedback: `State` property and `StateChanged` event with values including Opened and Closed; the sample shows "Connected", "Disconnected" or "Unknown" (S1, S2). [STATED]
+- Settings exposed: None in the API beyond enable, open and release per device (S1). [INFERRED: the class lists two properties, eight methods and one event, none of which is a setting.]
+- Output selection: Incoming audio plays on "the system's audio endpoints", with built-in speakers and wired headphones given as examples (S2). [STATED] A way to pick an endpoint for the Bluetooth stream: NOT DETERMINED.
+- Error communication: `OpenAsync` returns a result whose `Status` is compared with `Success`; the sample shows "Disconnected (attempt failed)" otherwise (S2). `TryCreateFromId` returns null when no connection is available for the device (S2). [STATED]
+- Programmatic surfaces: WinRT class `Windows.Media.Audio.AudioPlaybackConnection`: properties `DeviceId`, `State`; methods `GetDeviceSelector`, `TryCreateFromId`, `Start`/`StartAsync`, `Open`/`OpenAsync`, `Close`, `Dispose`; event `StateChanged` (S1). [STATED]
+- Reported friction:
+  - Microsoft Q&A asker (Sept 2023) used a third-party "Bluetooth Audio Receiver" app; after moving from Windows 10 to Windows 11 the phone's audio still played through the default output but the device no longer appeared under Sound > Recording, so per-device routing was unavailable; other users reported the same; the accepted answer (Jan 2025) is a user-supplied registry edit (S3). [STATED]
+- Not determined: built-in settings UI; endpoint selection for the incoming stream.
+
+### P21  JBL Authentics 200 and 500, JBL (Harman)
+- Category: D
+- Version or model examined: Authentics 200 and 500 Owner's Manual, file "OM_V8_EN" on the maker's Canadian site (S1). Current sale status: NOT DETERMINED (no product page was opened).
+- Sources:
+  - S1 https://ca.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dwcf00e3e7/pdfs/HA_JBL_Authentics%20200%20&%20500_OM_V8_EN.pdf (official manual, 2026-11-17)
+- Setup and onboarding: Connect power; the status indicator pulses white slowly in Wi-Fi setup mode; install the JBL One app on a phone joined to the home Wi-Fi and follow the app; the indicator turns solid green when the app has found the speaker and solid white when it is on the network (S1). Voice assistants (Google Assistant and Amazon Alexa) are set up through the same app (S1). [STATED]
+- Pairing and connection: Press the Bluetooth button to select the Bluetooth source; its indicator flashes white fast; within three minutes select "JBL Authentics 200" or "JBL Authentics 500" on the phone; the indicator turns solid white (S1). On returning to the Bluetooth source later the speaker reconnects the last active device automatically (S1). To add another device, press the Bluetooth button again while in the Bluetooth source; the manual states multi-point connection is supported and a second device can be paired without disconnecting the first (S1). [STATED]
+- Controls: Bluetooth button; a playback button (one press play/pause, two presses next track, three presses previous track) that the manual lists as working for Bluetooth as well as network sources; rotary volume control; a "Moment" button for a playlist and settings personalised in the app; a microphone on/off slider; the JBL One app; voice assistants, with the note "Voice commands are not supported in Bluetooth mode" (S1). [STATED]
+- Status feedback: Bluetooth button indicator: fast flashing white = pairing; solid white = connected; off = not connected. A separate status indicator covers start-up, software update and factory restore, and a voice-assistant LED covers assistant states (S1). [STATED]
+- Settings exposed: Sound settings and factory restore in the manual's Settings chapter; presets in the JBL One app (S1). [STATED] Bluetooth-specific settings: NOT DETERMINED.
+- Output selection: Multi-room playback and grouping are described for network streaming (S1). [STATED] Whether Bluetooth audio can be grouped: NOT DETERMINED.
+- Error communication: No Bluetooth error indicator is described. Troubleshooting by symptom: "A device cannot be connected" (check Bluetooth is enabled; re-enter pairing mode if the speaker is paired with another device); poor audio quality (move the source closer) (S1). Factory restore by holding two buttons for more than 10 seconds (S1). [STATED]
+- Programmatic surfaces: NOT DETERMINED.
+- Reported friction: NONE FOUND (no review or forum page for this product was opened in this run).
+- Not determined: Bluetooth settings; Bluetooth in multi-room groups; programmatic surfaces.
+
+---
+
+## Tally
+
+Products per category (21 records):
+
+| Category | Count | Records |
+|---|---|---|
+| A | 7 | P01 P02 P03 P04 P05 P06 P07 |
+| B | 4 | P08 P09 P10 P11 |
+| C | 5 | P12 P13 P14 P15 P16 |
+| D | 5 | P17 P18 P19 P20 P21 |
+
+Starting points from the brief: 10 of 11 recorded (P01 moOde, P02 balenaSound/IoTSound, P03 HiFiBerryOS, P08 Audioengine B1, P09 iFi ZEN Blue, P12 WiiM, P13 Bluesound NODE, P17 Amazon Echo, P18 Google Nest, P19 Sonos portable speakers). Yamaha MusicCast is not recorded (see BLOCKED). Found in this run: 11 (P04, P05, P06, P07, P10, P11, P14, P15, P16, P20, P21).
+
+Existence and Bluetooth-input check on the starting points, as found on 2026-11-17: P01 current (release notes dated 2026-10-31); P02 exists, README states it is no longer in active development; P03 legacy releases exist and are stated unmaintained, Bluetooth in the successor NOT DETERMINED; P08 listed in stock; P09 listed in stock as ZEN Blue 3; P12 current manual dated 2026; P13 listed for sale; P17, P18, P19 covered by current maker help pages.
+
+Fields marked NOT DETERMINED, counted over the eight interface fields of each record (168 fields in 21 records):
+
+- Whole field NOT DETERMINED: 20
+- Field holds a description and also at least one NOT DETERMINED point: 47
+
+| Field | Whole field NOT DETERMINED | Partly NOT DETERMINED |
+|---|---|---|
+| Setup and onboarding | P13 (1) | P03 P14 P16 P18 P20 (5) |
+| Pairing and connection | (0) | P02 P06 P07 P09 P10 P12 P13 P14 P15 P16 P17 P19 (12) |
+| Controls | (0) | P16 (1) |
+| Status feedback | P04 (1) | P02 P03 P06 P07 P10 P13 P14 P18 (8) |
+| Settings exposed | (0) | P01 P03 P06 P10 P12 P13 P14 P15 P17 P18 P21 (11) |
+| Output selection | P03 P17 P18 (3) | P08 P10 P13 P14 P20 P21 (6) |
+| Error communication | P03 P04 P07 P13 P15 P16 P17 P18 P19 (9) | P02 P12 (2) |
+| Programmatic surfaces | P14 P16 P17 P18 P19 P21 (6) | P06 P09 (2) |
+
+Reported friction marked NONE FOUND: 9 records (P03 P07 P10 P11 P14 P15 P18 P19 P21).
+
+Evidence grades used: STATED and INFERRED only. No statement is OBSERVED; no product was run.
+
+BLOCKED lines:
+
+BLOCKED: Yamaha MusicCast (starting point, category C) is not recorded. Yamaha owner's-manual PDFs on yamaha.com country sites and the MusicCast online manual returned HTTP 403 or 404, and the manual.yamaha.com pages that opened returned navigation without body text, so no official page describing its Bluetooth input could be read.
+BLOCKED: Bluesound help-centre articles on support.bluos.net returned HTTP 403. P13 therefore rests on the product pages, the Custom Integration API document and one community thread; its setup, official pairing procedure, LED meanings and the definitions of the four Bluetooth modes are NOT DETERMINED.
+BLOCKED: Candidates examined and not recorded because no official page could be opened: Volumio (help articles returned HTTP 404 or redirected to a login page), Bose smart speakers (support article URLs redirected to a generic page), Logitech Bluetooth Audio Receiver, 1Mii B06 Pro and Auris bluMe HD (only third-party manual mirrors or HTTP 403).
+BLOCKED: Friction sources that could not be opened and are not used: headfonics.com BR13 review (HTTP 403), a Google Nest Community thread (redirected), techhive.com article (HTTP 410).
+- Note: this run was interrupted once by an account usage limit and resumed on the same date; all dates opened remain 2026-11-17.
