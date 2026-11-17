@@ -753,7 +753,7 @@ Scope: sleeps, retries, delays, version conditions with comments, tolerated erro
 - Outcome: UNVERIFIED
 - Outcome evidence: NONE.
 - Why it turned out that way: UNKNOWN.
-- Depends on: the user-session PipeWire being reachable through the environment at deploy/sonicflow.service:16-18; the unit orders after bluetooth and avahi only (deploy/sonicflow.service:6).
+- Depends on: the user-session PipeWire being reachable through the environment at deploy/sonicflow.service:16-18; the unit orders after network-online, bluetooth and avahi (deploy/sonicflow.service:6).
 - Open questions: The unit has no ordering against the user's PipeWire service; how long did readiness take at boot?
 - Confidence: MEDIUM. INFERRED from clear code.
 
@@ -1286,7 +1286,7 @@ Whether the repo was left mid-change:
 | H3 Reverts and repeated fixes | findings | R6-H3-02 to R6-H3-07 (6 finding records); R6-H3-01 is a NOT FOUND record for the reverted-commits part |
 | H4 Unmerged work | NOT FOUND | R6-H4-01 (1 NOT FOUND record) |
 | H5 Dead and disabled code | findings | R6-H5-01 to R6-H5-14 (14 finding records) |
-| H6 Author's markers | findings (table) | 79 table rows; none of the six named marker words occurs |
+| H6 Author's markers | findings (table) | 80 table rows; none of the six named marker words occurs |
 | H7 Workarounds | findings | R6-H7-01 to R6-H7-56 (56 finding records) |
 | H8 Final state | findings (list) | list with citations |
 

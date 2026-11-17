@@ -503,4 +503,4 @@ BLOCKED: Yamaha MusicCast (starting point, category C) is not recorded. Yamaha o
 BLOCKED: Bluesound help-centre articles on support.bluos.net returned HTTP 403. P13 therefore rests on the product pages, the Custom Integration API document and one community thread; its setup, official pairing procedure, LED meanings and the definitions of the four Bluetooth modes are NOT DETERMINED.
 BLOCKED: Candidates examined and not recorded because no official page could be opened: Volumio (help articles returned HTTP 404 or redirected to a login page), Bose smart speakers (support article URLs redirected to a generic page), Logitech Bluetooth Audio Receiver, 1Mii B06 Pro and Auris bluMe HD (only third-party manual mirrors or HTTP 403).
 BLOCKED: Friction sources that could not be opened and are not used: headfonics.com BR13 review (HTTP 403), a Google Nest Community thread (redirected), techhive.com article (HTTP 410).
-- Note: this run was interrupted once by an account usage limit and resumed on the same date; all dates opened remain 2026-11-17.
+- Note: this run was interrupted by an account usage limit and resumed on the same date; all dates opened remain 2026-11-17.

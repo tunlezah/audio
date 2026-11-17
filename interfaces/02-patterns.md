@@ -23,7 +23,7 @@ How to read it:
 | Compile the function into firmware by writing code against a library | P07 | 1 |
 | Device starts its own Wi-Fi access point; the user joins it and configures in a web page at a fixed address | P06 | 1 |
 | Power, an audio cable and the phone's Bluetooth settings only; no app, account or network | P08 P09 P10 P11 | 4 |
-| Vendor mobile app joins the device to the home network as the first step | P12 P14 P15 P16 P17 P19 P21 | 7 |
+| Home-network connection together with the vendor mobile app comes first | P12 P14 P15 P16 P17 P19 P21 | 7 |
 | Maker states Bluetooth cannot be used until the Wi-Fi/app setup has been done | P16 P19 | 2 |
 | Bluetooth pairing has to be switched on in the vendor app before first use, and the phone is stated to need the same Wi-Fi network | P18 | 1 |
 | App uses Bluetooth LE to find the device during Wi-Fi setup | P12 P15 | 2 |
@@ -41,7 +41,7 @@ How a new phone gets paired:
 |---|---|---|
 | Receiver is discoverable and accepts pairing with no action on the receiver and no code | P02 P04 | 2 |
 | Pairing window opened by pressing or holding a button on the unit | P08 P09 P10 P11 P12 P14 P16 P19 P21 | 9 |
-| Pairing window opened from a web page or vendor app | P01 P03 P12 P15 P17 P18 | 6 |
+| Pairing enabled or started from a web page or vendor app | P01 P03 P12 P15 P17 P18 | 6 |
 | Pairing window opened by a spoken command | P17 | 1 |
 | Unit enters pairing mode by itself at power-on or when no known device is found | P08 P09 P10 P12 P19 | 5 |
 | Pairing window has a stated time limit (1 or 2 minutes or until stopped; 60 seconds; three minutes) | P03 P11 P21 | 3 |
@@ -49,7 +49,7 @@ How a new phone gets paired:
 | Optional legacy PIN mode | P02 P04 | 2 |
 | Pairing done with operating-system Bluetooth tools outside the product | P04 P05 P20 (inf.) | 3 |
 | Device name seen by the phone is set by the user or developer | P01 P02 P04 P07 | 4 |
-| Device name seen by the phone is fixed and printed in the manual | P08 P09 P11 P14 P21 | 5 |
+| Device name seen by the phone is printed in the manual | P08 P09 P11 P14 P15 P21 | 6 |
 
 Second and later devices:
 
@@ -184,14 +184,14 @@ Defaults:
 
 | Way | Records | Count |
 |---|---|---|
-| Symptom-keyed troubleshooting text in the manual or help pages, with no error indication on the unit described | P02 P08 P09 P10 P11 P17 P21 | 7 |
+| Symptom-keyed troubleshooting text in the manual or help pages | P02 P08 P10 P11 P14 P17 P21 | 7 |
 | Light pattern for a failed Bluetooth pairing | P14 | 1 |
 | Light pattern for non-Bluetooth faults (network, firmware, hardware) | P12 P14 | 2 |
 | Message in the web page | P01 (inf.) | 1 |
 | Text logs (utility, dashboard, stderr/syslog, serial or telnet) | P01 P02 P05 P06 | 4 |
 | Error value returned to a calling program | P01 P20 | 2 |
 | Documentation's stated remedy is to re-pair, clear pairings, power-cycle, reboot, reset or reinstall | P03 P04 P08 P10 P11 P14 P15 P17 P21 | 9 |
-| Documentation attributes a failure to hardware radio interference and names hardware changes | P02 P04 | 2 |
+| Documentation attributes an audio fault to radio interference on the onboard chip | P02 | 1 |
 | NOT DETERMINED (whole field; any remedy text is listed above) | P03 P04 P07 P13 P15 P16 P17 P18 P19 | 9 |
 
 ## 8. Programmatic surfaces
