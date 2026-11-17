@@ -50,4 +50,5 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 42 | 1 | R3 | Verifier re-run 1 | repos/R3/05-verification.md | RUNNING | 1 |
 | 43 | 1 | R5 | Verifier re-run 1 | repos/R5/05-verification.md | RUNNING | 1 |
 | 44 | 1 | R2 | Repair round 1 | repos/R2/03-stages-audio.md | DONE. R2-S10-10 and R2-S10-11 corrected in place; 63 finding records, 3 NOT FOUND records, tally unchanged. Orchestrator diff check: changes confined to those two records | 1 |
-| 45 | 1 | R2 | Repair round 1 | repos/R2/04-history.md | RUNNING | 1 |
+| 45 | 1 | R2 | Repair round 1 | repos/R2/04-history.md | DONE. R2-H2-02 and R2-H5-09 corrected in place (R2-H5-09 title also reworded, ID kept); 2 NOT FOUND records, tally unchanged. Orchestrator diff check: changes confined to those two records | 1 |
+| 46 | 1 | R2 | Verifier re-run 1 | repos/R2/05-verification.md | RUNNING | 1 |
