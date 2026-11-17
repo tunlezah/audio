@@ -516,7 +516,7 @@ Stage note: no physical control or indicator code was found. `git grep -n -i -E 
 
 ### R4-S10-09  Diagnostic commands in the README troubleshooting section
 - Question: S10.5
-- What was attempted: shell commands for diagnosis, grouped by symptom: `systemctl status bluetooth`, `hciconfig -a`, `hciconfig hci0 up` (README.md:263-272); `journalctl -u bluetooth -f` and a pointer to the D-Bus policy file (276-279); `arecord -l` and a 5-second test capture (283-289); `ss -tlnp`, `systemctl status aurilis`, `ufw allow <port>/tcp` (293-295); group and D-Bus reload commands (305-314). The program itself has no health, metrics or profiling endpoint (`git grep -i -E 'health|metric|pprof'`: no hits).
+- What was attempted: shell commands for diagnosis, grouped by symptom: `systemctl status bluetooth`, `hciconfig -a`, `hciconfig hci0 up` (README.md:263-272); `journalctl -u bluetooth -f` and a pointer to the D-Bus policy file (276-279); `arecord -l` and a 5-second test capture (283-289); `ss -tlnp`, `systemctl status aurilis`, `ufw allow <port>/tcp` (293-295); group and D-Bus reload commands (305-314). The program itself has no health, metrics or profiling endpoint (`git grep -i -E 'health|metrics|pprof'`: no hits).
 - Presence: CURRENT (README.md:259-314)
 - Outcome: UNVERIFIED
 - Outcome evidence: NONE

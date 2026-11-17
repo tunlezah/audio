@@ -54,7 +54,7 @@
 
 ### R5-S07-05  NOT FOUND
 - Question: S07.2
-- Searched: all tracked files except package-lock.json, case-insensitive, for `latency`, `delay`, `jitter`, `timestamp`, `ntp`, `clock`, `highWaterMark`, `drain`, `backpressure`; commit message bodies of e8801c3, a744781, 2db4cb5 and e556801 (git log --all); README.md and CONTRIBUTING.md read in full. `latency` and `jitter`: zero hits. `delay`: hits are the mDNS reconnect delay only (src/airplay/discovery.ts:20, 125-143). `timestamp`: log formatting and the health report only (src/utils/logger.ts:22-38; src/bridge.ts:290). No latency figure, measurement or compensation was found.
+- Searched: all tracked files except package-lock.json, case-insensitive, for `latency`, `delay`, `jitter`, `timestamp`, `ntp`, `clock`, `highWaterMark`, `drain`, `backpressure`; commit message bodies of e8801c3, a744781, 2db4cb5 and e556801 (git log --all); README.md and CONTRIBUTING.md read in full. `latency`, `jitter`, `ntp`, `clock` and `highWaterMark`: zero hits. `drain`: one hit, a shutdown comment (src/index.ts:270). `backpressure`: hits in the unreferenced `AudioBuffer` class only (src/audio/pipeline.ts:271, 275). `delay`: hits are the mDNS reconnect delay only (src/airplay/discovery.ts:20, 125-143). `timestamp`: log formatting and the health report only (src/utils/logger.ts:22-38; src/bridge.ts:290). No latency figure, measurement or compensation was found.
 - Nearest related material: places where audio is held in memory, none with a stated figure: the per-device `PassThrough` created at src/audio/pipeline.ts:98-114, which receives chunks from src/audio/pipeline.ts:58-65 and is piped to the socket only after the TCP connection opens (src/airplay/sender.ts:199-210); the connection timeout of 10000 ms (src/airplay/sender.ts:19); the unreferenced `AudioBuffer` class (src/audio/pipeline.ts:254-303).
 
 ### R5-S07-06  NOT FOUND
@@ -165,7 +165,7 @@
 
 ### R5-S08-10  Slow output: fan-out writes and per-device stream
 - Question: S08.3
-- What was attempted: the broadcaster's `data` listener calls `consumer.write(chunk)` for every per-device `PassThrough` and does not use the return value (src/audio/pipeline.ts:58-65). Each `PassThrough` is piped to its socket (src/airplay/sender.ts:210). No code pauses the source, drops data or measures the queue for a slow device: a search of src/ for `highWaterMark`, `drain`, `pause(` gives zero hits, and `backpressure` appears only in the unreferenced class of record R5-S08-11. README.md:183 lists "Try reducing the number of simultaneous AirPlay targets" under audio quality troubleshooting.
+- What was attempted: the broadcaster's `data` listener calls `consumer.write(chunk)` for every per-device `PassThrough` and does not use the return value (src/audio/pipeline.ts:58-65). Each `PassThrough` is piped to its socket (src/airplay/sender.ts:210). No code pauses the source, drops data or measures the queue for a slow device: a search of src/ for `highWaterMark` and `pause(` gives zero hits, `drain` appears only in a shutdown comment (src/index.ts:270), and `backpressure` appears only in the unreferenced class of record R5-S08-11 (src/audio/pipeline.ts:271, 275). README.md:183 lists "Try reducing the number of simultaneous AirPlay targets" under audio quality troubleshooting.
 - Presence: CURRENT (src/audio/pipeline.ts:58-65).
 - Outcome: UNVERIFIED
 - Outcome evidence: NONE

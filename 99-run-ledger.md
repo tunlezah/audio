@@ -25,7 +25,7 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 17 | 1 | R4 | History auditor | repos/R4/04-history.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 07:55 UTC | 0 |
 | 18 | 1 | R3 | Bluetooth stage auditor | repos/R3/02-stages-bluetooth.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 07:55 UTC | 0 |
 | 19 | 1 | R3 | Audio stage auditor | repos/R3/03-stages-audio.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 07:55 UTC | 0 |
-| 20 | 1 | R3 | History auditor | repos/R3/04-history.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 07:55 UTC | 0 |
+| 20 | 1 | R3 | History auditor | repos/R3/04-history.md | DONE. 18 finding records, 2 NOT FOUND records, tally 6 + 2 = 8, no BLOCKED lines. Interrupted once by the account usage limit, same agent resumed and finished. Agent disclosed running git fsck --lost-found --no-reflogs in the repo, a command outside the Rule 1 list; orchestrator check afterwards: HEAD 1bdb71d unchanged, git status --porcelain empty, no .git/lost-found directory | 0 |
 | 21 | 1 | R6 | Bluetooth stage auditor | repos/R6/02-stages-bluetooth.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 07:55 UTC | 0 |
 | 22 | 1 | R6 | Audio stage auditor | repos/R6/03-stages-audio.md | DONE. 94 finding records, 0 NOT FOUND records, tally 24 + 0 = 24, no BLOCKED lines | 0 |
 | 23 | 1 | R6 | History auditor | repos/R6/04-history.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 07:55 UTC | 0 |
