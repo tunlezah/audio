@@ -13,7 +13,7 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 5 | 1 | R4 | Mapper | repos/R4/01-map.md | DONE. Seven sections present, no BLOCKED lines | 0 |
 | 6 | 1 | R5 | Mapper | repos/R5/01-map.md | DONE. Seven sections present, no BLOCKED lines | 0 |
 | 7 | 1 | R6 | Mapper | repos/R6/01-map.md | DONE. Seven sections present, no BLOCKED lines | 0 |
-| 8 | 2 | n/a | Interface researcher | interfaces/01-products.md, interfaces/02-patterns.md | RUNNING. Interrupted twice by the account usage limit (HTTP 429); same agent resumed at 07:55 UTC and again at 18:27 UTC | 0 |
+| 8 | 2 | n/a | Interface researcher | interfaces/01-products.md, interfaces/02-patterns.md | DONE with BLOCKED lines. 21 product records: A 7, B 4, C 5, D 5; both files end with a tally. BLOCKED lines in the files: Yamaha MusicCast not recorded (official pages returned HTTP 403 or 404); Bluesound help-centre articles returned HTTP 403, so parts of P13 are NOT DETERMINED; Volumio, Bose smart speakers, Logitech Bluetooth Audio Receiver, 1Mii B06 Pro and Auris bluMe HD examined and not recorded (no official page opened); three friction sources not opened. Interrupted twice by the account usage limit, same agent resumed and finished | 0 |
 | 9 | 1 | R1 | Bluetooth stage auditor | repos/R1/02-stages-bluetooth.md | DONE. 34 finding records, 6 NOT FOUND records, tally present, no BLOCKED lines. Interrupted once by the account usage limit, same agent resumed and finished | 0 |
 | 10 | 1 | R1 | Audio stage auditor | repos/R1/03-stages-audio.md | DONE. 47 finding records, 3 NOT FOUND records, tally 21 + 3 = 24, no BLOCKED lines. Interrupted once by the account usage limit, same agent resumed and finished | 0 |
 | 11 | 1 | R1 | History auditor | repos/R1/04-history.md | DONE. 23 finding records, 3 NOT FOUND records, tally 5 + 3 = 8, no BLOCKED lines. Agent disclosed running git fsck --lost-found --no-reflogs in the repo, a command outside the Rule 1 list; orchestrator check afterwards: HEAD 70ad071 unchanged, git status --porcelain empty, no .git/lost-found directory | 0 |
@@ -38,3 +38,4 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 30 | 1 | R5 | Verifier | repos/R5/05-verification.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 18:27 UTC | 0 |
 | 31 | 1 | R2 | Verifier | repos/R2/05-verification.md | RUNNING. Interrupted once by the account usage limit (HTTP 429); same agent resumed at 18:27 UTC | 0 |
 | 32 | 1 | R6 | Verifier | repos/R6/05-verification.md | RUNNING | 0 |
+| 33 | 2 | n/a | Research verifier | interfaces/03-verification.md | RUNNING | 0 |
