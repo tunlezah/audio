@@ -229,3 +229,34 @@ Record count checked: 259 finding records (70 in file 02, 94 in file 03, 95 in f
 - R6-H2-17 PASS
 - R6-H2-18 PASS
 - R6-H2-19 PASS
+
+### File 04, H3 Reverts and repeated fixes
+
+- R6-H3-01 PASS (check E: `git log --all --format='%h %s %b' | grep -niE 'back ?out|undo|roll(ed)? ?back|reinstat|restor|this reverts|put back|re-?add'` gave one hit, the 26a79c2 line about uninstall.sh restoring main.conf keys; no reverted commit found)
+- R6-H3-02 PASS
+- R6-H3-03 PASS
+- R6-H3-04 PASS
+- R6-H3-05 PASS
+- R6-H3-06 PASS
+- R6-H3-07 PASS
+
+### File 04, H4 Unmerged work
+
+- R6-H4-01 PASS (check E: `git log --branches --remotes --tags --not main --oneline` printed nothing; `git branch -a -vv` shows four refs at 3046b9e; `.git/refs/tags` is empty; no `.git/packed-refs`; `git rev-parse ORIG_HEAD` is 3046b9e; nothing unmerged found)
+
+### File 04, H5 Dead and disabled code
+
+- R6-H5-01 PASS
+- R6-H5-02 PASS
+- R6-H5-03 PASS
+- R6-H5-04 PASS
+- R6-H5-05 PASS
+- R6-H5-06 PASS
+- R6-H5-07 FAIL C: outcome WORKED is given to the ignored test function, but the cited statement (commit 738f12c) reports a live test of the online cascade and does not say this function was run; the record itself notes that gap, so no evidence of this thing's result is cited
+- R6-H5-08 PASS
+- R6-H5-09 PASS
+- R6-H5-10 PASS
+- R6-H5-11 PASS
+- R6-H5-12 PASS
+- R6-H5-13 PASS
+- R6-H5-14 PASS
