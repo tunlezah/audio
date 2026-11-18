@@ -57,9 +57,10 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 49 | 1 | R1 | Repair round 2 | repos/R1/02-stages-bluetooth.md | DONE. R1-S02-03 corrected in place, ID and UNVERIFIED outcome kept; 34 finding records, 6 NOT FOUND records, tally unchanged. Orchestrator diff check: change confined to that record | 2 |
 | 50 | 1 | R1 | Verifier re-run 2 | repos/R1/05-verification.md | RUNNING | 2 |
 | 51 | 1 | R6 | Repair round 1 | repos/R6/04-history.md | DONE. R6-H2-14 line count corrected; R6-H5-07 outcome changed from WORKED to UNVERIFIED; IDs kept; 95 finding records, 2 NOT FOUND records, tally unchanged. Orchestrator diff check: changes confined to those two records | 1 |
-| 52 | 1 | R3 | Repair round 2 | repos/R3/03-stages-audio.md | RUNNING | 2 |
-| 53 | 1 | R3 | Repair round 2 | repos/R3/04-history.md | RUNNING | 2 |
+| 52 | 1 | R3 | Repair round 2 | repos/R3/03-stages-audio.md | DONE. R3-S10-15 corrected in place, ID and UNVERIFIED outcome kept; 59 finding records, 3 NOT FOUND records, tally unchanged. Orchestrator diff check: change confined to that record | 2 |
+| 53 | 1 | R3 | Repair round 2 | repos/R3/04-history.md | DONE. R3-H2-01 and R3-H2-04 corrected in place (Depends on field); 18 finding records, 2 NOT FOUND records, tally unchanged. Orchestrator diff check: changes confined to those two records | 2 |
 | 54 | 1 | R5 | Repair round 1 | repos/R5/02-stages-bluetooth.md | RUNNING | 1 |
 | 55 | 1 | R5 | Repair round 1 | repos/R5/03-stages-audio.md | RUNNING | 1 |
 | 56 | 1 | R5 | Repair round 2 | repos/R5/04-history.md | RUNNING | 2 |
 | 57 | 1 | R6 | Verifier re-run 1 | repos/R6/05-verification.md | RUNNING | 1 |
+| 58 | 1 | R3 | Verifier re-run 2 | repos/R3/05-verification.md | RUNNING | 2 |
