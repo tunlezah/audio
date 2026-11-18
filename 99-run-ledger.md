@@ -54,4 +54,5 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 46 | 1 | R2 | Verifier re-run 1 | repos/R2/05-verification.md | RUNNING. Interrupted by the account usage limit (HTTP 429) on 17 Nov; same agent resumed at 02:33 UTC on 18 Nov | 1 |
 | 47 | 2 | n/a | Interface researcher, repair round 1 | interfaces/01-products.md, interfaces/02-patterns.md | DONE. Twelve failed pattern rows reworded or split in 02-patterns.md; 01-products.md unchanged; 21 products (A 7, B 4, C 5, D 5); BLOCKED lines carried unchanged. Interrupted once by the account usage limit, same agent resumed and finished | 1 |
 | 48 | 2 | n/a | Research verifier re-run 1 | interfaces/03-verification.md | RUNNING | 1 |
-| 49 | 1 | R1 | Repair round 2 | repos/R1/02-stages-bluetooth.md | RUNNING | 2 |
+| 49 | 1 | R1 | Repair round 2 | repos/R1/02-stages-bluetooth.md | DONE. R1-S02-03 corrected in place, ID and UNVERIFIED outcome kept; 34 finding records, 6 NOT FOUND records, tally unchanged. Orchestrator diff check: change confined to that record | 2 |
+| 50 | 1 | R1 | Verifier re-run 2 | repos/R1/05-verification.md | RUNNING | 2 |
