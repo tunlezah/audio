@@ -187,7 +187,7 @@ Scope note: DECISIONS.md:1-105 and BUILD-PLAN.md:1-100 list departures from the 
 
 ### R6-H2-14  Placeholder readme.md merged from a second history and deleted in favour of README.md
 - Question: H2, relates to NONE
-- What was attempted: b306b25 "Create readme.md" is a separate root commit holding a one-line file. beead5a rewrote README.md (246 insertions, 82 deletions; the previous README.md from 1e20b41 had 73 lines). 128e29f merged the two histories. 5eaf177 deleted readme.md. Stated reason, commit 5eaf177: "Remove placeholder readme.md (superseded by README.md)".
+- What was attempted: b306b25 "Create readme.md" is a separate root commit holding a one-line file. beead5a rewrote README.md (246 insertions, 82 deletions, `git show --stat beead5a`; the README.md it rewrote, at its parent commit 26a79c2, had 107 lines per `git show 26a79c2:README.md | wc -l`, and 271 lines after beead5a; 1e20b41 created the file with 73 lines and 26a79c2 changed it by 39 insertions and 5 deletions, `git log --all --stat -- README.md`). 128e29f merged the two histories. 5eaf177 deleted readme.md. Stated reason, commit 5eaf177: "Remove placeholder readme.md (superseded by README.md)".
 - Presence: CURRENT for README.md (README.md:1-285). readme.md is REMOVED (commit 5eaf177).
 - Outcome: WORKED
 - Outcome evidence: OBSERVED. `git log --all --diff-filter=D --name-only` lists readme.md under 5eaf177 only; `git ls-files` lists README.md and no readme.md (01-map.md:22).
@@ -413,12 +413,12 @@ Search for commented-out code: `grep -rnE '^\s*//\s*(let |fn |if |for |pub |use 
 - Question: H5, relates to S11.1
 - What was attempted: test `online_cascade_live` queries iTunes, Deezer and MusicBrainz and downloads one image (src/art.rs:465-485). It carries `#[ignore]` (src/art.rs:468). Doc comment: "Live network test for the online cascade — run manually" (src/art.rs:465).
 - Presence: DISABLED. Skipped by a plain `cargo test` (the form used at .githooks/pre-commit:23 and .github/workflows/build.yml:54).
-- Outcome: WORKED
-- Outcome evidence: STATED. Commit 738f12c: "Live-tested online cascade (iTunes 600px art downloaded; Deezer fielded-query quirk fixed; MB release found)". The message does not say whether this test function was the means.
+- Outcome: UNVERIFIED
+- Outcome evidence: NONE. No file or commit message reports a run of this function: `git grep -n -I -e 'online_cascade_live' -e '--ignored'` matches src/art.rs:466 and src/art.rs:469 only, and `git log --all -S'online_cascade_live'` lists 738f12c only, the commit that adds the function. Commit 738f12c states "Live-tested online cascade (iTunes 600px art downloaded; Deezer fielded-query quirk fixed; MB release found)"; that statement is about the cascade and names no test function or command.
 - Why it turned out that way: UNKNOWN.
 - Depends on: outbound network access and `curl` (src/art.rs:263).
 - Open questions: Was the stated live test a run of this function?
-- Confidence: MEDIUM. STATED evidence alone.
+- Confidence: MEDIUM. INFERRED from clear code and a search of the tree and all commit messages. No result evidence for this function.
 
 ### R6-H5-08  EQ enable flag accepted by the API and not sent by the web UI
 - Question: H5, relates to S07.1

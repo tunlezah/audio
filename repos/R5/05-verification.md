@@ -2,19 +2,21 @@
 
 - Repo: /home/user/awdeo, repo ID R5. HEAD e556801cdd966f7bb86b8e7d2400718d38e8866c at the start and at the end of this check (git rev-parse HEAD). `git status --porcelain` printed zero lines at the start and at the end.
 - Files checked: /home/user/audio/repos/R5/02-stages-bluetooth.md (31 records), /home/user/audio/repos/R5/03-stages-audio.md (56 records), /home/user/audio/repos/R5/04-history.md (35 records, plus the H1 and H8 lists).
-- Records checked: 104 finding records and 18 NOT FOUND records, 122 in all. No record ID is used twice.
+- Records checked: 104 finding records and 18 NOT FOUND records, 122 in all. No record ID occurs twice.
 - Role: verifier. No record was changed. No finding was added.
+- An earlier 05-verification.md was in this folder when this check began; 04-history.md carries a later modification time than that file. This file replaces it. Every verdict below comes from this check.
 
 ## Method
 
-- Every tracked file except package-lock.json and LICENSE was read in full at HEAD. package-lock.json was read at each cited line range. All 4 commit messages were read in full (git log --all --format=%B).
-- Check A: every cited path:line, commit quotation and manifest line was opened. Files at older commits were read with `git show REF:PATH`. Every search or git command that a record cites as its basis was run again and its result compared with the record: `git grep` in the working tree and at commits e8801c3, a744781, 2db4cb5 and e556801, `git log --all` with `--stat`, `--name-status`, `--name-only`, `--grep`, `-G`, `-g`, `-L`, `git show`, `git branch -a`, `git tag`, `git stash list`, `git ls-files`, `git shortlog`, and the two object counts cited in R5-H4-01 (`git count-objects -v`, `git rev-list --all --objects`). Nothing was checked out, built or run.
-- Check B: each Outcome evidence grade and each cause grade was compared with Rule 3. A script confirmed that every finding record has all nine template fields in template order and every NOT FOUND record has all three.
-- Check C: each outcome was compared with its evidence under Rule 4. A script confirmed the pairing for all 104 finding records: UNVERIFIED with NONE in 95 records, FAILED with STATED in 7, WORKED with STATED in 2. No record uses PARTIAL or OBSERVED.
-- Check D: the three files were searched for the words listed in Rule 6 and for the names and IDs of the other repos. The Rule 6 words occur 4 times, each inside a quotation from the repo (02-stages-bluetooth.md:99; 04-history.md:93, 198, 475). No other repo is named or compared.
-- Check E: one search with terms the record did not use was run for each NOT FOUND record. The terms and results are in the section "Check E searches".
+- Read in full at HEAD: all 8 files under `src/`, README.md, CONTRIBUTING.md, Dockerfile, docker-compose.yml, .github/workflows/ci.yml, package.json, tsconfig.json, config.example.json, .gitignore, .dockerignore. package-lock.json was read at every cited line range and searched. LICENSE was read at lines 1-12 and searched. All 4 commit messages were read in full (git log --all --format=%B). Files at older commits were read with `git show REF:PATH`.
+- Commands run in the repo, all read-only: `git log` (with `--all`, `--stat`, `--name-status`, `--name-only`, `--grep`, `-G`, `-g`, `-L`, `--merges`, `--diff-filter=D`, `--not`), `git show`, `git diff`, `git grep` (working tree and commits e8801c3, a744781, 2db4cb5, e556801), `git branch -a`, `git tag`, `git stash list`, `git status`, `git rev-parse`, `git shortlog`, `git ls-files`, and, because R5-H4-01 cites them, `git count-objects -v` and `git rev-list --all --objects`. Nothing was checked out, built or run.
+- Check A: each cited path:line, commit quotation and manifest line was opened. Each search or git command that a record names as its basis was run again and its result compared with the record.
+- Check B: each Outcome evidence grade and each cause grade was compared with Rule 3. A script confirmed that all 104 finding records carry the nine template fields in template order and all 18 NOT FOUND records carry the three.
+- Check C: each outcome was compared with its evidence under Rule 4. A script gave the pairs: UNVERIFIED with NONE in 94 records, FAILED with STATED in 8 (R5-S01-06, R5-S06-02, R5-S07-01, R5-S07-03, R5-S08-04, R5-H5-04, R5-H5-05, R5-H5-06), WORKED with STATED in 2 (R5-S01-02, R5-S11-03). No record uses PARTIAL or OBSERVED.
+- Check D: the three files were searched for the words listed in Rule 6, for softer forms of advice ("needs to", "must be", "has to", "worth", "rather than"), for ranking words, and for the IDs and names of the other repos. Every Rule 6 word found sits inside a quotation from the repo (02-stages-bluetooth.md:99; 04-history.md:93, 198, 394, 451, 460, 461, 475). No other repo is named.
+- Check E: one search with terms the record did not use was run for each NOT FOUND record. Terms and results are in the section "Check E searches".
 
-Verdict standard used for check A: FAIL where a cited location is absent, or where the location does not say what the record claims about it. A wording slip that leaves the stated fact true at one of the locations cited together is listed under "Notes" and does not change the verdict.
+Standard used for check A. FAIL where a cited location is absent; where quoted words are not at a location they are cited to; or where a statement of fact (a number, a name, a search result, what a path in the code does) is false at the location cited for it or carries no citation and is contradicted by the repo. A paraphrase that leaves out a detail without contradicting the source passes; such points are listed under "Notes".
 
 ## Verdicts: file 02 (Bluetooth stages S01 to S06)
 
@@ -23,7 +25,7 @@ Verdict standard used for check A: FAIL where a cited location is absent, or whe
 - R5-S01-03 PASS
 - R5-S01-04 PASS
 - R5-S01-05 PASS
-- R5-S01-06 PASS
+- R5-S01-06 FAIL A: the quoted words "for audio transcoding" are cited to README.md:37 and CONTRIBUTING.md:75; CONTRIBUTING.md:75 reads "- FFmpeg" and does not hold them.
 - R5-S01-07 PASS
 - R5-S01-08 PASS
 - R5-S01-09 PASS
@@ -99,8 +101,8 @@ Verdict standard used for check A: FAIL where a cited location is absent, or whe
 - R5-S11-04 PASS
 - R5-S11-05 PASS
 - R5-S11-06 PASS
-- R5-S11-07 PASS
-- R5-S11-08 PASS
+- R5-S11-07 FAIL A: the record says `bug` appears only in CONTRIBUTING.md prose and a file name pattern; the string is also inside `debug` at README.md:158, 160, CONTRIBUTING.md:21, src/airplay/sender.ts:101, 273, src/audio/pipeline.ts:105 and src/chromecast/receiver.ts:161. The sentence quoted after "Commit e8801c3 body ends:" is followed in that body by one more sentence.
+- R5-S11-08 FAIL A: the statement "none of the items has code" carries no citation, and one item the record lists, error handling, has code (src/airplay/sender.ts:118-159; src/index.ts:311-346).
 - R5-S12-01 PASS
 - R5-S12-02 PASS
 - R5-S12-03 PASS
@@ -117,7 +119,7 @@ Verdict standard used for check A: FAIL where a cited location is absent, or whe
 - R5-H2-04 PASS
 - R5-H2-05 PASS
 - R5-H2-06 PASS
-- R5-H3-01 FAIL A: the record says each of the three commits names a review as its source; the a744781 subject it quotes ("security and reliability vulnerabilities") names no review or analysis, and neither does the a744781 body. Only 2db4cb5 ("comprehensive analysis") and e556801 ("comprehensive reliability engineering analysis") do. The "Depends on" and "Open questions" fields repeat the count of three.
+- R5-H3-01 PASS
 - R5-H3-02 PASS
 - R5-H3-03 PASS
 - R5-H4-01 PASS
@@ -138,7 +140,7 @@ Verdict standard used for check A: FAIL where a cited location is absent, or whe
 - R5-H5-15 PASS
 - R5-H6-01 PASS
 - R5-H7-01 PASS
-- R5-H7-02 PASS
+- R5-H7-02 FAIL A: the record says an exception while starting "tears the browser down"; that path (src/airplay/discovery.ts:45-51) calls `scheduleReconnect()` and rethrows with no call to `cleanup()`. The teardown is on the browser-error path only (src/airplay/discovery.ts:102-110).
 - R5-H7-03 PASS
 - R5-H7-04 PASS
 - R5-H7-05 PASS
@@ -149,61 +151,62 @@ Verdict standard used for check A: FAIL where a cited location is absent, or whe
 
 ## H1 and H8 lists (no record ID)
 
-templates.md sets H1 and H8 as "short factual lists with citations", so file 04 gives them no record ID. Each list was checked with check A. They are not counted in the record totals.
+templates.md sets H1 and H8 as "short factual lists with citations", so file 04 gives them no record ID. Each list was put through check A. Neither is counted in the record totals.
 
-- H1 list (04-history.md:17-39) PASS. Commit dates, parents, the commits-per-day table, the three intervals (23 h 25 min 3 s; 2 days 1 h 41 min 41 s; 11 min 59 s), the whole span (3 days 1 h 18 min 43 s), the inactivity figure (360 days 22 h 33 min), the `--stat` sizes of all 4 commits, the per-file change counts, the reflog entries and the shallow-repository value all match the repo and /home/user/audio/00-manifest.md:18, 26, 35.
-- H8 list (04-history.md:574-590) PASS. The 4 subjects, the clean working tree, the absence of stashes and tags, the three quoted code comments (src/audio/pipeline.ts:195; src/airplay/sender.ts:278, 106), the unchecked list counts (README.md:240-245; CONTRIBUTING.md:129-134) and both cited searches match the repo.
+- H1 list (04-history.md:17-39) holds. Commit hashes, dates, parents and author name; the commits-per-day table; the three intervals (23 h 25 min 3 s; 2 days 1 h 41 min 41 s; 11 min 59 s); the whole span (3 days 1 h 18 min 43 s); the inactivity figure (360 days 22 h 33 min, from 2025-11-21 08:48:35 +0000 to the snapshot time at /home/user/audio/00-manifest.md:18); the `--stat` sizes of all 4 commits; the per-file change counts; the reflog entries and the shallow-repository value all match the repo and /home/user/audio/00-manifest.md:26, 35.
+- H8 list (04-history.md:574-590) holds. The 4 subjects, the clean working tree, the absence of stashes and tags, the three quoted code comments (src/audio/pipeline.ts:195; src/airplay/sender.ts:278, 106), the unchecked list counts (README.md:240-245; CONTRIBUTING.md:129-134) and both cited searches match the repo. One wording point is under "Notes".
 
 ## Check E searches
 
-For every NOT FOUND record, the searches the record itself lists were run again and gave the results the record states. The table gives the one further search made for this check. Each was `git grep -n -i -E` over all tracked files except package-lock.json, unless the row says otherwise. "No hit on the question" means no line that answers the question as the record frames it.
+Each search was `git grep -n -i -E` over all tracked files except package-lock.json, unless the row says otherwise. "No hit on the question" means no line that answers the question as the record frames it. Every NOT FOUND record passes check E.
 
 | Record | Question | Terms used here | Result |
 |--------|----------|-----------------|--------|
-| R5-S01-04 | S01.3 | `bluetoothd`, `btmon`, `hcitool`, `hciconfig`, `obex`, `rfcomm`, `l2cap`, `gatt`, `\bble\b`, `bluepy`, `bleak`, `dbus-next`, `esp32`, `btstack`, `bluedroid`, `nimble`, `\bsink\b`, `wireless`, `radio`; package-lock.json for `noble`, `bleno`, `dbus`, `btstack`, `abstract-socket`, `usb`, `serialport` | Zero hits in both searches. |
-| R5-S02-01 | S02.1 | `hci0`, `powered`, `power on`, `udev`, `\biface\b`, `interface`, `list-adapters`, `select`, `device id`, `/dev/`, `/sys/` | 9 hits, all the word "interface" or "selected" in TypeScript declarations and README prose (README.md:15, 32, 97; five `interface` declarations in src/; src/index.ts:90). No hit on the question. |
-| R5-S02-02 | S02.2 | `broadcom`, `realtek`, `intel`, `\bcsr\b`, `cambridge`, `qualcomm`, `\bbcm`, `rtl8`, `cypress`, `ax200`, `vendor`, `built-in`, `onboard`, `hardware` | 1 hit: README.md:40, "macOS: Built-in (Bonjour)". No hit on the question. |
-| R5-S02-03 | S02.3 | `unblock`, `soft.?block`, `hard.?block`, `no such device`, `ENODEV`, `unavailable`, `power cycle`, `hotplug`, `not present`, `unplug` | Zero hits. |
-| R5-S03-01 | S03.1 | `advertis`, `visible`, `piscan`, `alias`, `class of device`, `\bcod\b`, `pairable`, `DiscoverableTimeout`, `visibility` | 6 hits, all about the Chromecast-style receiver (README.md:29, 172; src/chromecast/receiver.ts:252, 285, 289; src/index.ts:63). Same subject as the record's nearest related material. No Bluetooth hit. |
-| R5-S03-02 | S03.2 | `RequestConfirmation`, `NoInputNoOutput`, `DisplayYesNo`, `simple pairing`, `\bbond`, `authoriz`, `RegisterAgent`, `pincode`, `pin code`, `passcode`, `auto.?accept` | Zero hits. |
-| R5-S03-03 | S03.3 | `bonded`, `trusted`, `untrust`, `forget`, `link ?key`, `/var/lib`, `known devices`, `remembered`, `persist` | 2 hits: Dockerfile:10 (apt list clean-up) and README.md:16 ("Persistent configuration"). No hit on the question. |
-| R5-S03-04 | S03.4 | `second device`, `another device`, `already connected`, `\bbusy\b`, `reject`, `max.?clients`, `single client`, `one device`, `one client`, `takeover` | 11 hits, all the identifier `reject` in promise code or the word "rejections" (src/airplay/sender.ts:171-259; src/chromecast/receiver.ts:245-280; src/index.ts:334-336). No hit on the question. |
+| R5-S01-04 | S01.3 | `bluetoothd`, `btmon`, `hcitool`, `hciconfig`, `rfcomm`, `l2cap`, `gatt`, `\bble\b`, `bleak`, `dbus-next`, `btstack`, `bluedroid`, `nimble`, `esp32`, `esp-idf`, `\bsink\b`, `wireless`, `\bbt\b`, `bt_`, `obex`; package-lock.json for `abstract-socket`, `x11`, `node-gyp`, `\busb\b`, `serialport`, `bindings` | Zero hits in both searches. |
+| R5-S02-01 | S02.1 | `hci0`, `hci1`, `powered`, `power on`, `udev`, `select`, `\binterface\b`, `/dev/`, `/sys/`, `device id`, `\bradio\b` | 8 hits: the word "interface" in README prose (README.md:15, 97) and five TypeScript `interface` declarations in src, and "selected" at README.md:32. No hit on the question. |
+| R5-S02-02 | S02.2 | `broadcom`, `realtek`, `intel\b`, `\bcsr\b`, `cambridge`, `qualcomm`, `\bbcm`, `rtl8`, `cypress`, `\bvendor`, `built-in`, `onboard`, `hardware`, `\bmodel\b` | 1 hit: README.md:40, "macOS: Built-in (Bonjour)". No hit on the question. |
+| R5-S02-03 | S02.3 | `unblock`, `soft.?block`, `hard.?block`, `ENODEV`, `no such device`, `not available`, `unavailable`, `unplug`, `hotplug`, `power cycle`, `\breset\b` | 1 hit: src/airplay/discovery.ts:76, a comment on the mDNS reconnect counter. No hit on the question. |
+| R5-S03-01 | S03.1 | `advertis`, `visible`, `visibility`, `piscan`, `alias`, `class of device`, `\bcod\b`, `pairable`, `DiscoverableTimeout` | 6 hits, all about the Chromecast-style receiver (README.md:29, 172; src/chromecast/receiver.ts:252, 285, 289; src/index.ts:63). Same subject as the record's nearest related material. No Bluetooth hit. |
+| R5-S03-02 | S03.2 | `RequestConfirmation`, `NoInputNoOutput`, `DisplayYesNo`, `KeyboardDisplay`, `simple pairing`, `\bssp\b`, `\bbond`, `authoriz`, `RegisterAgent`, `pincode`, `pin code`, `passcode`, `auto.?accept`, `just.?works` | Zero hits. |
+| R5-S03-03 | S03.3 | `bonded`, `trusted`, `untrust`, `forget`, `link ?key`, `/var/lib`, `known devices`, `remembered`, `persist`, `paired-devices` | 2 hits: Dockerfile:10 (apt list clean-up) and README.md:16 ("Persistent configuration"). No hit on the question. |
+| R5-S03-04 | S03.4 | `second device`, `another device`, `already connected`, `\bbusy\b`, `reject`, `max.?clients`, `single client`, `one device`, `takeover`, `\bkick` | 11 hits, all the identifier `reject` in promise code or the word "rejections" (src/airplay/sender.ts:171-259; src/chromecast/receiver.ts:245-280; src/index.ts:334-336). No hit on the question. |
 | R5-S03-05 | S03.5 | `allow.?list`, `whitelist`, `blacklist`, `block.?list`, `\bdeny`, `permit`, `mac address`, a pattern for six colon-separated hex pairs, `authorized` | 1 hit: LICENSE:9, the word "permit". No hit on the question. |
-| R5-S04-01 | S04.1 | `audio ?sink`, `a2dp_sink`, `0000110b`, `110b`, `RegisterEndpoint`, `MediaEndpoint`, `\bprofile`, `uuid`, `module-`, `endpoint` | 7 hits: the word "endpoint" for HTTP routes and AirPlay targets (README.md:32, 206; src/chromecast/receiver.ts:66, 99, 105, 145) and the `uuid:` text of the device description (src/chromecast/receiver.ts:205). No hit on the question. |
-| R5-S04-02 | S04.2 | `mp3`, `opus`, `vorbis`, `flac`, `\bwav\b`, `\bpcm\b`, `alac`, `bitpool`, `negotiat`, `SetConfiguration`, `capabilit`, `mime` | 2 hits, both comments naming PCM as the format "required by AirPlay" on the output side (src/audio/pipeline.ts:191; src/bridge.ts:155). No codec offer or negotiation. |
-| R5-S04-03 | S04.3 | `connection lost`, `link loss`, `auto.?connect`, `on boot`, `at boot`, `resume`, `last device`, `went offline`, `deviceLost`, `connection abort` | 10 hits, all on the AirPlay output side or the HTTP request (README.md:136; src/airplay/discovery.ts:81, 83; src/bridge.ts:25-126; src/chromecast/receiver.ts:181). Same material as the record's nearest related material. No Bluetooth hit. |
+| R5-S04-01 | S04.1 | `audio ?sink`, `a2dp_sink`, `0000110b`, `110b`, `RegisterEndpoint`, `MediaEndpoint`, `\bprofile`, `uuid`, `module-`, `endpoint`, `\brole\b` | 7 hits: the word "endpoint" for HTTP routes and AirPlay targets (README.md:32, 206; src/chromecast/receiver.ts:66, 99, 105, 145) and the `uuid:` text of the device description (src/chromecast/receiver.ts:205). No hit on the question. |
+| R5-S04-02 | S04.2 | `mp3`, `opus`, `vorbis`, `flac`, `\bwav\b`, `\bpcm\b`, `alac`, `bitpool`, `negotiat`, `SetConfiguration`, `capabilit`, `mime`, `bitrate` | 2 hits, both comments naming PCM as the format "required by AirPlay" on the output side (src/audio/pipeline.ts:191; src/bridge.ts:155). No codec offer or negotiation. |
+| R5-S04-03 | S04.3 | `connection lost`, `link loss`, `auto.?connect`, `on boot`, `at boot`, `resume`, `last device`, `went offline`, `deviceLost`, `supervision` | 9 hits, all on the AirPlay output side (README.md:136; src/airplay/discovery.ts:81, 83; src/bridge.ts:25, 81, 92, 115, 116, 126). No Bluetooth hit and no input-side reconnect. |
 | R5-S04-04 | S04.4 | `multipoint`, `multi-point`, `priority`, `\bswitch\b`, `handover`, `active source`, `preempt`, `concurrent`, `simultaneous` | 6 hits: two section headings (CONTRIBUTING.md:138, 144), two README lines about several AirPlay outputs (README.md:13, 183) and two `switch` statements (src/chromecast/receiver.ts:118; src/index.ts:102). No hit on the question. |
-| R5-S07-05 | S07.2 | `millisecond`, `\blag\b`, `real-?time`, `compensat`, a digit followed by `ms`, `low.?latency`, `buffer size`, `bufferSize` | 12 hits: the feature label "Real-time Transcoding" (README.md:14), which gives no figure, and the `bufferSize` lines of the unreferenced `AudioBuffer` class (src/audio/pipeline.ts:256-286), which the record already names. No latency figure, measurement or compensation. |
-| R5-S07-06 | S07.3 | `skew`, `\bppm\b`, `rate adjust`, `adaptive`, `\bpll\b`, `\bpts\b`, `rtp`, `sequence number`, `in sync`, `\balign`, `sample count`, `crystal`, `synchron` | 4 hits: the two roadmap lines the record cites (README.md:242; CONTRIBUTING.md:141) and two comments naming RTP among steps the code does not perform (src/airplay/sender.ts:271, 279). No drift or synchronisation code. |
-| R5-S11-04 | S11.2 | `phone`, `laptop`, `chrome\b`, `browser`, `tablet`, `galaxy`, `\bios\b`, `works with`, `verified`, `confirmed`, `compatible`, `tried`; also `git log --all --format=%B` filtered for `phone`, `android`, `iphone`, `spotify`, `homepod`, `airport` | 20 file hits: README diagram and prose naming "Phone/Browser" and "Chromecast-compatible" apps (README.md:11, 25, 30, 91; src/index.ts:68) and the variable `browser` in src/airplay/discovery.ts. Commit messages: one hit, the product description in e8801c3. No device named as tested. |
-| R5-H4-01 | H4 | `git log --all --oneline --not awdeo_x86_kube`; `git branch -a --merged awdeo_x86_kube`; `git rev-parse --verify --quiet refs/stash`; `git log --all --merges --oneline`; `git log --all --format='%h %D'` | No commit outside the default branch; all 4 refs listed as merged; no stash ref; no merge commit; ref decorations on e556801 only. |
-| R5-H6-01 | H6 | `@todo`, `\btbd\b`, `kludge`, `\bnb:`, `temporar`, `placeholder`, `\bstub`, `unimplemented`, `deprecated`, `caveat`, `known issue`, `\?\?\?`, `eventually`, `future`, `not supported`, `limitation`, `for simplicity`; `git ls-files` filtered for `.md`, `.txt`, `.rst`, `.adoc`, `changelog`, `notes`, `todo`, `issues` | 4 hits: LICENSE:7; README.md:210 and 213, both in the record's table (c); src/airplay/sender.ts:106, the comment "For simplicity, we'll just log it", which is not in the record's table (b) and is not one of the six markers H6 names. Document files: README.md and CONTRIBUTING.md only. No marker and no notes, changelog or known-issues file. |
+| R5-S07-05 | S07.2 | `millisecond`, `\blag\b`, `real-?time`, `compensat`, a number followed by `ms`, `low.?latency`, `buffer ?size`, `\boffset\b` | 12 hits: the feature label "Real-time Transcoding" (README.md:14), which gives no figure, and the buffer-size lines of the unreferenced `AudioBuffer` class (src/audio/pipeline.ts:256-286), which the record already names. No latency figure, measurement or compensation. |
+| R5-S07-06 | S07.3 | `skew`, `\bppm\b`, `adaptive`, `\bpll\b`, `\bpts\b`, `\brtp\b`, `sequence number`, `\balign`, `sample count`, `crystal`, `slew`, `master clock`, `timing` | 2 hits: comments naming RTP among steps the code does not perform (src/airplay/sender.ts:271, 279). No drift or synchronisation code. |
+| R5-S11-04 | S11.2 | `phone`, `laptop`, `\bchrome\b`, `browser`, `tablet`, `galaxy`, `\bios\b`, `works with`, `verified`, `confirmed`, `compatible`, `tried`, `\bmac\b`; also `git log --all --format=%B` filtered for `phone`, `android`, `iphone`, `verified on`, `works on`, `tested on`, `tested with`, `homepod`, `airport` | 20 file hits: README lines naming "Phone/Browser" and "Chromecast-compatible" apps (README.md:11, 25, 30, 91; src/index.ts:68) and the variable `browser` in src/airplay/discovery.ts. Commit messages: the product description in commit e8801c3 only. No device named as tested. |
+| R5-H4-01 | H4 | `git log --all --oneline --not awdeo_x86_kube`; `git branch -a --merged awdeo_x86_kube`; `git rev-parse --verify --quiet refs/stash`; `git log --all --merges --oneline`; `git log --all --format='%h %D'` | No commit outside the default branch; all 4 refs listed as merged; no stash ref; no merge commit; ref names on e556801 only. |
+| R5-H6-01 | H6 | `@todo`, `\btbd\b`, `kludge`, `\bnb:`, `temporar`, `placeholder`, `\bstub`, `unimplemented`, `deprecated`, `caveat`, `known issue`, `\?\?\?`, `quick fix`, `band-?aid`, `revisit`, `for simplicity`; `git ls-files` filtered for `.md`, `.txt`, `.rst`, `.adoc`, `bugs`, `roadmap`, `release` | 1 hit: src/airplay/sender.ts:106, the comment "For simplicity, we'll just log it". It is none of the six markers H6 names, and it is absent from the record's table (b). Document files: README.md and CONTRIBUTING.md only. No marker and no notes, changelog or known-issues file. |
 
 ## Notes (no effect on a verdict)
 
-Outcome grading where the author wrote a result-style claim:
+Outcome grading where a commit message reads as a claimed result:
 
-- Five records quote a commit-message line that reads as a claimed runtime result and grade the outcome UNVERIFIED with evidence NONE: R5-H2-04 and R5-S11-05 ("Memory leak rate reduced from ~50-100MB/day to near zero", commit 2db4cb5); R5-H2-05, R5-S10-09 and R5-S11-05 ("MTBF: Indefinite (log rotation prevents crash)" and the related lines, commit e556801); R5-H7-02 ("Auto-recovery: Discovery reconnects automatically", commit e556801); R5-H3-03 ("Production-ready for 24/7 operation", commit 2db4cb5).
+- Six records quote a commit-message line that asserts a result and grade the outcome UNVERIFIED with evidence NONE: R5-H2-04 and R5-S11-05 ("Memory leak rate reduced from ~50-100MB/day to near zero", commit 2db4cb5); R5-H2-05 and R5-S11-05 ("MTBF: Indefinite (log rotation prevents crash)", commit e556801); R5-S10-09 ("MTBF: 3-7 days (disk full crash guaranteed)", commit e556801, said of the removed approach); R5-H7-02 ("Auto-recovery: Discovery reconnects automatically", commit e556801); R5-H3-03 ("Production-ready for 24/7 operation", commit 2db4cb5).
 - File 04 states the grading it applied to such lines at 04-history.md:9-13. File 03 applies the same grading without stating it.
-- These records pass check C on this reading of Rule 4: the rule names what an outcome of WORKED, PARTIAL or FAILED needs, and UNVERIFIED claims none of it. Each record quotes the author's line in full, so the claim is on record.
+- These records pass checks B and C on this reading: Rule 4 names what an outcome of WORKED, PARTIAL or FAILED needs, an outcome of UNVERIFIED claims none of it, and the template value for its evidence is NONE. Each record quotes the author's line, so the claim is on record.
+- Rule 3 defines STATED as "the author wrote it" with no further condition, and Rule 5 glosses UNVERIFIED as "no evidence of the result". On a reading where any author line asserting a result counts as STATED evidence, these six records would fail check B. The choice between the two readings is not settled by the rules text.
 
-Presence field without a citation of its own:
+Presence field with no citation of its own:
 
-- 30 records in file 03 give a Presence value with no citation inside that field: R5-S08-08, R5-S08-09, R5-S08-12, R5-S09-01 to R5-S09-05, R5-S09-07, R5-S09-09, R5-S09-10, R5-S10-02 to R5-S10-06, R5-S10-08, R5-S10-10, R5-S10-11, R5-S11-07, R5-S11-08, R5-S12-01 to R5-S12-06. In each, the "What was attempted" field cites the current lines the Presence value rests on, and those lines were opened under check A.
+- 26 records in file 03 give Presence as the single word CURRENT: R5-S08-08, R5-S08-09, R5-S08-12, R5-S09-01 to R5-S09-05, R5-S09-07, R5-S09-09, R5-S09-10, R5-S10-02 to R5-S10-06, R5-S10-08, R5-S10-10, R5-S10-11, R5-S11-08, R5-S12-01 to R5-S12-06. templates.md words the field as "with citation". None of checks A to D tests field completeness, so no verdict rests on this. In each of the 26, the "What was attempted" field cites the HEAD lines the value rests on, and those lines were opened under check A.
 
-Citation and wording slips:
+Wording points that pass on the standard above:
 
-- R5-S01-06: the quoted purpose "for audio transcoding" is at README.md:37 only. CONTRIBUTING.md:75, cited with it, lists "FFmpeg" with no purpose.
-- R5-S08-08: "the only deletes are at src/airplay/sender.ts:75 and 321"; line 321 is `this.connections.clear()`.
-- R5-S11-07: "Commit e8801c3 body ends:" introduces a sentence that opens the final paragraph of that body. The last sentence of the body is the one about "future iterations".
-- R5-S11-08: the Outcome evidence field says "none of the items has code" with no citation. Two of the listed items name things that are present in the repo in some form: error handling (for example src/airplay/sender.ts:118-159) and documentation (README.md).
-- R5-H7-02: "A browser `error` event, or an exception while starting, tears the browser down and schedules a restart". The teardown call is on the browser-error path only (src/airplay/discovery.ts:102-110). The start-exception path schedules a restart with no teardown (src/airplay/discovery.ts:45-51).
+- R5-S07-03: "for each connection that has a socket". The condition at src/airplay/sender.ts:89 is `connection.connected && connection.socket`.
+- R5-S08-08: "the only deletes are at src/airplay/sender.ts:75 and 321". Line 321 is `this.connections.clear()`.
+- R5-S09-03: the search for `gpio`, `led`, `button`, `display`, `lcd`, `oled` gives zero hits with whole-word matching and 46 hits as a substring search (for example "failed", "scheduled"). The record does not say which form was used.
+- R5-S09-06: "No HTTP route lists, adds or removes output devices or sets volume". The same field states that `GET /health` returns connected device names (src/bridge.ts:336-338).
+- R5-H3-02: "three health routes" added by commit e556801. `/healthz` and `/ready` are new in that commit; `/health` existed in commit e8801c3 and was rewritten.
 - H8 list: "its message ends with a list headed PRODUCTION READINESS ... and the line Tested". A "Dependencies Added" block sits between the two in commit e556801.
 
 Counts in the three tallies:
 
 - File 02 tally (18 finding records, 13 NOT FOUND, 24 questions), file 03 tally (53 finding records, 3 NOT FOUND, 24 questions) and file 04 tally (33 finding records, 2 NOT FOUND, 8 questions) match the records present.
-- R5-H6-01 table (a) has 73 rows. A script compared each row's location, marker and text with `git grep -n -E 'FIX' -- src` (73 lines): all 73 match and no grep line is absent from the table. Table (b) has 12 rows, matching the 12 lines of the search the record cites.
+- R5-H6-01 table (a) has 73 rows. A script compared each row's location, marker and text with `git grep -n -E 'FIX' -- src` (73 lines): all 73 match and no grep line is absent from the table. The counts 34 numbered, 23 from commit 2db4cb5 and 16 unnumbered from commit e556801 match `git show <commit> -- src`. Table (b) has 12 rows, matching the 12 lines of the search the record cites.
 
 ## Coverage
 
@@ -274,10 +277,10 @@ Questions listed: 56 (S01.1 to S12.3: 48; H1 to H8: 8). Questions with at least 
 
 | | Finding records | NOT FOUND records | All records |
 |---|---|---|---|
-| PASS | 103 | 18 | 121 |
-| FAIL | 1 | 0 | 1 |
+| PASS | 100 | 18 | 118 |
+| FAIL | 4 | 0 | 4 |
 | Total | 104 | 18 | 122 |
 
-- PASS: 121
-- FAIL: 1 (R5-H3-01, check A)
-- MISSING: 0. H1 and H8 carry no record ID because templates.md sets them as factual lists; both lists were checked and both hold. If a question answered only by such a list is to be counted as MISSING, the count is 2.
+- PASS: 118
+- FAIL: 4 (R5-S01-06, R5-S11-07, R5-S11-08, R5-H7-02; all check A)
+- MISSING: 0. H1 and H8 carry no record ID because templates.md sets them as factual lists; both lists were checked and both hold. Counted strictly as "a question with no record", the figure is 2.
