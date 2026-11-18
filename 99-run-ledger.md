@@ -47,7 +47,7 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 39 | 1 | R3 | Repair round 1 | repos/R3/04-history.md | DONE. H6 table row for ZIP!pbxproj corrected; 18 finding records, 2 NOT FOUND records, tally unchanged. Orchestrator diff check: change confined to that row | 1 |
 | 40 | 1 | R5 | Repair round 1 | repos/R5/04-history.md | DONE. R5-H3-01 corrected in place, ID and UNVERIFIED outcome kept; 33 finding records, 2 NOT FOUND records. Orchestrator diff check: changes confined to that record | 1 |
 | 41 | 1 | R1 | Verifier re-run 1 | repos/R1/05-verification.md | PASS 115 / FAIL 1 / MISSING 0. The six records failed in the first verification now pass. New FAIL: R1-S02-03 (check A), file 02. Interrupted once by the account usage limit, same agent resumed and finished | 1 |
-| 42 | 1 | R3 | Verifier re-run 1 | repos/R3/05-verification.md | RUNNING. Interrupted by the account usage limit (HTTP 429) on 17 Nov; same agent resumed at 02:33 UTC on 18 Nov | 1 |
+| 42 | 1 | R3 | Verifier re-run 1 | repos/R3/05-verification.md | PASS 106 / FAIL 3 / MISSING 0. The three records failed in the first verification now pass. New FAIL, all check A: R3-S10-15 (file 03); R3-H2-01, R3-H2-04 (file 04). Interrupted once by the account usage limit, same agent resumed and finished | 1 |
 | 43 | 1 | R5 | Verifier re-run 1 | repos/R5/05-verification.md | RUNNING. Interrupted by the account usage limit (HTTP 429) on 17 Nov; same agent resumed at 02:33 UTC on 18 Nov | 1 |
 | 44 | 1 | R2 | Repair round 1 | repos/R2/03-stages-audio.md | DONE. R2-S10-10 and R2-S10-11 corrected in place; 63 finding records, 3 NOT FOUND records, tally unchanged. Orchestrator diff check: changes confined to those two records | 1 |
 | 45 | 1 | R2 | Repair round 1 | repos/R2/04-history.md | DONE. R2-H2-02 and R2-H5-09 corrected in place (R2-H5-09 title also reworded, ID kept); 2 NOT FOUND records, tally unchanged. Orchestrator diff check: changes confined to those two records | 1 |
@@ -57,3 +57,5 @@ Result values: DONE (file written with tally), ACCEPTED, FAIL n / MISSING n (ver
 | 49 | 1 | R1 | Repair round 2 | repos/R1/02-stages-bluetooth.md | DONE. R1-S02-03 corrected in place, ID and UNVERIFIED outcome kept; 34 finding records, 6 NOT FOUND records, tally unchanged. Orchestrator diff check: change confined to that record | 2 |
 | 50 | 1 | R1 | Verifier re-run 2 | repos/R1/05-verification.md | RUNNING | 2 |
 | 51 | 1 | R6 | Repair round 1 | repos/R6/04-history.md | RUNNING | 1 |
+| 52 | 1 | R3 | Repair round 2 | repos/R3/03-stages-audio.md | RUNNING | 2 |
+| 53 | 1 | R3 | Repair round 2 | repos/R3/04-history.md | RUNNING | 2 |
