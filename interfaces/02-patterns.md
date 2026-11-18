@@ -16,17 +16,20 @@ How to read it:
 
 | Way | Records | Count |
 |---|---|---|
-| Write an OS image to boot media, then finish configuration in a browser on the local network | P01 P03 | 2 |
+| Write an OS image to boot media, then finish configuration in a browser on the local network | P01 | 1 |
+| OS image downloads per board model offered on the maker's page, with linked guides for installing and for Wi-Fi; installation steps not established for the legacy release examined | P03 | 1 |
 | Create a fleet in a cloud device-management account, flash the image it issues, and let the application download to the device | P02 | 1 |
 | Run an interactive install script in a shell on an existing OS, answering a prompt per component | P04 | 1 |
-| Build and install from source and start the daemons by hand | P05 | 1 |
+| Build and install from source; the daemon has to be running before a device can pair, connect and be used | P05 | 1 |
 | Compile the function into firmware by writing code against a library | P07 | 1 |
 | Device starts its own Wi-Fi access point; the user joins it and configures in a web page at a fixed address | P06 | 1 |
-| Power, an audio cable and the phone's Bluetooth settings only; no app, account or network | P08 P09 P10 P11 | 4 |
+| Setup described as steps on the unit (power, with cabling or button presses) followed by pairing from the phone | P08 P09 P10 P11 | 4 |
+| Maker states no software, drivers, apps, network setup or passwords are needed | P08 | 1 |
 | Home-network connection together with the vendor mobile app comes first | P12 P14 P15 P16 P17 P19 P21 | 7 |
 | Maker states Bluetooth cannot be used until the Wi-Fi/app setup has been done | P16 P19 | 2 |
 | Bluetooth pairing has to be switched on in the vendor app before first use, and the phone is stated to need the same Wi-Fi network | P18 | 1 |
-| App uses Bluetooth LE to find the device during Wi-Fi setup | P12 P15 | 2 |
+| Unit broadcasts over Bluetooth LE during Wi-Fi setup so that the app can find it | P12 | 1 |
+| Phone has Bluetooth and location switched on while the app lists the device during Wi-Fi setup | P15 | 1 |
 | An account with the maker's online service is part of setup | P02 P17 | 2 |
 | A host application has to enable the sink; the operating system does not do it by itself | P20 | 1 |
 | First start completes without user action after automatic reboots | P01 | 1 |
@@ -70,9 +73,10 @@ Reconnection, disconnection and clearing:
 |---|---|---|
 | Automatic reconnection to a known device, stated | P02 P09 P10 P12 P16 P17 P19 P21 | 8 |
 | Automatic disconnect after an idle period (setting) | P01 P16 P19 | 3 |
-| A mode setting governs whether an incoming Bluetooth stream takes over the player (Manual, Automatic, Guest, Disabled) | P13 | 1 |
+| A Bluetooth mode setting with four named values (Manual, Automatic, Guest, Disabled); what each value does is not established | P13 | 1 |
 | Clear-all-pairings action (web command, button hold, power-button sequence, or spoken command) | P01 P10 P11 P18 | 4 |
-| Per-device connect, disconnect and forget from a web page or app | P01 P12 P18 | 3 |
+| Per-device connect, disconnect and forget from a web page or app | P01 P12 | 2 |
+| Per-device unpair in the app's paired-devices list; connect and disconnect by spoken command | P18 | 1 |
 | Pairing procedure not described in the pages opened | P06 P07 | 2 |
 
 ## 3. Controls
@@ -91,16 +95,19 @@ Reconnection, disconnection and clearing:
 | Shell commands | P01 P04 P05 | 3 |
 | Cloud dashboard for device management | P02 | 1 |
 | Controls are whatever the host application provides | P20 | 1 |
-| Transport commands sent from the receiver side to the phone, documented | P01 P07 P21 | 3 |
+| Transport commands issued on the receiver, documented for Bluetooth (firmware calls sent to the phone; a playback button listed as working for Bluetooth) | P07 P21 | 2 |
+| API transport commands forwarded to the Bluetooth renderer; the documented responses include an alert that playback cannot be controlled from the product for Bluetooth | P01 | 1 |
 | Phone's volume requests applied on the receiver, documented (option or mode) | P04 P05 P07 | 3 |
 | Volume ceiling applied to Bluetooth sessions | P01 | 1 |
-| Playback and volume left to the phone, stated | P02 P08 P17 P18 | 4 |
+| Playback started or controlled on the sending device, stated | P02 P08 P17 P18 | 4 |
+| Volume adjusted on the sending device, stated | P08 | 1 |
 
 ## 4. Status feedback
 
 | Way | Records | Count |
 |---|---|---|
-| One light whose blink or steady state shows pairing and connected | P08 P09 P11 P12 P14 P16 P19 P21 | 8 |
+| One light whose blink or steady state shows pairing and connected | P08 P11 P12 P14 P16 P19 P21 | 7 |
+| Bluetooth-mode light blinks for searching and for pairing; no connected state stated | P09 | 1 |
 | Light colour shows the codec in use | P08 P09 | 2 |
 | Light colour shows the active input or mode | P12 P15 | 2 |
 | Text or graphic display on the unit | P06 P10 | 2 |
@@ -146,7 +153,7 @@ What is exposed:
 | Start-up volume or volume ceiling | P01 P02 | 2 |
 | Idle auto-disconnect | P01 P16 P19 | 3 |
 | Automatic reconnect to the last device | P19 | 1 |
-| Behaviour when a Bluetooth stream arrives (auto-switch mode) | P13 | 1 |
+| Bluetooth mode (four values; what each value does is not established) | P13 | 1 |
 | Resume the previous source after Bluetooth ends | P01 | 1 |
 | Indicator light or voice prompt on/off | P09 P16 | 2 |
 | Renaming or hiding inputs | P14 | 1 |
@@ -202,13 +209,14 @@ Defaults:
 | ... in which Bluetooth appears as a source or mode value | P01 P12 P13 P15 | 4 |
 | ... with commands specific to Bluetooth (restart or switch the service, answer a pairing request, set the auto-switch mode) | P01 P13 | 2 |
 | ... with no Bluetooth pairing or device-list command found | P12 (inf.) P15 (inf.) | 2 |
-| D-Bus interface | P03 P05 | 2 |
+| D-Bus interface | P05 | 1 |
+| MPRIS for Bluetooth provided through mpris-proxy (recorded under Status feedback) | P03 | 1 |
 | Environment variables | P02 | 1 |
 | Configuration files or stored key-value parameters | P03 P04 P06 | 3 |
 | Command-line utilities | P01 P04 P05 | 3 |
 | Code-level class API (library or operating-system API) | P07 P20 | 2 |
 | Change notification without repeated polling (long poll or event) | P13 P20 | 2 |
-| Plug-in or extension mechanism | P02 P03 | 2 |
+| Plug-in or extension mechanism | P03 | 1 |
 | Driver packages for third-party control systems | P13 | 1 |
 | Vendor app is the only surface named | P09 P10 | 2 |
 | No programmatic surface described | P08 (inf.) P11 (inf.) | 2 |
