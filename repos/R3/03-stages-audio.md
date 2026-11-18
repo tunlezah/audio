@@ -496,7 +496,7 @@ Repo ID R3, /home/user/AudioRouter. Audited at commit 1bdb71dfb0e7319db0aa2f6cf4
 - Outcome: UNVERIFIED
 - Outcome evidence: NONE. The repo holds one commit and no tags (`git log`, `git tag`).
 - Why it turned out that way: UNKNOWN.
-- Depends on: the distribution channel chosen (R3-S10-14); Homebrew or the App Store would carry updates if used (BUILD_AND_DEPLOY.md:287-312).
+- Depends on: version numbers changed by hand in Xcode or with `agvtool` (BUILD_AND_DEPLOY.md:349-358). The documented distribution channels (R3-S10-14) carry no statement about delivering updates: the GitHub Releases steps end at "Users can download and install" (BUILD_AND_DEPLOY.md:285), the Homebrew cask listing holds a fixed `version "1.0.0"` and a placeholder checksum (BUILD_AND_DEPLOY.md:292-294), the Mac App Store section lists review points only (BUILD_AND_DEPLOY.md:305-312), and the summary gives an install command only (PROJECT_SUMMARY.md:269). Searched `upgrade`: no hits outside Xcode project metadata (auto_create_project.sh:243-244, 621).
 - Open questions: Was a 1.0.0 build ever released on the date in the changelog? The changelog date is 2025-01-10 and the only commit is dated 2025-11-13: which date reflects the work?
 - Confidence: MEDIUM. STATED scheme; git history read directly.
 
